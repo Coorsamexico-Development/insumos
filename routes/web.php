@@ -152,25 +152,54 @@ Route::middleware([
                 ->with([
                     'entradas' =>  function ($query) use ($ultimo_corte_mensual) 
                     {
-                      $query->select(
-                          'entradas.*'
-                        )
-                        ->where('entradas.fecha','>',$ultimo_corte_mensual['fecha']);
+                      if($ultimo_corte_mensual !== null)
+                      {
+                        $query->select(
+                            'entradas.*'
+                          )
+                          ->where('entradas.fecha','>',$ultimo_corte_mensual['fecha']);
+                      }
+                      else
+                      {
+                        $query->select(
+                            'entradas.*'
+                        );
+                      }
                     },
                     'salidas' =>  function ($query) use ($ultimo_corte_mensual) 
                     {
-                        $query->select(
-                            'salidas.*'
-                            )
-                            ->where('salidas.created_at','>',$ultimo_corte_mensual['fecha']);
+                        if($ultimo_corte_mensual !== null )
+                        {
+                            $query->select(
+                                'salidas.*'
+                                )
+                                ->where('salidas.created_at','>',$ultimo_corte_mensual['fecha']);
+                        }
+                        else
+                        {
+                            $query->select(
+                                'salidas.*'
+                            );
+                        }
+             
                     },
                     'corte_diario' =>  function ($query) use ($ultimo_corte_mensual)  //ahora es mensual
                     {
-                        $query->select(
-                            'corte_diario_historicos.*'
-                            )
-                            ->where('corte_diario_historicos.fecha','like','%'.$ultimo_corte_mensual['fecha'].'%')
-                            ->first();
+                        if($ultimo_corte_mensual !== null )
+                        {
+                            $query->select(
+                                'corte_diario_historicos.*'
+                                )
+                                ->where('corte_diario_historicos.fecha','like','%'.$ultimo_corte_mensual['fecha'].'%')
+                                ->first();
+                        }
+                        else
+                        {
+                            $query->select(
+                                'corte_diario_historicos.*'
+                                )
+                                ->first();
+                        }
                     },
         
                 ])
