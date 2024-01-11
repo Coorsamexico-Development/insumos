@@ -462,7 +462,7 @@ const closeWatchInfoProd = () =>
                                       <div>
                                         <h1 class="text-xl font-semibold">Inventario Acumulado</h1>
                                         <div class="mt-2">
-                                         <a :href="route('pdfCodes')" class="text-sm text-white bg-[#2684D0] px-2 py-1 rounded-full">
+                                         <a :href="route('pdfCodes',categoria_actual)" class="text-sm text-white bg-[#2684D0] px-2 py-1 rounded-full">
                                            Descargar codigos
                                          </a>
                                        </div>

@@ -34,8 +34,8 @@
                   <td style="padding-bottom:1rem;">
                     <div style="width:6rem">
                       <?php 
-                        echo $generator->getBarcode($producto['codigo'], $generator::TYPE_CODABAR);
-                         '<img src="data:image/png;base64,' . base64_encode($generator->getBarcode($producto['codigo'], $generator::TYPE_CODE_128)) . '">';
+                        echo $generator->getBarcode($producto['codigo'], $generator::TYPE_CODE_39);
+                         '<img src="data:image/png;base64,' . base64_encode($generator->getBarcode($producto['codigo'], $generator::TYPE_CODE_39)) . '">';
                       ?> 
                     </div>
                   </td>

@@ -118,7 +118,7 @@ class ProductoController extends Controller
         //
     }
 
-    public function pdfCodes ()
+    public function pdfCodes (Request $request)
     {
         $productos = producto::all();
         $data = [
