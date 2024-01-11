@@ -120,13 +120,20 @@ class ProductoController extends Controller
 
     public function pdfCodes (Request $request)
     {
-        $productos = producto::all();
+        $productos = categorias_producto::select(
+        'productos.nombre',
+        'productos.codigo')
+        ->join('productos','categorias_productos.producto_id','productos.id')
+        ->where('categorias_productos.categoria_id','=',$request['categoria'])
+        ->get();
+
+
         $data = [
             'productos' => $productos
           ];
         $pdf = App::make('dompdf.wrapper');
         $pdf->set_option('isRemoteEnabled', true);
         $pdf->loadView('productos', $data);
-        return $pdf->stream();
+        return $pdf->download();
     }
 }

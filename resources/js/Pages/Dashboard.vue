@@ -43,10 +43,13 @@ const params = reactive
    inventario_actual:1   
 });
 
+
+let categoriaDownload = ref({categoria:1})
 const categoria_actual = ref(1);
 const cambiarCategoria = (categoria) => 
 {
     categoria_actual.value = categoria.id; //se setea la categoria actual dependiendo el click
+    categoriaDownload.value.categoria = categoria.id;
     params.categoria = categoria.id
 }
 
@@ -290,6 +293,7 @@ const closeWatchInfoProd = () =>
   producto_select.value = null;
   watchInfoProd.value = false;
 }
+
 </script>
 
 <template>
@@ -370,7 +374,7 @@ const closeWatchInfoProd = () =>
                                     <div>
                                          <h1 class="text-xl font-semibold">Inventario Diario</h1>
                                        <div class="mt-2">
-                                         <a :href="route('pdfCodes')" class="text-sm text-white bg-[#2684D0] px-2 py-1 rounded-full">
+                                         <a :href="route('pdfCodes',categoriaDownload)" class="text-sm text-white bg-[#2684D0] px-2 py-1 rounded-full">
                                            Descargar codigos
                                          </a>
                                        </div>
@@ -462,7 +466,7 @@ const closeWatchInfoProd = () =>
                                       <div>
                                         <h1 class="text-xl font-semibold">Inventario Acumulado</h1>
                                         <div class="mt-2">
-                                         <a :href="route('pdfCodes',categoria_actual)" class="text-sm text-white bg-[#2684D0] px-2 py-1 rounded-full">
+                                         <a :href="route('pdfCodes' ,categoriaDownload)" class="text-sm text-white bg-[#2684D0] px-2 py-1 rounded-full">
                                            Descargar codigos
                                          </a>
                                        </div>
