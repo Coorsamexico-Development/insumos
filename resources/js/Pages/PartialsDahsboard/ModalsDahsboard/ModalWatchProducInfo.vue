@@ -1,0 +1,48 @@
+<script setup>
+ import { reactive, ref, watch, onUpdated  } from 'vue';
+ import DialogModal from '@/Components/DialogModal.vue';
+ import { useForm, router } from '@inertiajs/vue3'
+ import { pickBy } from "lodash";
+
+ const emit = defineEmits(["close"])
+ const props = defineProps({
+      show: {
+          type: Boolean,
+          default: false,
+      },
+      producto:Object
+  });
+
+  const close = () =>
+  { 
+     emit('close');
+  };
+
+</script>
+<template>
+  <DialogModal :maxWidth="'sm'"  :show="show" @close="close()">
+       <template #content>
+          <button class="bg-[#C3C4CE] float-right rounded-full py-2 px-2" @click="close()">
+            <svg id="Grupo_394" data-name="Grupo 394" xmlns="http://www.w3.org/2000/svg" width="11.344" height="11.344" viewBox="0 0 11.344 11.344">
+             <path id="Trazado_1910" data-name="Trazado 1910" d="M71.01,81.695a.584.584,0,0,1-.412-1L80.774,70.521a.584.584,0,0,1,.825.825L71.423,81.523A.585.585,0,0,1,71.01,81.695Z" transform="translate(-70.427 -70.351)" fill="#9b9ca0"/>
+             <path id="Trazado_1911" data-name="Trazado 1911" d="M81.187,81.695a.579.579,0,0,1-.412-.171L70.6,71.347a.584.584,0,0,1,.825-.825L81.6,80.7a.584.584,0,0,1-.412,1Z" transform="translate(-70.427 -70.351)" fill="#9b9ca0"/>
+           </svg>
+          </button>
+          <div class="" style="font-family: 'Montserrat';">
+            <div class="">
+               <h1 class="text-[#0A0F2C]  text-2xl">{{ producto.producto_nombre }}</h1>
+               <div class="mt-4">
+                 <div class="flex flex-col my-4">
+                    <label htmlFor="nombre" class="text-lg text-[#0A0F2C]">Stock mínimo</label>
+                    <p class="text-[#0A0F2C] text-lg">{{ producto.stock_minimo }}</p>
+                 </div>
+                 <div class="flex flex-col my-4">
+                    <label htmlFor="nombre" class="text-lg text-[#0A0F2C]">Tiempo de reestock</label>
+                    <p class="text-[#0A0F2C] text-lg">{{ producto.tiempo_de_reestock }}</p>
+                 </div>
+               </div>
+            </div>
+          </div>
+       </template>
+  </DialogModal>
+</template>

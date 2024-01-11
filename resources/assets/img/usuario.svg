@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="41.086" height="41.085" viewBox="0 0 41.086 41.085">
+  <defs>
+    <clipPath id="clip-path">
+      <path id="Trazado_4262" data-name="Trazado 4262" d="M.6.5H41.688V41.585H.6Z" transform="translate(-0.602 -0.5)" fill="none"/>
+    </clipPath>
+  </defs>
+  <g id="usuario" transform="translate(0)" clip-path="url(#clip-path)">
+    <path id="Trazado_4256" data-name="Trazado 4256" d="M14.594,17.483A5.992,5.992,0,1,0,8.6,11.492,5.992,5.992,0,0,0,14.594,17.483Z" transform="translate(5.094 3.059)" fill="#5562a3"/>
+    <path id="Trazado_4257" data-name="Trazado 4257" d="M20.882,18.059a4.28,4.28,0,1,0-4.28-4.28A4.28,4.28,0,0,0,20.882,18.059Z" transform="translate(10.789 5.907)" fill="#5562a3"/>
+    <path id="Trazado_4258" data-name="Trazado 4258" d="M6.952,18.059a4.28,4.28,0,1,0-4.28-4.28A4.28,4.28,0,0,0,6.952,18.059Z" transform="translate(0.872 5.907)" fill="#5562a3"/>
+    <path id="Trazado_4259" data-name="Trazado 4259" d="M16.73,13.5A11.14,11.14,0,0,0,5.6,24.627a.856.856,0,0,0,.856.856H27a.856.856,0,0,0,.856-.856A11.14,11.14,0,0,0,16.73,13.5Z" transform="translate(2.958 8.754)" fill="#5562a3"/>
+    <path id="Trazado_4260" data-name="Trazado 4260" d="M9.9,15.685a7.681,7.681,0,0,0-1.6-.185A7.713,7.713,0,0,0,.6,23.2a.856.856,0,0,0,.856.856H7.607A2.539,2.539,0,0,1,7.45,23.2,12.758,12.758,0,0,1,9.9,15.685Z" transform="translate(-0.601 10.178)" fill="#5562a3"/>
+    <path id="Trazado_4261" data-name="Trazado 4261" d="M19.77,15.5a7.681,7.681,0,0,0-1.6.185A12.758,12.758,0,0,1,20.626,23.2a2.539,2.539,0,0,1-.157.856h6.149a.856.856,0,0,0,.856-.856A7.713,7.713,0,0,0,19.77,15.5Z" transform="translate(11.907 10.178)" fill="#5562a3"/>
+  </g>
+</svg>
