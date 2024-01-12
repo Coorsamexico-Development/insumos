@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\categoria;
 use App\Models\categorias_producto;
 use App\Models\entrada;
 use App\Models\producto;
@@ -127,9 +128,13 @@ class ProductoController extends Controller
         ->where('categorias_productos.categoria_id','=',$request['categoria'])
         ->get();
 
+        $categoria = categoria::select('categorias.*')
+        ->where('categorias.id','=',$request['categoria'])
+        ->first();
 
         $data = [
-            'productos' => $productos
+            'productos' => $productos,
+            'categoria' => $categoria
           ];
         $pdf = App::make('dompdf.wrapper');
         $pdf->set_option('isRemoteEnabled', true);

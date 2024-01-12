@@ -16,7 +16,7 @@
                 <img style="width: 237%;" src="https://storage.googleapis.com/coorsamexico_coordinacion_destino/img/banner_1%40100x.png" />
             </div>
             <div style="margin-top: -10rem; color:#3B4C90;">
-              <h1>Productos</h1>
+              <h1 style="display: flex; flex-direction:row; font-size:1.7rem">Productos / {{$categoria['nombre']}} </h1>
               <span style="background-color:#77B8E6; width:11.7rem; height:4px; position: absolute; margin-left:-3rem; margin-top:-1rem"></span>
             </div>
         </div>
