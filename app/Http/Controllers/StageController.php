@@ -15,7 +15,7 @@ class StageController extends Controller
         //
        return  $stages = stage::select('stages.*')
         ->join('categorias_stages','stages.categoria_stage_id','categorias_stages.id')
-        ->get();
+        ->paginate(10);
     }
 
     public function cambioStage(Request $request)

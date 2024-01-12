@@ -3,7 +3,9 @@
  import DialogModal from '@/Components/DialogModal.vue';
  import { useForm, router } from '@inertiajs/vue3';
  import SpinProgress from '@/Components/SpinProgress.vue'
-import axios from 'axios';
+ import axios from 'axios';
+ import { pickBy } from "lodash";
+ import PaginationAxios from '@/Components/PaginationAxios.vue';
 
  const emit = defineEmits(["close"])
  const props = defineProps({
@@ -85,6 +87,16 @@ const createNewStage = async () =>
   }
 }
 
+const reconsultar = async (page='') => 
+{
+  const  params = pickBy({page});
+    await axios.get('/getStages', {params}).then((response)=> 
+    {
+      console.log(response);
+      stagesCambiantes.value = response.data
+    });
+}
+
 </script>
 <template >
   <DialogModal :maxWidth="'xl'"  :show="show" @close="close()" >
@@ -129,7 +141,7 @@ const createNewStage = async () =>
                 </div>
             </div>
             <div class="border-t-2 border-[#C3C5CE] my-2" v-if="stages.length !== 0">
-                <div class="flex flex-row justify-between px-4 py-2" v-for="stage in stagesCambiantes" :key="stage.id">
+                <div class="flex flex-row justify-between px-4 py-2" v-for="stage in stagesCambiantes.data" :key="stage.id">
                    <div>
                      {{ stage.nombre }}
                    </div>
@@ -147,6 +159,7 @@ const createNewStage = async () =>
                 </div>
             </div>
           </div>
+          <PaginationAxios :pagination="stagesCambiantes" @load-page="reconsultar($event)" />
        </template>
   </DialogModal>
 </template>
