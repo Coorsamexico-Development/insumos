@@ -15,6 +15,7 @@
         "laravel/tinker": "^2.8",
         "maatwebsite/excel": "^3.1",
         "picqer/php-barcode-generator": "^2.4",
+        "stackkit/laravel-google-cloud-scheduler": "^2.0",
         "tightenco/ziggy": "^1.0"
     },
     "require-dev": {

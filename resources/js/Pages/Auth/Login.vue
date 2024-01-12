@@ -36,7 +36,15 @@ const submit = () => {
 <template>
     <Head title="Inicio" />
     <div class="grid h-full grid-cols-12" style="font-family: 'Montserrat';">
-       <div class="bg-[#DAF2FE] min-h-screen col-start-1 col-end-9">
+       <div class="bg-[#DAF2FE]  col-start-1 col-end-9 grid grid-cols-8">
+        <video class="col-start-1 col-end-9" autoplay muted loop style="width:100%; opacity:0.9;">
+             <source
+             size="1080"
+             src="../../../assets/img/animacionlogin3.mp4"
+             type="video/mp4"
+             />
+        </video>
+        <!--
            <div class="p-9">
                <h1 class="text-[#344182]  tracking-widest" style="font-size: 60px; font-weight:;">Plataforma</h1>
                <h2 class="text-[#177DE9]" style="font-size: 102px; margin-top: -2rem; font-weight: 600
@@ -51,6 +59,7 @@ const submit = () => {
              />
             </video>
            </div>
+           -->
        </div>
        <div class="min-h-screen col-start-9 col-end-13">
         <div class="flex flex-col h-full mx-10 justify-evenly">

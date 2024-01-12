@@ -3,6 +3,7 @@
  import DialogModal from '@/Components/DialogModal.vue';
  import { useForm, router } from '@inertiajs/vue3'
  import { pickBy } from "lodash";
+ import PaginationAxios from '@/Components/PaginationAxios.vue';
 
  const emit = defineEmits(["close"])
  const props = defineProps({
@@ -111,6 +112,7 @@
                   </tbody>
                </table>
             </div>
+            <PaginationAxios :pagination="dtsCambiantes" />
           </div>
        </template>
   </DialogModal>
