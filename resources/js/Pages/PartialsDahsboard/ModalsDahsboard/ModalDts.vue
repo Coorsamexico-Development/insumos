@@ -54,6 +54,16 @@
     }
   });
 
+  const reconsultar = async (page='') => 
+  {
+    const  params = pickBy({page});
+    await axios.get('/getDts', {params}).then((response)=> 
+    {
+      //console.log(response);
+      dtsCambiantes.value = response.data
+    });
+  }
+
 </script>
 <template>
   <DialogModal :maxWidth="'xl'"  :show="show" @close="close()">
@@ -112,7 +122,7 @@
                   </tbody>
                </table>
             </div>
-            <PaginationAxios :pagination="dtsCambiantes" />
+            <PaginationAxios :pagination="dtsCambiantes" @loadPage="reconsultar($event)" />
           </div>
        </template>
   </DialogModal>
