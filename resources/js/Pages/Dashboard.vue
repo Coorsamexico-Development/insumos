@@ -414,26 +414,9 @@ const closeWatchInfoProd = () =>
                                        <tr v-for="producto in newProductos.data" :key="producto.id" >
                                           <td class="py-2 text-[#121A3C]">
                                             <div class="flex flex-row justify-between">
-                                              <div :class="((producto.totalEntradas+producto.corte_diario.cantidad_inicial) - producto.totalSalidas) < producto.stock_minimo ? 'text-red-500' : 'bg-white'">
-                                                <div class="absolute p-1 bg-red-500 rounded-full left-32 bottom-11" v-if="((producto.totalEntradas+producto.corte_diario.cantidad_inicial) - producto.totalSalidas) < producto.stock_minimo ">
-                                                    <svg class="w-3 fill-white" version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
-                                                    	 viewBox="0 0 512 512" style="enable-background:new 0 0 512 512;" xml:space="preserve">
-                                                    <g>
-                                                    	<path d="M492.4,411.1l-200-351.7c-11.4-20.1-37.1-27.2-57.2-15.7c-6.7,3.8-12.2,9.3-15.7,15.7l-200,351.7c-5.5,9.8-6.9,21.1-4,31.9
-                                                    		c3,10.8,10,19.8,19.7,25.3c6.3,3.6,13.5,5.5,20.8,5.5h400c23.2,0,42-18.8,42-42C498,424.5,496.1,417.3,492.4,411.1z M475,442.9
-                                                    		L475,442.9c-3.9,6.8-11.1,10.9-18.7,10.9c-0.1,0-0.2,0-0.2,0H56c-12.1,0-22-9.9-22-22c0-3.7,1-7.5,2.8-10.8l200-351.7
-                                                    		c4.1-7.1,11.5-11.1,19.2-11.1c3.7,0,7.4,0.9,10.8,2.9c3.5,1.9,6.3,4.8,8.2,8.2l200,351.7C479.1,427.8,479,436.1,475,442.9z"/>
-                                                    	<path d="M259.8,126.1l-0.2,0c-0.6,0-1.1,0-1.7,0c-0.6,0-1.3-0.1-1.9-0.1c-22.9,0-41.6,18.7-41.6,41.6c0,1.2,0.1,2.3,0.2,3.4
-                                                    		l12.6,156.6c0.7,7.7,4.4,14.7,10.3,19.6c5.2,4.4,11.7,6.7,18.4,6.7c0.9,0,1.8,0,2.7-0.1c14-1.3,25-12.4,26.2-26.3l12.6-156.2
-                                                    		c1-11.1-2.4-21.9-9.5-30.4C280.9,132.3,270.8,127.1,259.8,126.1z M277.6,169.6L265,325.8c-0.5,4.9-4.9,8.6-9.8,8.1
-                                                    		c-4.3-0.4-7.7-3.8-8.1-8l-12.6-156.3c-0.5-5.8,1.2-11.4,4.9-15.8c3.7-4.4,8.9-7.2,14.7-7.7c0.7-0.1,1.3-0.1,2-0.1
-                                                    		c5,0,9.9,1.7,13.8,5c4.4,3.7,7.2,8.9,7.7,14.6C277.7,167,277.7,168.3,277.6,169.6z"/>
-                                                    	<path d="M256,366c-18.7,0-34,15.3-34,34s15.3,34,34,34c18.7,0,34-15.3,34-34S274.7,366,256,366z M256,414c-7.7,0-14-6.3-14-14
-                                                    		s6.3-14,14-14s14,6.3,14,14S263.7,414,256,414z"/>
-                                                    </g>
-                                                    </svg>
-                                                </div>
-                                                <p> {{ producto.producto_nombre }}</p>
+                                              <div class="flex flex-row items-center" :class="((producto.totalEntradas+producto.corte_diario.cantidad_inicial) - producto.totalSalidas) < producto.stock_minimo ? 'text-red-500' : 'bg-white'">
+                                                <p class="mr-4"> {{ producto.producto_nombre }}</p>
+                                                <img v-if="((producto.totalEntradas+producto.corte_diario.cantidad_inicial) - producto.totalSalidas) < producto.stock_minimo " class="w-4 h-4" src="../../assets/img/advertencia.svg" />
                                               </div>
                                                <button @click="openWatchInfoProd(producto)" class="bg-[#C3C4CE] rounded-full pb-2 px-1 "  >
                                                   <img class="w-6 h-6" src="../../assets/img/….svg" />
@@ -524,7 +507,10 @@ const closeWatchInfoProd = () =>
                                       <tr v-for="producto in newProductos.data" :key="producto.id">
                                         <td class="py-2 text-[#121A3C]">
                                             <div class="flex flex-row justify-between">
-                                               <p>  {{ producto.producto_nombre }}</p>
+                                              <div class="flex flex-row items-center" :class="((producto.totalEntradas+producto.corte_diario.cantidad_inicial) - producto.totalSalidas) < producto.stock_minimo ? 'text-red-500' : 'bg-white'">
+                                                <p class="mr-4"> {{ producto.producto_nombre }}</p>
+                                                <img v-if="((producto.totalEntradas+producto.corte_diario.cantidad_inicial) - producto.totalSalidas) < producto.stock_minimo " class="w-4 h-4" src="../../assets/img/advertencia.svg" />
+                                              </div>
                                                <button @click="openWatchInfoProd(producto)" class="bg-[#C3C4CE] rounded-full pb-2 px-1 ">
                                                   <img class="w-6 h-6" src="../../assets/img/….svg" />
                                                </button>
