@@ -136,8 +136,10 @@ class ProductoController extends Controller
             'productos' => $productos,
             'categoria' => $categoria
           ];
+
         $pdf = App::make('dompdf.wrapper');
         $pdf->set_option('isRemoteEnabled', true);
+        $pdf->setOption('fontDir', public_path('/fonts'));
         $pdf->loadView('productos', $data);
         return $pdf->download();
     }
