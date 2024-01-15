@@ -16,8 +16,8 @@ return new class extends Migration
             $table->string('referencia')->unique();
             $table->foreignId('cliente_id')->constrained('clientes');
             //$table->foreignId('salida_id')->constrained('salidas');
-            $table->foreignId('stage_id')->constrained('stages');
-            $table->foreignId('destino_id')->nullable()->constrained('destinos');
+            $table->foreignId('stage_id')->nullable()->constrained('stages');
+            $table->foreignId('destino_id')->constrained('destinos');
             $table->timestamps();
         });
     }

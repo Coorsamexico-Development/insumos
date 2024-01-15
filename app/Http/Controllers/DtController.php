@@ -23,8 +23,8 @@ class DtController extends Controller
             'destinos.nombre as destino'
             )
         ->join('clientes', 'dts.cliente_id', 'clientes.id')
-        ->join('stages', 'dts.stage_id', 'stages.id')
-        ->join('categorias_stages', 'stages.categoria_stage_id', 'categorias_stages.id')
+        ->leftJoin('stages', 'dts.stage_id', 'stages.id')
+        ->leftJoin('categorias_stages', 'stages.categoria_stage_id', 'categorias_stages.id')
         ->join('destinos', 'dts.destino_id', 'destinos.id');
 
         if($request->has('params'))
@@ -48,7 +48,7 @@ class DtController extends Controller
             'destinos.nombre as destino'
         )
         ->join('clientes', 'dts.cliente_id', 'clientes.id')
-        ->join('stages', 'dts.stage_id', 'stages.id')
+        ->leftjoin('stages', 'dts.stage_id', 'stages.id')
         ->join('categorias_stages', 'stages.categoria_stage_id', 'categorias_stages.id')
         ->join('destinos', 'dts.destino_id', 'destinos.id')
         ->where('dts.referencia','=',$request['dt'])

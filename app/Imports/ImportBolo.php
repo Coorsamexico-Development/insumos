@@ -31,40 +31,54 @@ class ImportBolo implements ToModel, WithHeadingRow, SkipsEmptyRows
             $destino = destino::select('destinos.*')
             ->where('nombre','=',$row['destino'])
             ->first();
-            //Buscamos el stage si esxite lo tomamos sino los creamos
-            $stage = stage::select('stages.*')
-            ->where('nombre', '=' ,$row['stage'])
-            ->first();
     
             if($cliente == null) //sino existe lo creamos el cliente
             {
-               $cliente = cliente::create([
+               $cliente = cliente::updateOrCreate([
                 'nombre' => $row['cliente']
                ]);
             }
     
             if($destino == null) //sino existe lo creamos el destino
             {
-               $destino = destino::create([
+               $destino = destino::updateOrCreate([
                 'nombre' => $row['destino']
                ]);
             }
-    
-            if($stage == null) //sino existe lo creamos el stage
+
+            if($row['stage'] !== null)
             {
-               $stage = stage::create([
-                 'nombre' => $row['stage'],
-                 'categoria_stage_id' => 1
+              //Buscamos el stage si esxite lo tomamos sino los creamos
+              $stage = stage::select('stages.*')
+              ->where('nombre', '=' ,$row['stage'])
+              ->first();
+
+              if($stage == null) //sino existe lo creamos el stage
+              { 
+                 $stage = stage::updateOrCreate([
+                   'nombre' => $row['stage'],
+                   'categoria_stage_id' => 1
+                  ]);
+
+                  dt::updateOrCreate([
+                     'referencia' => $row['load'],
+                     'cliente_id' => $cliente['id'],
+                     'stage_id' => $stage['id'],
+                     'destino_id' => $destino['id']
+                  ]);
+              }
+            }
+            else
+            {
+              // dd($row);     
+               dt::updateOrCreate([
+                  'referencia' => $row['load'],
+                  'cliente_id' => $cliente['id'],
+                  'destino_id' => $destino['id']
                ]);
+
             }
     
-            //una vez creados o tomados creamos los dts 
-            dt::updateOrCreate([
-               'referencia' => $row['load'],
-               'cliente_id' => $cliente['id'],
-               'stage_id' => $stage['id'],
-               'destino_id' => $destino['id']
-            ]);
         }
     }
 
@@ -80,10 +94,6 @@ class ImportBolo implements ToModel, WithHeadingRow, SkipsEmptyRows
                 'required',
                 'string',
             ],
-            'stage' => [
-               'required',
-               'string',
-           ],
            'destino' => [
             'required',
             'string',
