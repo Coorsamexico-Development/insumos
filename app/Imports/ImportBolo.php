@@ -19,7 +19,7 @@ class ImportBolo implements ToModel, WithHeadingRow, SkipsEmptyRows
     */
     public function model(array $row)
     {
-        //dd($row);
+         //dd($row);
         //Validamos que las columnas no esten vaxias
         if($row[6] !== null &&  $row[7] !== null /*&& $row['stage'] !== null*/ )
         {
@@ -47,17 +47,17 @@ class ImportBolo implements ToModel, WithHeadingRow, SkipsEmptyRows
                ]);
             }
 
-            if($row[19] !== null)
+            if($row[23] !== null)
             {
               //Buscamos el stage si esxite lo tomamos sino los creamos
               $stage = stage::select('stages.*')
-              ->where('nombre', '=' ,$row[19])
+              ->where('nombre', '=' ,$row[23])
               ->first();
 
               if($stage == null) //sino existe lo creamos el stage
               { 
                  $stage = stage::updateOrCreate([
-                   'nombre' => $row[19],
+                   'nombre' => $row[23],
                    'categoria_stage_id' => 1
                   ]);
 
@@ -87,12 +87,10 @@ class ImportBolo implements ToModel, WithHeadingRow, SkipsEmptyRows
     {
         return 5;
     }
+
+    /*
     public function rules(): array
     {
-        return [
-          
-        ];
-        /*
         return [
             'cliente' => [
                 'required',
@@ -107,13 +105,13 @@ class ImportBolo implements ToModel, WithHeadingRow, SkipsEmptyRows
             'string',
            ],
         ];
-        */
     }
-
+    */
 
     public function isEmptyWhen(array $row): bool
     {
         return $row[4] === 'LOAD';
     }
+    
     
 }
