@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\CorteDiarioHistoricoController;
 use App\Models\corte_diario_historico;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Artisan;
@@ -20,5 +21,5 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::get('/corte_diario',[corte_diario_historico::class, 'index'])->name('corte_diario');
+Route::get('/corte_diario',[CorteDiarioHistoricoController::class, 'index'])->name('corte_diario');
 

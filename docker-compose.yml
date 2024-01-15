@@ -55,7 +55,7 @@ volumes:
 cron:
   description: "corte_diario"
   url: /api/corte_diario
-  schedule: every minute
+  schedule: every 12 hours
   retry_parameters:
     min_backoff_seconds: 2.5
     max_doublings: 5
