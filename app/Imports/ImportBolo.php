@@ -90,18 +90,7 @@ class ImportBolo implements ToModel, WithHeadingRow, SkipsEmptyRows
     public function rules(): array
     {
         return [
-             6 => [
-                'required',
-                'string',
-            ],
-           7 => [
-            'required',
-            'string',
-           ],
-           4 => [
-            'required',
-            'string',
-           ],
+          
         ];
         /*
         return [
