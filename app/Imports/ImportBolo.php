@@ -19,30 +19,31 @@ class ImportBolo implements ToModel, WithHeadingRow, SkipsEmptyRows
     */
     public function model(array $row)
     {
+        //dd($row);
         //Validamos que las columnas no esten vaxias
-        if($row['cliente'] !== null &&  $row['destino'] !== null /*&& $row['stage'] !== null*/ )
+        if($row[6] !== null &&  $row[7] !== null /*&& $row['stage'] !== null*/ )
         {
             //dd($row);
             //Primero creamos los clientes si ya existen lo tomamos
             $cliente = cliente::select('clientes.*')
-            ->where('nombre', $row['cliente'])
+            ->where('nombre', $row[6])
             ->first();
             //Buscamos el destino si existe sino lo creamos
             $destino = destino::select('destinos.*')
-            ->where('nombre','=',$row['destino'])
+            ->where('nombre','=',$row[7])
             ->first();
     
             if($cliente == null) //sino existe lo creamos el cliente
             {
                $cliente = cliente::updateOrCreate([
-                'nombre' => $row['cliente']
+                'nombre' => $row[6]
                ]);
             }
     
             if($destino == null) //sino existe lo creamos el destino
             {
                $destino = destino::updateOrCreate([
-                'nombre' => $row['destino']
+                'nombre' => $row[7]
                ]);
             }
 
@@ -50,18 +51,18 @@ class ImportBolo implements ToModel, WithHeadingRow, SkipsEmptyRows
             {
               //Buscamos el stage si esxite lo tomamos sino los creamos
               $stage = stage::select('stages.*')
-              ->where('nombre', '=' ,$row['stage'])
+              ->where('nombre', '=' ,$row[19])
               ->first();
 
               if($stage == null) //sino existe lo creamos el stage
               { 
                  $stage = stage::updateOrCreate([
-                   'nombre' => $row['stage'],
+                   'nombre' => $row[19],
                    'categoria_stage_id' => 1
                   ]);
 
                   dt::updateOrCreate([
-                     'referencia' => $row['load'],
+                     'referencia' => $row[4],
                      'cliente_id' => $cliente['id'],
                      'stage_id' => $stage['id'],
                      'destino_id' => $destino['id']
@@ -72,7 +73,7 @@ class ImportBolo implements ToModel, WithHeadingRow, SkipsEmptyRows
             {
               // dd($row);     
                dt::updateOrCreate([
-                  'referencia' => $row['load'],
+                  'referencia' => $row[4],
                   'cliente_id' => $cliente['id'],
                   'destino_id' => $destino['id']
                ]);
@@ -84,11 +85,25 @@ class ImportBolo implements ToModel, WithHeadingRow, SkipsEmptyRows
 
     public function headingRow(): int
     {
-        return 3;
+        return 5;
     }
-
     public function rules(): array
     {
+        return [
+             6 => [
+                'required',
+                'string',
+            ],
+           7 => [
+            'required',
+            'string',
+           ],
+           4 => [
+            'required',
+            'string',
+           ],
+        ];
+        /*
         return [
             'cliente' => [
                 'required',
@@ -103,12 +118,13 @@ class ImportBolo implements ToModel, WithHeadingRow, SkipsEmptyRows
             'string',
            ],
         ];
+        */
     }
 
-    /*
+
     public function isEmptyWhen(array $row): bool
     {
-        return $row['load'] === 'LOAD';
+        return $row[4] === 'LOAD';
     }
-    */
+    
 }
