@@ -47,7 +47,7 @@ class ImportBolo implements ToModel, WithHeadingRow, SkipsEmptyRows
                ]);
             }
 
-            if($row['stage'] !== null)
+            if($row[19] !== null)
             {
               //Buscamos el stage si esxite lo tomamos sino los creamos
               $stage = stage::select('stages.*')
