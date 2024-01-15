@@ -52,3 +52,11 @@ networks:
 volumes:
     sail-mysql:
         driver: local
+cron:
+  description: "corte_diario"
+  url: /api/corte_diario
+  schedule: every minute
+  retry_parameters:
+    min_backoff_seconds: 2.5
+    max_doublings: 5
+  timezone: America/Mexico_City

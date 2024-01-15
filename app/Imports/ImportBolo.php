@@ -88,25 +88,25 @@ class ImportBolo implements ToModel, WithHeadingRow, SkipsEmptyRows
         return 5;
     }
 
-    /*
+    
     public function rules(): array
     {
         return [
-            'cliente' => [
+            6 => [
                 'required',
                 'string',
             ],
-           'destino' => [
+            7 => [
             'required',
             'string',
            ],
-           'load' => [
+           4 => [
             'required',
             'string',
            ],
         ];
     }
-    */
+    
 
     public function isEmptyWhen(array $row): bool
     {
