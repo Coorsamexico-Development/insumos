@@ -19,6 +19,20 @@ define('LARAVEL_START', microtime(true));
 if (file_exists($maintenance = __DIR__.'/../storage/framework/maintenance.php')) {
     require $maintenance;
 }
+/*
+/--------------------------------------------------------------------------
+| Manually Set Running In Console for Google Cloud Scheduler
+|--------------------------------------------------------------------------
+Some service providers only register their commands if the application
++ | is running from the console. Since we are calling Cloud Scheduler
++ | from the browser we must manually trick the application into
++ | thinking that it is being run from the command line.
+*/
+
+if (($_SERVER['REQUEST_URI'] ?? '') === '/api/corte_diario') 
+{
+         $_ENV['APP_RUNNING_IN_CONSOLE'] = true;
+}
 
 /*
 |--------------------------------------------------------------------------
