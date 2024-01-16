@@ -63,7 +63,7 @@
             <form class="mt-4"> <!--formulario-->
                 <div class="flex flex-col my-4">
                     <label htmlFor="nombre" class="text-lg">Nombre</label>
-                    <input required v-model="formNewProducto.nombre" id="nombre" class="w-full px-3 py-2 leading-tight text-gray-700 rounded shadow appearance-none border-none bg-[#F6F6F9]" />
+                    <input style="text-transform:uppercase" required v-model="formNewProducto.nombre"  id="nombre" class="w-full px-3 py-2 leading-tight text-gray-700 rounded shadow appearance-none border-none bg-[#F6F6F9]" />
                 </div>
                 <div class="flex flex-col my-4">
                     <label htmlFor="resurtido" class="text-lg">Tiempo en resurtir</label>

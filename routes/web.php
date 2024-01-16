@@ -4,8 +4,10 @@ use App\Http\Controllers\CategoriasProductoController;
 use App\Http\Controllers\DtController;
 use App\Http\Controllers\EntradaController;
 use App\Http\Controllers\ProductoController;
+use App\Http\Controllers\RolesPermissionController;
 use App\Http\Controllers\SalidasController;
 use App\Http\Controllers\StageController;
+use App\Http\Controllers\UserController;
 use App\Models\categoria;
 use App\Models\categorias_producto;
 use App\Models\corte_diario_historico;
@@ -245,4 +247,8 @@ Route::middleware([
     Route::get('/getEntradasByProducto', [ProductoController::class, 'index'])->name('getEntradasByProducto');
     //Descargar pdf de productos
     Route::get('/pdfCodes',[ProductoController::class,'pdfCodes'])->name('pdfCodes');
+    //Ruta para pagina principal de usuarios
+    Route::get('/usuarios', [UserController::class, 'index'])->name('usuarios');
+    //Ruta para agregar nuevo usuario
+    Route::post('/newUser',[UserController::class, 'store'])->name('newUser');
 });

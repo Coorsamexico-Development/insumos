@@ -22,7 +22,7 @@ var props = defineProps({
     filters: Object,
 });
 
-;
+
 
 //Funciones para agregar productos modal
 const modalNewProduct = ref(false);
@@ -301,6 +301,7 @@ const closeWatchInfoProd = () =>
 </script>
 
 <template>
+    <Head title="Inventario" />
     <div class='min-h-screen md:flex bg-[#F5F6FA]' style="font-family: 'Montserrat';"> <!--Contenedor-->
         <SideBar />
         <div class="w-full p-6"> <!--Inicio del apartado de modulos-->
