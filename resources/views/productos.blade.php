@@ -29,7 +29,8 @@
               </tr>
             </thead>
             <tbody>
-              <tr @foreach ($productos as $producto ) >
+              @foreach ($productos as $producto ) 
+              <tr >
                   <td><p style="font-size:1rem;padding-bottom:1rem;">{{$producto['nombre']}}</p></td>
                   <td style="padding-bottom:1rem;">
                     <div style="width:6rem">
@@ -39,7 +40,8 @@
                       ?> 
                     </div>
                   </td>
-              </tr @endforeach>>
+              </tr>
+              @endforeach
             </tbody>
           </table>
     </body>
