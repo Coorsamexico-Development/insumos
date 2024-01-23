@@ -13,9 +13,33 @@ class SalidasController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
         //
+        $categoria_producto = categorias_producto::select('categorias_productos.*')
+        ->where('categorias_productos.categoria_id','=',$request['producto']['categoria_id'])
+        ->where('categorias_productos.producto_id','=',$request['producto']['producto_id'])
+        ->first();
+
+        date_default_timezone_set('America/Mexico_City');
+        $fecha_actual = getdate();
+        $month = '';
+        if($fecha_actual['mon'] < 10)
+        {
+          $month = '0'.$fecha_actual['mon'];
+        }
+        else
+        {
+          $month = $fecha_actual['mon'];
+        }
+
+        $newFechaActual = $fecha_actual['year'].'-'.$month;
+
+        return $salidas = salidas::select('salidas.*')
+        ->whereDate('salidas.created_at','LIKE','%'.$newFechaActual.'%')
+        ->where('salidas.categorias_producto_id','=',$categoria_producto['id'])
+        ->get();
+        
     }
 
     /**

@@ -19,6 +19,8 @@
         "vue": "^3.2.31"
     },
     "dependencies": {
+        "@amcharts/amcharts4": "^4.10.38",
+        "@amcharts/amcharts5": "^5.7.7",
         "@chenfengyuan/vue-barcode": "^2.0.2",
         "jsbarcode": "^3.11.6",
         "lodash": "^4.17.21",

@@ -251,4 +251,6 @@ Route::middleware([
     Route::get('/usuarios', [UserController::class, 'index'])->name('usuarios');
     //Ruta para agregar nuevo usuario
     Route::post('/newUser',[UserController::class, 'store'])->name('newUser');
+    //Ruta para obtener las salidas
+    Route::get('/getSalidas',[SalidasController::class, 'index'])->name('getSalidas');
 });

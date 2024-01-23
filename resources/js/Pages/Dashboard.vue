@@ -12,9 +12,11 @@ import ModalStages from './PartialsDahsboard/ModalsDahsboard/ModalStages.vue';
 import ModalDts from './PartialsDahsboard/ModalsDahsboard/ModalDts.vue';
 import ModalMovimientosByProducto from './PartialsDahsboard/ModalsDahsboard/ModalMovimientosByProducto.vue';
 import ModalWatchProducInfo from './PartialsDahsboard/ModalsDahsboard/ModalWatchProducInfo.vue';
+import ModalGraph from './PartialsDahsboard/ModalsDahsboard/ModalGraph.vue'
 import { pickBy } from "lodash";
 //codigo
 import VueBarcode from '@chenfengyuan/vue-barcode';
+import axios from 'axios';
 
 var props = defineProps({
     categorias:Object,
@@ -298,6 +300,69 @@ const closeWatchInfoProd = () =>
   watchInfoProd.value = false;
 }
 
+const modalGraph = ref(false);
+const salidasForModal = ref([]);
+const openModalGraph = (producto) => 
+{
+  //console.log(producto)
+  //consulta 
+  try 
+  {
+    axios.get(route('getSalidas',{producto})).then(response => 
+    {
+       console.log(response.data)
+      ///salidasForModal.value = response.data;
+      let arraySalidas = [];
+      for (let index = 0; index < response.data.length; index++) 
+      {
+        const salida = response.data[index];
+        let newObjSalida = {
+           cantidad: salida.cantidad,
+           fecha: salida.created_at.substring(0,10)
+        };
+
+        if(arraySalidas.length == 0)
+        {
+           arraySalidas.push(newObjSalida);
+        }
+        else
+        {
+          for (let index2 = 0; index2 < arraySalidas.length; index2++)  //recorremos los objetos del arreglo
+          {
+            const objetoSalida = arraySalidas[index2];
+            if(objetoSalida.fecha == salida.created_at.substring(0,10)) //si son de la misma fecha se suma
+            {
+                objetoSalida.cantidad += salida.cantidad;
+            }
+            else
+            {
+              arraySalidas.push(newObjSalida);
+            }
+          }
+        }
+      }
+
+      //console.log(arraySalidas);
+      salidasForModal.value = arraySalidas;
+      modalGraph.value = true;
+    })
+    .catch(err=> 
+    {
+      console.log('error')
+    })
+  } 
+  catch (error) 
+  {
+    
+  }
+
+}
+
+const closeModalGraph = () => 
+{
+   modalGraph.value = false;
+}
+
 </script>
 
 <template>
@@ -416,7 +481,14 @@ const closeWatchInfoProd = () =>
                                           <td class="py-2 text-[#121A3C]">
                                             <div class="flex flex-row justify-between">
                                               <div class="flex flex-row items-center" :class="((producto.totalEntradas+producto.corte_diario.cantidad_inicial) - producto.totalSalidas) < producto.stock_minimo ? 'text-red-500' : 'bg-white'">
-                                                <p class="mr-4"> {{ producto.producto_nombre }}</p>
+                                                <button class="bg-[#2684D0] mr-4 rounded-lg" @click="openModalGraph(producto)">
+                                                  <svg  width="25px" height="25px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                    <path d="M12 19L12 11" stroke="white" stroke-width="4" stroke-linecap="round"/>
+                                                    <path d="M7 19L7 15" stroke="white" stroke-width="4" stroke-linecap="round"/>
+                                                    <path d="M17 19V6" stroke="white" stroke-width="4" stroke-linecap="round"/>
+                                                  </svg>
+                                                </button>
+                                                <p class="mr-4 uppercase"> {{ producto.producto_nombre }}</p>
                                                 <img v-if="((producto.totalEntradas+producto.corte_diario.cantidad_inicial) - producto.totalSalidas) < producto.stock_minimo " class="w-4 h-4" src="../../assets/img/advertencia.svg" />
                                               </div>
                                                <button @click="openWatchInfoProd(producto)" class="bg-[#C3C4CE] rounded-full pb-2 px-1 "  >
@@ -494,7 +566,7 @@ const closeWatchInfoProd = () =>
                                             <p class="mr-2 font-semibold">
                                                 Productos
                                             </p>
-                                            <button @click="openModalNewProduct()" class="bg-[#70BBF6] rounded-full flex flex-row justify-center items-center w-6">
+                                            <button @click="openModalNewProduct(producto)" class="bg-[#70BBF6] rounded-full flex flex-row justify-center items-center w-6">
                                                 <p class="font-semibold text-white">+</p>
                                             </button> 
                                         </td>
@@ -509,6 +581,13 @@ const closeWatchInfoProd = () =>
                                         <td class="py-2 text-[#121A3C]">
                                             <div class="flex flex-row justify-between">
                                               <div class="flex flex-row items-center" :class="((producto.totalEntradas+producto.corte_diario.cantidad_inicial) - producto.totalSalidas) < producto.stock_minimo ? 'text-red-500' : 'bg-white'">
+                                                <button class="bg-[#2684D0] mr-4 rounded-lg" @click="openModalGraph()">
+                                                  <svg  width="25px" height="25px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                    <path d="M12 19L12 11" stroke="white" stroke-width="4" stroke-linecap="round"/>
+                                                    <path d="M7 19L7 15" stroke="white" stroke-width="4" stroke-linecap="round"/>
+                                                    <path d="M17 19V6" stroke="white" stroke-width="4" stroke-linecap="round"/>
+                                                  </svg>
+                                                </button>
                                                 <p class="mr-4"> {{ producto.producto_nombre }}</p>
                                                 <img v-if="((producto.totalEntradas+producto.corte_diario.cantidad_inicial) - producto.totalSalidas) < producto.stock_minimo " class="w-4 h-4" src="../../assets/img/advertencia.svg" />
                                               </div>
@@ -566,6 +645,7 @@ const closeWatchInfoProd = () =>
         <ModalDts :show="modalDts" @close="closeModalDts()" :dts="dts" />
         <ModalMovimientosByProducto :show="modalMovimientosByProducto" :movimientosByProducto="movimientosByProducto" :productoForMovimientos="productoForMovimientos" @close="closeModalMvimientosByProducto()" />
         <ModalWatchProducInfo :show="watchInfoProd" :producto="producto_select" @close="closeWatchInfoProd()" />
+        <ModalGraph :show="modalGraph" @close="closeModalGraph()" :salidasForModal="salidasForModal"  />
         <!--Fin Modales-->
     </div> <!--Fin contenedor-->
 </template>
