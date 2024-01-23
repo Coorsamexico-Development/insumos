@@ -304,7 +304,7 @@ const modalGraph = ref(false);
 const salidasForModal = ref([]);
 const openModalGraph = (producto) => 
 {
-  //console.log(producto)
+  console.log(producto)
   //consulta 
   try 
   {
@@ -581,7 +581,7 @@ const closeModalGraph = () =>
                                         <td class="py-2 text-[#121A3C]">
                                             <div class="flex flex-row justify-between">
                                               <div class="flex flex-row items-center" :class="((producto.totalEntradas+producto.corte_diario.cantidad_inicial) - producto.totalSalidas) < producto.stock_minimo ? 'text-red-500' : 'bg-white'">
-                                                <button class="bg-[#2684D0] mr-4 rounded-lg" @click="openModalGraph()">
+                                                <button class="bg-[#2684D0] mr-4 rounded-lg" @click="openModalGraph(producto)">
                                                   <svg  width="25px" height="25px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                                                     <path d="M12 19L12 11" stroke="white" stroke-width="4" stroke-linecap="round"/>
                                                     <path d="M7 19L7 15" stroke="white" stroke-width="4" stroke-linecap="round"/>
