@@ -21,5 +21,12 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
+Route::get('artisan', function () {
+    Artisan::call('migrate', [
+      '--force' => true
+    ]);
+    return "ok";
+  });
+  
 Route::get('/corte_diario',[CorteDiarioHistoricoController::class, 'index'])->name('corte_diario');
 

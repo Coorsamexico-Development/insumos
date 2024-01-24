@@ -51,7 +51,8 @@ const formNewEntrada = useForm({
     categoria:categoria_actual.value,
     cantidad: 0,
     fecha: year+'-'+month+'-'+day,
-    hora: hour+':'+minutes
+    hora: hour+':'+minutes,
+    factura:''
   });
 
 const cambiarCategoria = (categoria) => 
@@ -109,6 +110,10 @@ const guardarNuevaEntrada = async () =>
                 <div class="flex flex-col mt-2">
                     <label class="pb-2" htmlFor="hora">Hora</label>
                     <VueTimepicker :disabled="true" v-model="formNewEntrada.hora"  format="HH:mm"  class="timepicker"   input-width="15em" :placeholder="'Selecciona una hora'" />
+                </div>
+                <div class="flex flex-col mr-4">
+                  <label class="py-2" htmlFor="factura">Factura</label>
+                  <input required v-model="formNewEntrada.factura" id="factura" type="text" placeholder="Factura" class="w-full px-3 py-2 leading-tight text-gray-700 rounded shadow appearance-none border-none bg-[#F6F6F9]" />
                 </div>
             </form>
             <div class="flex flex-row justify-center col-start-1 col-end-3 mt-2">

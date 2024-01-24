@@ -53,7 +53,8 @@ class EntradaController extends Controller
         entrada::create([
             'categorias_producto_id' => $categoria_producto['id'],
             'fecha' => $request['fecha'],
-            'cantidad' => $request['cantidad']
+            'cantidad' => $request['cantidad'],
+            'factura' => $request['factura']
         ]);
     }
 

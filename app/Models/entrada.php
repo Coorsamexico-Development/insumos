@@ -13,6 +13,7 @@ class entrada extends Model
         'categorias_producto_id',
         'fecha',
         'hora',
-        'cantidad'
+        'cantidad',
+        'factura'
     ];
 }
