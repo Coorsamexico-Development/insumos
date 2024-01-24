@@ -140,10 +140,14 @@
                 </tr>
                 <tr v-for="(movimiento, key) in movimientosByProducto" :key="key">
                    <td class="text-center text-[#0A0F2C]">
-                      <button @click="eliminarMovimiento(movimiento)" v-if="new Date((movimiento.fecha_string + ' ' + movimiento.hora)) > new Date(ultimo_corte.fecha)" class="px-1 py-1 bg-red-400 rounded-lg">
+                     <div class="flex flex-row justify-between">
+                        <button @click="eliminarMovimiento(movimiento)" v-if="new Date((movimiento.fecha_string + ' ' + movimiento.hora)) > new Date(ultimo_corte.fecha)" class="px-1 py-1 bg-red-400 rounded-lg">
                          <img class="w-4" src="../../../../assets/img/eliminar.png" />
-                      </button>
-                      {{ productoForMovimientos.producto_nombre }}
+                        </button>
+                        <p class="ml-2">
+                          {{ productoForMovimientos.producto_nombre }}
+                        </p>
+                     </div>
                    </td>
                    <td class="py-2 text-center">
                     <div v-if="movimiento.tipo == 'salida'" class="grid items-center justify-center grid-cols-2 align-middle justify-items-center">
