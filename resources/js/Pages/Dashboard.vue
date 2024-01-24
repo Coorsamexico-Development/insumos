@@ -246,7 +246,12 @@ const openModalMovimientosByProducto = async (producto) =>
 
      //console.log(movimientosTotales)
      
-     movimientosByProducto.value = movimientosTotales.sort();  //movimientosTotales.sort((a,b) => a.fecha - b.fecha)
+     movimientosByProducto.value = movimientosTotales.sort(function (a, b)
+     {
+        let fecha1 = new Date(a.fecha);
+        let fecha2 = new Date(b.fecha);
+        return fecha2 - fecha1;
+     })
      modalMovimientosByProducto.value = true;
      //console.log(movimientosByProducto.value);
   })
