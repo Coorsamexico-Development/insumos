@@ -75,7 +75,7 @@ class EntradaController extends Controller
        $pdf->set_option('isRemoteEnabled', true);
        $pdf->setOption('fontDir', public_path('/fonts'));
        $pdf->loadView('factura', $data);
-       return $pdf->stream();
+       return $pdf->download();
     }
 
     /**
