@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\permission;
+use App\Models\role;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
@@ -15,9 +17,17 @@ class UserController extends Controller
         $usuarios = User::select('users.*')
         ->paginate(10);
 
+        $roles = role::select('roles.*')
+        ->get();
+
+        $permisos = permission::select('permissions.*')
+        ->get();
+
         return Inertia::render('Users/UserIndex',
         [
-            'usuarios' => $usuarios
+            'usuarios' => $usuarios,
+            'roles' => $roles,
+            'permisos' => $permisos
         ]);
     }
 

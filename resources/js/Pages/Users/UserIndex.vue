@@ -2,11 +2,15 @@
 import { ref, watch, computed, reactive } from 'vue';
 import { Head, Link, router, useForm } from '@inertiajs/vue3';
 import SideBar from '@/Components/SideBar.vue';
+import Roles from './Partials/Roles.vue';
+import Permisos from './Partials/Permisos.vue'
 //Modales
 import ModalNewUser from './Partials/ModalNewUser.vue'
 
 var props = defineProps({
-  usuarios:Object
+  usuarios:Object,
+  roles: Object,
+  permisos: Object
 });
 
 const modalNuevoUsuario = ref(false);
@@ -17,6 +21,14 @@ const openModalNuevoUsuario = () =>
 const closeModalNuevoUsuario = () => 
 {
     modalNuevoUsuario.value = false;
+}
+
+const rol = ref(null);
+
+const selectRol = (id) => 
+{ 
+  //console.log(id)
+  rol.value = id
 }
  
 </script>
@@ -59,7 +71,17 @@ const closeModalNuevoUsuario = () =>
                </table>
             </div>
             <div class="col-start-5 col-end-7 row-start-1 row-end-7 p-6 bg-white rounded-lg shadow-lg" >
-                <h1 class="font-semibold text-center">Roles y permisos</h1>
+                <h1 class="text-xl font-semibold text-center">Roles y permisos</h1>
+                <div class="py-4 my-2 rounded-lg shadow">
+                    <div class="flex flex-row justify-center">
+                        <h1 class="font-semibold text-center">Roles</h1>
+                        <button class="bg-[#344182] text-white mx-4 px-2 rounded-full">
+                            +
+                        </button>
+                    </div>
+                    <Roles :roles="roles" @selectRol="selectRol" />
+                </div>
+                <Permisos  :permisos="permisos" :rol="rol" />
             </div>
         </div>
         <!--Modales-->
