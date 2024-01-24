@@ -202,7 +202,7 @@ const openModalMovimientosByProducto = async (producto) =>
   await axios.get(route('getEntradasByProducto',{producto:producto, tipo:'entradas'}))
   .then(response => 
   {
-     //console.log(response.data)
+     console.log(response.data)
      //movimientosByProducto.value = response.data;
      ultimo_corte.value = response.data.ultimo_corte;
      let salidas = response.data.salidas;
@@ -246,7 +246,7 @@ const openModalMovimientosByProducto = async (producto) =>
 
      //console.log(movimientosTotales)
      
-     movimientosByProducto.value = movimientosTotales.sort((a,b) => a.fecha - b.fecha)
+     movimientosByProducto.value = movimientosTotales.sort();  //movimientosTotales.sort((a,b) => a.fecha - b.fecha)
      modalMovimientosByProducto.value = true;
      //console.log(movimientosByProducto.value);
   })
