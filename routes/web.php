@@ -255,4 +255,6 @@ Route::middleware([
     Route::get('/getSalidas',[SalidasController::class, 'index'])->name('getSalidas');
     //Ruta para eliminar movimientos
     Route::post('/eliminarMovimiento',[ProductoController::class,'eliminarMovimiento'])->name('eliminarMovimiento');
+    //Ruta para descargar facutura por entrada
+    Route::get('/downloadFactura',[EntradaController::class,'downloadFactura'])->name('downloadFactura');
 });

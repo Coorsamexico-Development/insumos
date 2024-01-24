@@ -243,9 +243,12 @@ const openModalMovimientosByProducto = async (producto) =>
         } 
         movimientosTotales.push(newSalidaType)
      }
+
+     //console.log(movimientosTotales)
      
      movimientosByProducto.value = movimientosTotales.sort((a,b) => a.fecha - b.fecha)
      modalMovimientosByProducto.value = true;
+     //console.log(movimientosByProducto.value);
   })
   .catch(err => 
   {

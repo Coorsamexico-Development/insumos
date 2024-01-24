@@ -138,7 +138,7 @@
                     <td class="py-2 font-semibold text-center text-[#0A0F2C]">Dt</td>
                     <td class="py-2 font-semibold text-center text-[#0A0F2C]">Stage</td>
                 </tr>
-                <tr v-for="(movimiento, key) in movimientosTotalesModal" :key="key">
+                <tr v-for="(movimiento, key) in movimientosByProducto" :key="key">
                    <td class="text-center text-[#0A0F2C]">
                       <button @click="eliminarMovimiento(movimiento)" v-if="new Date((movimiento.fecha_string + ' ' + movimiento.hora)) > new Date(ultimo_corte.fecha)" class="px-1 py-1 bg-red-400 rounded-lg">
                          <img class="w-4" src="../../../../assets/img/eliminar.png" />
@@ -162,9 +162,9 @@
                           <path id="Trazado_4282" data-name="Trazado 4282" d="M16.639.009C16.623.008,16.61,0,16.594,0H9.875A1.877,1.877,0,0,0,8,1.875V2.5a.625.625,0,0,0,1.25,0V1.875a.626.626,0,0,1,.625-.625h2.912l-.191.064A1.256,1.256,0,0,0,11.75,2.5v9.375H9.875a.626.626,0,0,1-.625-.625V10A.625.625,0,0,0,8,10v1.25a1.877,1.877,0,0,0,1.875,1.875H11.75v.625A1.251,1.251,0,0,0,13,15a1.314,1.314,0,0,0,.4-.062l3.755-1.252A1.256,1.256,0,0,0,18,12.5V1.25A1.252,1.252,0,0,0,16.639.009Z" transform="translate(-3)" fill="#2684d0"/>
                           <path id="Trazado_4283" data-name="Trazado 4283" d="M6.692,7.683l-2.5-2.5a.625.625,0,0,0-1.067.442V7.5H.625a.625.625,0,0,0,0,1.25h2.5v1.875a.625.625,0,0,0,1.067.442l2.5-2.5A.624.624,0,0,0,6.692,7.683Z" transform="translate(0 -1.875)" fill="#2684d0"/>
                        </svg>
-                       <button  class="text-[#2684D0]"> 
+                       <a :href="route('downloadFactura',movimiento)" class="text-[#2684D0]"> 
                          Entrada
-                       </button>
+                       </a>
                     </div>
                    </td>
                    <td class="text-center text-[#0A0F2C]">

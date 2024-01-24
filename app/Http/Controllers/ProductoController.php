@@ -89,8 +89,6 @@ class ProductoController extends Controller
           salidas::where('id','=',$request['movimiento']['id'])
           ->delete();
        }
-
-       
     }
 
     /**

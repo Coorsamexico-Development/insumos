@@ -6,6 +6,7 @@ use App\Models\categorias_producto;
 use App\Models\entrada;
 use App\Models\producto;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\App;
 
 class EntradaController extends Controller
 {
@@ -56,6 +57,25 @@ class EntradaController extends Controller
             'cantidad' => $request['cantidad'],
             'factura' => $request['factura']
         ]);
+    }
+
+    public function downloadFactura (Request $request)
+    {
+        $entrada = entrada::select('entradas.*','productos.nombre as producto')
+       ->where('entradas.id','=', $request['id'])
+       ->join('categorias_productos','entradas.categorias_producto_id','categorias_productos.id')
+       ->join('productos','categorias_productos.producto_id','productos.id')
+       ->first();
+
+       $data = [
+        'entrada' => $entrada,
+      ];
+
+       $pdf = App::make('dompdf.wrapper');
+       $pdf->set_option('isRemoteEnabled', true);
+       $pdf->setOption('fontDir', public_path('/fonts'));
+       $pdf->loadView('factura', $data);
+       return $pdf->stream();
     }
 
     /**
