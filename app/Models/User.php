@@ -59,5 +59,52 @@ class User extends Authenticatable
      */
     protected $appends = [
         'profile_photo_url',
+        'is_admin',
+        'cans'
     ];
+
+    //Se crea el atributo is_admin donde el rol con id 1 es admin
+    public function getIsAdminAttribute()
+    {
+        return $this->role_id === 1; // admin
+    }
+    
+    
+     //Un usuario solo puede tener 1 rol
+     public function role()
+     {
+         return $this->belongsTo(role::class, 'role_id');
+     }
+
+         
+    public function getCansAttribute()
+    {
+        $cans = array();
+        $permissions = null;
+        if ($this->is_admin) 
+        {
+            $permissions = permission::select('id', 'nombre')->get();
+        } else 
+        {
+           /* $permissions = $this->role->permissions()
+                ->get();
+                */
+           $permissions = rolesPermission::select('permissions.id','permissions.nombre')
+           ->join('permissions','roles_permissions.permission_id','permissions.id')
+           ->where('roles_permissions.role_id','=', $this->role_id)
+           ->get();
+        }
+
+        foreach ($permissions as $permission) 
+        {
+            $cans[$permission->nombre] = $this->can($permission->nombre);
+        }
+        return $cans;
+    }
+
+    public function hasPermission(Int $idPermission) //este comprueba si pueden o no usar el permiso
+    {
+        return $this->role->permissions()->where('permissions.id', $idPermission)->exists();
+    }
+    
 }
