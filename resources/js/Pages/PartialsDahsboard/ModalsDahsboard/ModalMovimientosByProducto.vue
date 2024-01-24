@@ -4,14 +4,15 @@
  import { useForm, router } from '@inertiajs/vue3'
  import { pickBy } from "lodash";
 
- const emit = defineEmits(["close"])
+ const emit = defineEmits(["close",'reconsultarMovimiento'])
  const props = defineProps({
       show: {
           type: Boolean,
           default: false,
       },
       movimientosByProducto:Object,
-      productoForMovimientos:Object
+      productoForMovimientos:Object,
+      ultimo_corte:Object
   });
 
   const close = () =>
@@ -19,6 +20,97 @@
      emit('close');
   };
 
+  const movimientosTotalesModal = ref([]);
+
+  onUpdated(() => 
+  {
+   movimientosTotalesModal.value = props.movimientosByProducto;
+  }
+  )
+
+  const eliminarMovimiento = async (movimiento) => 
+  {
+   
+    try 
+    {
+      await axios.post(route('eliminarMovimiento', {movimiento:movimiento}))
+       .then(response => 
+       {
+          reconsultar();
+       })
+       .catch (err)
+       {
+         console.log(err)
+       } 
+    } 
+    catch (error) 
+    {
+      
+    }
+    
+  }
+
+  const reconsultar = () => 
+  {
+    try 
+    {
+      axios.get(route('getEntradasByProducto',{producto:props.productoForMovimientos, tipo:'entradas'}))
+       .then(response => 
+       {
+          //console.log(response.data)
+          //movimientosByProducto.value = response.data;
+         // ultimo_corte.value = response.data.ultimo_corte;
+          let salidas = response.data.salidas;
+          let entradas = response.data.entradas;
+          let movimientosTotales = [];
+          for (let index = 0; index < entradas.length; index++) 
+          {
+             const entrada = entradas[index];
+             let newEntradaType = 
+             {
+                 cantidad: entrada.cantidad,
+                 dt:'',
+                 fecha: new Date(entrada.fecha),
+                 fecha_string:entrada.fecha.substring(0,10),
+                 hora:entrada.fecha.substring(11,19),
+                 stage:'',
+                 tipo:'entrada',
+                 categoria_producto_id:entrada.categorias_producto_id,
+                 id:entrada.id
+             }
+             movimientosTotales.push(newEntradaType)
+          }
+      
+          for (let index1 = 0; index1 < salidas.length; index1++) 
+          {
+             const salida = salidas[index1];
+             let newSalidaType = 
+             {
+                cantidad:salida.cantidad,
+                dt:salida.dt,
+                fecha:new Date(salida.created_at),
+                fecha_string:salida.created_at.substring(0,10),
+                hora:salida.created_at.substring(11,19),
+                stage:salida.stage,
+                tipo:'salida',
+                categoria_producto_id: salida.categorias_producto_id,
+                id:salida.id
+             } 
+             movimientosTotales.push(newSalidaType)
+          }
+          
+          movimientosTotalesModal.value = movimientosTotales.sort((a,b) => a.fecha - b.fecha)
+       })
+       .catch(err => 
+       {
+         console.log(err)
+       }) 
+    } 
+    catch (error) 
+    {
+      
+    }
+  }
 
 </script>
 <template>
@@ -46,8 +138,11 @@
                     <td class="py-2 font-semibold text-center text-[#0A0F2C]">Dt</td>
                     <td class="py-2 font-semibold text-center text-[#0A0F2C]">Stage</td>
                 </tr>
-                <tr v-for="(movimiento, key) in movimientosByProducto" :key="key">
+                <tr v-for="(movimiento, key) in movimientosTotalesModal" :key="key">
                    <td class="text-center text-[#0A0F2C]">
+                      <button @click="eliminarMovimiento(movimiento)" v-if="new Date((movimiento.fecha_string + ' ' + movimiento.hora)) > new Date(ultimo_corte.fecha)" class="px-1 py-1 bg-red-400 rounded-lg">
+                         <img class="w-4" src="../../../../assets/img/eliminar.png" />
+                      </button>
                       {{ productoForMovimientos.producto_nombre }}
                    </td>
                    <td class="py-2 text-center">

@@ -253,4 +253,6 @@ Route::middleware([
     Route::post('/newUser',[UserController::class, 'store'])->name('newUser');
     //Ruta para obtener las salidas
     Route::get('/getSalidas',[SalidasController::class, 'index'])->name('getSalidas');
+    //Ruta para eliminar movimientos
+    Route::post('eliminarMovimiento',[ProductoController::class,'eliminarMovimiento'])->name('eliminarMovimiento');
 });

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\categoria;
 use App\Models\categorias_producto;
+use App\Models\corte_diario_historico;
 use App\Models\entrada;
 use App\Models\producto;
 use App\Models\salidas;
@@ -36,7 +37,11 @@ class ProductoController extends Controller
       ->orderBy('created_at','desc')
       ->get();
 
-      return ['entradas' => $entradas, 'salidas' => $salidas];
+      $ultimo_corte = corte_diario_historico::select('corte_diario_historicos.*')
+      ->where('corte_diario_historicos.categorias_producto_id','=',$categoria_producto['id'])
+      ->first();
+
+      return ['entradas' => $entradas, 'salidas' => $salidas, 'ultimo_corte' => $ultimo_corte];
 
      /*
        if($request['tipo'] == 'entradas')
@@ -69,6 +74,23 @@ class ProductoController extends Controller
          }
        }
        */
+    }
+
+    public function eliminarMovimiento (Request $request)
+    {
+       if($request['movimiento']['tipo'] == 'entrada')
+       {
+
+          entrada::where('id','=',$request['movimiento']['id'])
+          ->delete();
+       }
+       else
+       {
+          salidas::where('id','=',$request['movimiento']['id'])
+          ->delete();
+       }
+
+       
     }
 
     /**

@@ -194,6 +194,7 @@ const closeModalDts = () =>
 const modalMovimientosByProducto = ref(false);
 const movimientosByProducto = ref([]);
 const productoForMovimientos = ref({});
+const ultimo_corte = ref(null);
 const openModalMovimientosByProducto = async (producto) => 
 {
   //console.log(producto)
@@ -203,6 +204,7 @@ const openModalMovimientosByProducto = async (producto) =>
   {
      //console.log(response.data)
      //movimientosByProducto.value = response.data;
+     ultimo_corte.value = response.data.ultimo_corte;
      let salidas = response.data.salidas;
      let entradas = response.data.entradas;
      let movimientosTotales = [];
@@ -218,6 +220,8 @@ const openModalMovimientosByProducto = async (producto) =>
             hora:entrada.fecha.substring(11,19),
             stage:'',
             tipo:'entrada',
+            categoria_producto_id:entrada.categorias_producto_id,
+            id:entrada.id
         }
         movimientosTotales.push(newEntradaType)
      }
@@ -233,7 +237,9 @@ const openModalMovimientosByProducto = async (producto) =>
            fecha_string:salida.created_at.substring(0,10),
            hora:salida.created_at.substring(11,19),
            stage:salida.stage,
-           tipo:'salida'
+           tipo:'salida',
+           categoria_producto_id: salida.categorias_producto_id,
+           id:salida.id
         } 
         movimientosTotales.push(newSalidaType)
      }
@@ -304,13 +310,13 @@ const modalGraph = ref(false);
 const salidasForModal = ref([]);
 const openModalGraph = (producto) => 
 {
-  console.log(producto)
+  //console.log(producto)
   //consulta 
   try 
   {
     axios.get(route('getSalidas',{producto})).then(response => 
     {
-       console.log(response.data)
+       //console.log(response.data)
       ///salidasForModal.value = response.data;
       let arraySalidas = [];
       for (let index = 0; index < response.data.length; index++) 
@@ -643,7 +649,7 @@ const closeModalGraph = () =>
         <ModalNewProduct :show="modalNewProduct" @close="closeModalNewProduct()" :categoria="categoria_actual" />
         <ModalStages :show="stageModal" :stages="stages" @close="closeModalStages()" />
         <ModalDts :show="modalDts" @close="closeModalDts()" :dts="dts" />
-        <ModalMovimientosByProducto :show="modalMovimientosByProducto" :movimientosByProducto="movimientosByProducto" :productoForMovimientos="productoForMovimientos" @close="closeModalMvimientosByProducto()" />
+        <ModalMovimientosByProducto :show="modalMovimientosByProducto" :movimientosByProducto="movimientosByProducto" :productoForMovimientos="productoForMovimientos" :ultimo_corte="ultimo_corte" @close="closeModalMvimientosByProducto()" />
         <ModalWatchProducInfo :show="watchInfoProd" :producto="producto_select" @close="closeWatchInfoProd()" />
         <ModalGraph :show="modalGraph" @close="closeModalGraph()" :salidasForModal="salidasForModal"  />
         <!--Fin Modales-->
