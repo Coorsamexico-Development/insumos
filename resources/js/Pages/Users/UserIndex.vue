@@ -120,8 +120,8 @@ const closeEditUser = () =>
                  </tbody>
                </table>
             </div>
-            <h1 class="text-xl font-semibold text-center">Roles y permisos</h1>
             <div class="grid col-start-5 col-end-7 grid-rows-2 row-start-1 row-end-7 p-6 bg-white rounded-lg shadow-xl" >
+                
                 <div class="py-4 my-2 rounded-lg shadow">
                     <div class="flex flex-row justify-center">
                         <h1 class="font-semibold text-center">Roles</h1>
