@@ -25,7 +25,7 @@ const selectFila = (fila) =>
                     <th class="font-semibold">Activo</th>
                 </tr>
             </thead>
-            <tbody class="">
+            <tbody class="" style="overflow-y:scroll; height:10px;">
                   <tr v-for="rol in roles" :key="rol.id" @click="selectFila(rol)" :class="{'bg-[#9B9B9B] text-white':(rol.id==filaActual)}" >
                       <td class="py-2 text-center">{{ rol.nombre }}</td>
                       <td class="py-2 text-center">

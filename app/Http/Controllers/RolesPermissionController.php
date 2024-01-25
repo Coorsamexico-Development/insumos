@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\role;
 use App\Models\rolesPermission;
 use Illuminate\Http\Request;
 
@@ -29,6 +30,23 @@ class RolesPermissionController extends Controller
     public function store(Request $request)
     {
         //
+    }
+
+    public function setPermission (Request $request)
+    {
+        $role = role::select('roles.*')
+        ->where('id','=',$request['rol'])
+        ->first();
+
+        if ($request['checked']) 
+        {
+            $role->permissions()->attach([$request['permission']]);
+        } else {
+            $role->permissions()->detach([$request['permission']]);
+        }
+        return response()->json([
+            'message' => 'ok'
+        ]);
     }
 
     /**

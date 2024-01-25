@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\permission;
+use App\Models\rolesPermission;
 use Illuminate\Http\Request;
 
 class PermissionController extends Controller
@@ -29,6 +30,21 @@ class PermissionController extends Controller
     public function store(Request $request)
     {
         //
+        permission::updateOrCreate([
+            'nombre' => $request['nombre'],
+            'is_acceso' => 0
+         ]);
+    }
+
+    public function getPermisosByRol (Request $request)
+    {
+        $permissions = rolesPermission::select('roles_permissions.permission_id')
+        ->where('roles_permissions.role_id','=',$request['rol'])
+        ->get();
+        
+        return response()->json([
+          'permissonId' => $permissions->pluck('permission_id')
+      ]);
     }
 
     /**

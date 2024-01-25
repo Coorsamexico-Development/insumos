@@ -3,7 +3,9 @@
 use App\Http\Controllers\CategoriasProductoController;
 use App\Http\Controllers\DtController;
 use App\Http\Controllers\EntradaController;
+use App\Http\Controllers\PermissionController;
 use App\Http\Controllers\ProductoController;
+use App\Http\Controllers\RoleController;
 use App\Http\Controllers\RolesPermissionController;
 use App\Http\Controllers\SalidasController;
 use App\Http\Controllers\StageController;
@@ -14,6 +16,7 @@ use App\Models\corte_diario_historico;
 use App\Models\entrada;
 use App\Models\producto;
 use App\Models\salidas;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\DB;
@@ -257,4 +260,14 @@ Route::middleware([
     Route::post('/eliminarMovimiento',[ProductoController::class,'eliminarMovimiento'])->name('eliminarMovimiento');
     //Ruta para descargar facutura por entrada
     Route::get('/downloadFactura',[EntradaController::class,'downloadFactura'])->name('downloadFactura');
+    //Ruta para guardar roles
+    Route::post('/saveRole',[RoleController::class, 'store'])->name('saveRole');
+    //Ruta para guardar permisos
+    Route::post('/savePermission', [PermissionController::class, 'store'])->name('savePermission');
+    //Ruta para guardado de los roles y permisos
+    Route::get('role/permissions', [RolesPermissionController::class, 'setPermission'])->name('roles.permissions');
+    //Ruta para obtener los permisos
+    Route::get('/getPermisosByRol',[PermissionController::class, 'getPermisosByRol'])->name('getPermisosByRol');
+    //Edicion de usuario
+    Route::get('/editUser',[UserController::class, 'update'])->name('editUser');
 });
