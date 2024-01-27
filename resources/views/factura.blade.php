@@ -70,7 +70,7 @@
              </thead>
              <tbody>
                  <tr style=" text-align: center;">
-                    <td id="td" style="font-size:1rem;padding-bottom:0.2rem;padding-top:0.2rem; text-aling:center;">{{$entrada['producto']}}</td>
+                    <td id="td" style="font-size:1rem;padding-bottom:0.2rem;padding-top:0.2rem; text-aling:center; text-transform:uppercase">{{$entrada['producto']}}</td>
                     <td id="td" style="font-size:1rem;padding-bottom:0.2rem;padding-top:0.2rem;text-aling:center;">{{$entrada['cantidad']}}</td>
                  </tr>
              </tbody>

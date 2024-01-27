@@ -152,7 +152,7 @@
                            </button>
                          </div>
                          <div>
-                           <p class="ml-2">
+                           <p class="ml-2 uppercase">
                              {{ productoForMovimientos.producto_nombre }}
                            </p>
                          </div>
