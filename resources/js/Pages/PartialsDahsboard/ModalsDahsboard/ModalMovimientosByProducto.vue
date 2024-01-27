@@ -146,7 +146,7 @@
                 <tr v-for="(movimiento, key) in movimientosByProducto" :key="key">
                    <td class="text-center text-[#0A0F2C]">
                      <div class="flex flex-row justify-between">
-                         <div v-if="$page.props.auth.user.cans['can-delete-mov']">
+                         <div v-if="$page.props.auth.user.cans['can-delete-mov'] && ultimo_corte !== null">
                            <button @click="eliminarMovimiento(movimiento)" v-if="new Date((movimiento.fecha_string + ' ' + movimiento.hora)) > new Date(ultimo_corte.fecha)" class="px-1 py-1 bg-red-400 rounded-lg">
                             <img class="w-4" src="../../../../assets/img/eliminar.png" />
                            </button>
