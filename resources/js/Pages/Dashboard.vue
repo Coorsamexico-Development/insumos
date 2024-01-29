@@ -271,9 +271,9 @@ const newProductos = computed(() =>
   {
     let nuevosProductos = props.productos;
 
-    for (let index = 0; index < nuevosProductos.data.length; index++) 
+    for (let index = 0; index < nuevosProductos.length; index++) 
     {
-      const productos = nuevosProductos.data[index];
+      const productos = nuevosProductos[index];
       let newData = [];
       let totalEntradas = 0;
       let totalSalidas = 0;
@@ -472,7 +472,8 @@ const closeModalGraph = () =>
                                           </button>
                                       </div>
                                   </div>
-                                  <table class="w-full">
+                                  <div class="snap-y ">
+                                    <table class="w-full">
                                      <thead class="border-b">
                                        <td class="flex flex-row py-4">
                                           <p class="mr-2 font-semibold">
@@ -491,7 +492,7 @@ const closeModalGraph = () =>
                                        </td>
                                      </thead> 
                                      <tbody>
-                                       <tr v-for="producto in newProductos.data" :key="producto.id" >
+                                       <tr v-for="producto in newProductos" :key="producto.id" >
                                           <td class="py-2 text-[#121A3C]">
                                             <div class="flex flex-row justify-between">
                                               <div class="flex flex-row items-center" :class="((producto.totalEntradas+producto.corte_diario.cantidad_inicial) - producto.totalSalidas) < producto.stock_minimo ? 'text-red-500' : 'bg-white'">
@@ -539,7 +540,8 @@ const closeModalGraph = () =>
                                           </td>
                                        </tr>
                                      </tbody>
-                                  </table>
+                                    </table>
+                                  </div>
                                 </div>
                             </div>
                         </label>
@@ -591,7 +593,7 @@ const closeModalGraph = () =>
                                          <td></td>
                                        </thead>
                                      <tbody>
-                                      <tr v-for="producto in newProductos.data" :key="producto.id">
+                                      <tr v-for="producto in newProductos" :key="producto.id">
                                         <td class="py-2 text-[#121A3C]">
                                             <div class="flex flex-row justify-between">
                                               <div class="flex flex-row items-center" :class="((producto.totalEntradas+producto.corte_diario.cantidad_inicial) - producto.totalSalidas) < producto.stock_minimo ? 'text-red-500' : 'bg-white'">
@@ -602,7 +604,7 @@ const closeModalGraph = () =>
                                                     <path d="M17 19V6" stroke="white" stroke-width="4" stroke-linecap="round"/>
                                                   </svg>
                                                 </button>
-                                                <p class="mr-4"> {{ producto.producto_nombre }}</p>
+                                                <p class="mr-4 uppercase"> {{ producto.producto_nombre }}</p>
                                                 <img v-if="((producto.totalEntradas+producto.corte_diario.cantidad_inicial) - producto.totalSalidas) < producto.stock_minimo " class="w-4 h-4" src="../../assets/img/advertencia.svg" />
                                               </div>
                                                <button @click="openWatchInfoProd(producto)" class="bg-[#C3C4CE] rounded-full pb-2 px-1 ">

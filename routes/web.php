@@ -224,7 +224,7 @@ Route::middleware([
         return Inertia::render('Dashboard',
         [
             'categorias' => $categorias_productos,
-            'productos' => fn() => $productos->paginate(10)
+            'productos' => fn() => $productos->get()
         ]);
     })->name('dashboard');
 
