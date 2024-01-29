@@ -78,6 +78,7 @@ Route::middleware([
         $newFechaActual = $añoActual.'-'.$mesActual;
         $ultimo_corte_mensual = corte_diario_historico::select('corte_diario_historicos.*')
         ->where('corte_diario_historicos.fecha','LIKE','%'.$newFechaActual.'%')
+        ->where('activo','=',1)
         ->orderBy('corte_diario_historicos.id', 'ASC')
         ->first();
 
