@@ -76,7 +76,7 @@ Route::middleware([
           $diaActual = '0'.$diaActual;
         } 
         $newFechaActual = $añoActual.'-'.$mesActual;
-        $ultimo_corte_mensual = corte_diario_historico::select('corte_diario_historicos.*')
+         $ultimo_corte_mensual = corte_diario_historico::select('corte_diario_historicos.*')
         ->where('corte_diario_historicos.fecha','LIKE','%'.$newFechaActual.'%')
         ->where('activo','=',1)
         ->orderBy('corte_diario_historicos.id', 'ASC')
@@ -95,8 +95,8 @@ Route::middleware([
                 {
                     $query->select(
                         'entradas.*'
-                      )
-                      ->where('entradas.fecha','>=',$ultimo_corte['fecha']);
+                    )
+                      ->where('entradas.fecha','>=', $ultimo_corte['fecha']);
                       //->whereTime('entradas.fecha','>',$ultimo_corte['fecha']);
                 }
                 else
@@ -130,8 +130,8 @@ Route::middleware([
                     $query->select(
                         'corte_diario_historicos.*'
                         )
-                        ->where('corte_diario_historicos.activo','=',1)
-                        ->where('corte_diario_historicos.fecha','>=',$ultimo_corte['fecha']);
+                        ->where('corte_diario_historicos.activo','=',1);
+                        //->where('corte_diario_historicos.fecha','LIKE','%'.$ultimo_corte['fecha'].'%');
                 }
                 else
                 {
@@ -196,7 +196,8 @@ Route::middleware([
                             $query->select(
                                 'corte_diario_historicos.*'
                                 )
-                                ->where('corte_diario_historicos.fecha','like','%'.$ultimo_corte_mensual['fecha'].'%')
+                                ->where('corte_diario_historicos.activo','=',1)
+                                //->where('corte_diario_historicos.fecha','like','%'.$ultimo_corte_mensual['fecha'].'%')
                                 ->first();
                         }
                         else
@@ -204,6 +205,7 @@ Route::middleware([
                             $query->select(
                                 'corte_diario_historicos.*'
                                 )
+                                ->where('corte_diario_historicos.activo','=',1)
                                 ->first();
                         }
                     },
