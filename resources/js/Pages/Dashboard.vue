@@ -472,7 +472,7 @@ const closeModalGraph = () =>
                                           </button>
                                       </div>
                                   </div>
-                                  <div class="h-16 " style="width:100%; height:40rem; overflow:auto;" >
+                                  <div class="h-16 " style="width:100%; height:35rem; overflow:auto;" >
                                     <table class="w-full">
                                      <thead class="border-b">
                                        <td class="flex flex-row py-4">
@@ -576,7 +576,7 @@ const closeModalGraph = () =>
                                           </button>
                                       </div>
                                     </div>
-                                    <div style="width:100%; height:40rem; overflow:auto;">
+                                    <div style="width:100%; height:35rem; overflow:auto;">
                                         <table class="w-full"   >
                                      <thead class="border-b">
                                         <td class="flex flex-row py-4">
