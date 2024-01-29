@@ -60,6 +60,7 @@ Route::middleware([
         ->orderBy('corte_diario_historicos.id', 'DESC')
         ->first();
 
+
         //mensual
         date_default_timezone_set('America/Mexico_City');
         $fechaactual = getdate();

@@ -32,8 +32,8 @@ class ProductoController extends Controller
 
       $salidas = salidas::select('salidas.*', 'dts.referencia as dt' , 'stages.nombre as stage')
       ->where('categorias_producto_id','=', $categoria_producto['id'])
-      ->join('dts','salidas.dt_id','dts.id')
-      ->join('stages', 'dts.stage_id','stages.id')
+      ->leftjoin('dts','salidas.dt_id','dts.id')
+      ->leftjoin('stages', 'dts.stage_id','stages.id')
       ->orderBy('created_at','desc')
       ->get();
 
