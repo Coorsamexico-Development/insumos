@@ -49,7 +49,7 @@ class DtController extends Controller
         )
         ->join('clientes', 'dts.cliente_id', 'clientes.id')
         ->leftjoin('stages', 'dts.stage_id', 'stages.id')
-        ->join('categorias_stages', 'stages.categoria_stage_id', 'categorias_stages.id')
+        ->leftjoin('categorias_stages', 'stages.categoria_stage_id', 'categorias_stages.id')
         ->join('destinos', 'dts.destino_id', 'destinos.id')
         ->where('dts.referencia','=',$request['dt'])
         ->first();
