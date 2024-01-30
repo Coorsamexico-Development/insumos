@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Exports\MovimientosExport;
 use App\Models\categoria;
 use Illuminate\Http\Request;
+use Maatwebsite\Excel\Facades\Excel;
 
 class CategoriaController extends Controller
 {
@@ -61,5 +63,10 @@ class CategoriaController extends Controller
     public function destroy(categoria $categoria)
     {
         //
+    }
+
+    public function movimientosExport (Request $request)
+    {
+        return Excel::download(new MovimientosExport($request['categoria']), 'reporte.xlsx');
     }
 }

@@ -419,6 +419,9 @@ const closeModalGraph = () =>
                     </svg>
                     <p class="text-[#2684D0] hover:text-[#344182] text-sm">DT'S</p>
                  </button>
+                 <a :href="route('movimientosExport', {categoria:categoria_actual})" class="flex flex-row items-center justify-between px-4 mx-1 border rounded-full shadow-lg text-[#2684D0] hover:text-[#344182] text-sm">
+                   Descargar reporte
+                 </a>
                  <div class="flex flex-row items-center mx-4">
                     <div>
                         <ButtonUploadBolo v-model="bolo"  />
@@ -456,7 +459,7 @@ const closeModalGraph = () =>
                                 <div class="description">
                                   <div class="flex flex-row justify-between mb-6">
                                     <div>
-                                         <h1 class="text-xl font-semibold">Inventario Diario</h1>
+                                      <h1 class="text-xl font-semibold">Inventario Diario</h1>
                                        <div class="mt-2">
                                          <a :href="route('pdfCodes',categoriaDownload)" class="text-sm text-white bg-[#2684D0] px-2 py-1 rounded-full">
                                            Descargar codigos

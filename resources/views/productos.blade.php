@@ -31,7 +31,7 @@
             <tbody>
               @foreach ($productos as $producto ) 
               <tr >
-                  <td><p style="font-size:1rem;padding-bottom:1rem;">{{$producto['nombre']}}</p></td>
+                  <td><p style="font-size:1rem;padding-bottom:1rem;text-transform:uppercase;">{{$producto['nombre']}}</p></td>
                   <td style="padding-bottom:1rem;">
                     <div style="width:6rem">
                       <?php 
