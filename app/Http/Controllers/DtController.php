@@ -55,6 +55,13 @@ class DtController extends Controller
         ->first();
     }
 
+
+    public function verDts ()
+    {
+       return dt::select('dts.*')
+       ->get();
+    }
+
     /**
      * Show the form for creating a new resource.
      */

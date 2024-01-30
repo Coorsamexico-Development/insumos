@@ -274,4 +274,6 @@ Route::middleware([
     Route::get('/getPermisosByRol',[PermissionController::class, 'getPermisosByRol'])->name('getPermisosByRol');
     //Edicion de usuario
     Route::get('/editUser',[UserController::class, 'update'])->name('editUser');
+    //Obtener dts
+    Route::get('/dts',[DtController::class,'verDts'])->name('verDts');
 });

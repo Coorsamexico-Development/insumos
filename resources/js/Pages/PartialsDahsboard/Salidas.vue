@@ -6,6 +6,7 @@ import { useForm } from '@inertiajs/vue3'
 import VueTimepicker from 'vue3-timepicker'
 // CS
 import 'vue3-timepicker/dist/VueTimepicker.css'
+import axios from 'axios';
 
 var props = defineProps({
     categorias:Object,
@@ -88,6 +89,19 @@ const guardarNuevaSalida =  () =>
    }
 }
 
+const listDts = ref([]);
+const consultarDts = () => 
+{
+   axios.get(route('verDts')).then(response => 
+   {
+     listDts.value = response.data
+   })
+   .catch(err => 
+   {
+
+   });
+}
+
 </script>
 <template>
     <div class="p-4 bg-white border rounded-lg shadow-lg">
@@ -112,7 +126,12 @@ const guardarNuevaSalida =  () =>
            </div>
            <div class="flex flex-col mr-4" v-if="categoria_actual == 1">
               <label class="py-2" htmlFor="dt" >DT</label>
-              <input id="dt"  v-model="formNewSalida.dt" type="text" placeholder="DT" class="w-full px-3 py-2 leading-tight text-gray-700 rounded shadow appearance-none border-none bg-[#F6F6F9]" />
+              <input @focus="consultarDts()" id="dt" list="lisDts"  v-model="formNewSalida.dt" type="text" placeholder="DT" class="w-full px-3 py-2 leading-tight text-gray-700 rounded shadow appearance-none border-none bg-[#F6F6F9]">
+              <datalist id="lisDts">
+                <option v-for="dt in listDts" :key="dt.id" :value="dt.referencia" >
+                    {{ dt.referencia }}
+                </option>
+              </datalist>
            </div>
            <div class="flex flex-col" v-if="categoria_actual == 1">
               <label class="py-2" htmlFor="stage">Stage</label>
