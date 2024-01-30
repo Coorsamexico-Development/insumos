@@ -73,6 +73,10 @@ const guardarNuevaEntrada = async () =>
                formNewEntrada.reset();
                close();
             },
+        onError: () => 
+        {
+            formNewEntrada.errors.categoria = 'No se pudo generar el registro, verifique la información'
+        },
         preserveScroll:true,
         preserveState:true
       });
@@ -96,7 +100,6 @@ const guardarNuevaEntrada = async () =>
            </div>
         </div>
         <div>
-            {{ formNewEntrada.errors }}
             <form  class="grid grid-cols-2 grid-rows-2 my-4">
                 <div class="flex flex-col mr-4">
                   <label class="py-2" htmlFor="codigo">Productos</label>
@@ -119,6 +122,9 @@ const guardarNuevaEntrada = async () =>
                   <input required v-model="formNewEntrada.factura" id="factura" type="text" placeholder="Factura" class="w-full px-3 py-2 leading-tight text-gray-700 rounded shadow appearance-none border-none bg-[#F6F6F9]" />
                 </div>
             </form>
+            <div class="font-semibold text-center text-red-500" v-if="formNewEntrada.errors.categoria">
+                {{ formNewEntrada.errors.categoria }}
+            </div>
             <div class="flex flex-row justify-center col-start-1 col-end-3 mt-2">
                  <button @click="guardarNuevaEntrada()" class="bg-[#2684D0] px-10 py-1 rounded-full">
                      <p class="text-white">Guardar</p>
