@@ -96,6 +96,7 @@ const guardarNuevaEntrada = async () =>
            </div>
         </div>
         <div>
+            {{ formNewEntrada.errors }}
             <form  class="grid grid-cols-2 grid-rows-2 my-4">
                 <div class="flex flex-col mr-4">
                   <label class="py-2" htmlFor="codigo">Productos</label>

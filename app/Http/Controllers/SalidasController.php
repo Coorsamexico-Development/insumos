@@ -8,6 +8,8 @@ use App\Models\producto;
 use App\Models\salidas;
 use Illuminate\Http\Request;
 
+use function Laravel\Prompts\error;
+
 class SalidasController extends Controller
 {
     /**
@@ -61,46 +63,53 @@ class SalidasController extends Controller
         ->where('dts.referencia','LIKE','%'.$request['dt'].'%')
         ->first();
 
-        if($dt !== null) //si encontramos el dt pasamos a crear
+        try 
         {
-            //Buscamos el producto
-            $producto =  producto::select('productos.*')
-            ->where('productos.codigo','=',$request['codigo'])
-            ->first();
-            //
-            if($producto !== null)
+            if($dt !== null) //si encontramos el dt pasamos a crear
             {
-                $categoria_producto = categorias_producto::select('categorias_productos.*')
-                //->where('categorias_productos.categoria_id','=',$request['categoria'])
-                ->where('categorias_productos.producto_id','=',$producto['id'])
+                //Buscamos el producto
+                $producto =  producto::select('productos.*')
+                ->where('productos.codigo','=',$request['codigo'])
                 ->first();
-
-                salidas::create([
-                    'categorias_producto_id' => $categoria_producto['id'],
-                    'dt_id' => $dt['id'],
-                    'cantidad' => $request['cantidad']
-                ]);
+                //
+                if($producto !== null)
+                {
+                    $categoria_producto = categorias_producto::select('categorias_productos.*')
+                    //->where('categorias_productos.categoria_id','=',$request['categoria'])
+                    ->where('categorias_productos.producto_id','=',$producto['id'])
+                    ->first();
+    
+                    salidas::create([
+                        'categorias_producto_id' => $categoria_producto['id'],
+                        'dt_id' => $dt['id'],
+                        'cantidad' => $request['cantidad']
+                    ]);
+                }
             }
-        }
-        else//sino no se crea asociado a ningun dt
-        {
-           //Buscamos el producto
-           $producto =  producto::select('productos.*')
-           ->where('productos.codigo','=',$request['codigo'])
-           ->first();
-           //
-           if($producto !== null)
-           {
-               $categoria_producto = categorias_producto::select('categorias_productos.*')
-               //->where('categorias_productos.categoria_id','=',$request['categoria'])
-               ->where('categorias_productos.producto_id','=',$producto['id'])
+            else//sino no se crea asociado a ningun dt
+            {
+               //Buscamos el producto
+               $producto =  producto::select('productos.*')
+               ->where('productos.codigo','=',$request['codigo'])
                ->first();
-         
-               salidas::create([
-                   'categorias_producto_id' => $categoria_producto['id'],
-                   'cantidad' => $request['cantidad']
-               ]);
-           }
+               //
+               if($producto !== null)
+               {
+                   $categoria_producto = categorias_producto::select('categorias_productos.*')
+                   //->where('categorias_productos.categoria_id','=',$request['categoria'])
+                   ->where('categorias_productos.producto_id','=',$producto['id'])
+                   ->first();
+             
+                   salidas::create([
+                       'categorias_producto_id' => $categoria_producto['id'],
+                       'cantidad' => $request['cantidad']
+                   ]);
+               }
+            }
+        } catch (\Throwable $th) 
+        {
+            //throw $th;
+          error('holas');
         }
     }
 

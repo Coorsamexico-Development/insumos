@@ -7,6 +7,9 @@ use App\Models\entrada;
 use App\Models\producto;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\App;
+use Illuminate\Validation\ValidationException;
+
+use function Laravel\Prompts\error;
 
 class EntradaController extends Controller
 {
@@ -39,17 +42,6 @@ class EntradaController extends Controller
             'cantidad' => 'required'
         ]);
 
-
-        // Primero buscamos el categoria_producto
-        $producto = producto::select('productos.*')
-        ->where('productos.codigo','=',$request['codigo'])
-        ->first();
-        //return $producto;
-
-        $categoria_producto = categorias_producto::select('categorias_productos.*')
-        ->where('categorias_productos.producto_id','=',$producto['id'])
-        ->first();
-
         /*
         $categoria_producto =  categorias_producto::select('categorias_productos.*')
         ->where('categorias_productos.categoria_id','=',$request['categoria'])
@@ -57,13 +49,39 @@ class EntradaController extends Controller
         ->first();
         */
 
-        //Creamos la nueva entrada de ese categoria producto
-        entrada::create([
-            'categorias_producto_id' => $categoria_producto['id'],
-            'fecha' => $request['fecha'],
-            'cantidad' => $request['cantidad'],
-            'factura' => $request['factura']
-        ]);
+        try 
+        {
+            // Primero buscamos el categoria_producto
+            $producto = producto::select('productos.*')
+            ->where('productos.codigo','=',$request['codigo'])
+            ->first();
+            //return $producto;
+
+            $categoria_producto = categorias_producto::select('categorias_productos.*')
+            ->where('categorias_productos.producto_id','=',$producto['id'])
+            ->first();
+            //Creamos la nueva entrada de ese categoria producto
+            entrada::create([
+                'categorias_producto_id' => $categoria_producto['id'],
+                'fecha' => $request['fecha'],
+                'cantidad' => $request['cantidad'],
+                'factura' => $request['factura']
+            ]);
+        } 
+        catch (\Throwable $th)
+        {
+            //throw $th;
+
+            error('holas');
+            /*
+            return response()->json([
+                'success' => false,
+                'data' => [
+                    'dasdsa'
+                ]
+            ]);
+            */
+        }
     }
 
     public function downloadFactura (Request $request)

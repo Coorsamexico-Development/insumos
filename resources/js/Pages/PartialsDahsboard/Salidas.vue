@@ -43,6 +43,7 @@ watch(formNewSalida, (newForm) =>
     .catch(err => 
     {
       console.log(err.response)
+      console.log('hay error')
     })
   }
   else
@@ -115,6 +116,7 @@ const consultarDts = () =>
                
            </div>
         </div>
+        
         <form class="grid grid-cols-2 my-4">
            <div class="flex flex-col mr-4">
               <label class="py-2" htmlFor="codigo">Productos</label>
