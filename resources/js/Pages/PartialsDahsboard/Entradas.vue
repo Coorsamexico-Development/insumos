@@ -75,6 +75,7 @@ const guardarNuevaEntrada = async () =>
             },
         onError: () => 
         {
+            console.log('hay errores')
             formNewEntrada.errors.categoria = 'No se pudo generar el registro, verifique la información'
         },
         preserveScroll:true,
@@ -122,7 +123,7 @@ const guardarNuevaEntrada = async () =>
                   <input required v-model="formNewEntrada.factura" id="factura" type="text" placeholder="Factura" class="w-full px-3 py-2 leading-tight text-gray-700 rounded shadow appearance-none border-none bg-[#F6F6F9]" />
                 </div>
             </form>
-            <div class="font-semibold text-center text-red-500" v-if="formNewEntrada.errors.categoria">
+            <div class="font-semibold text-center text-red-500" >
                 {{ formNewEntrada.errors.categoria }}
             </div>
             <div class="flex flex-row justify-center col-start-1 col-end-3 mt-2">

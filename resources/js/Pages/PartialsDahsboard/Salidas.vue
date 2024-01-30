@@ -74,6 +74,12 @@ const guardarNuevaSalida =  () =>
                formNewSalida.reset();
                close();
             },
+         onError: () => 
+         {
+            console.log('hay errores')
+            console.log(formNewSalida.errors)
+            formNewSalida.errors.categoria = 'No se pudo generar el registro, verifique la información';
+         },
          preserveScroll:true,
          preserveState:true
        }
@@ -152,6 +158,9 @@ const consultarDts = () =>
               <input v-model="formNewSalida.destino" disabled id="destino" type="text" placeholder="Destino" class="w-full px-3 py-2 leading-tight text-gray-700 rounded shadow appearance-none border-none bg-[#F6F6F9]" />
            </div>
          </form>
+         <div class="font-semibold text-center text-red-500" >
+                {{ formNewSalida.errors.categoria }}
+         </div>
          <div class="flex flex-row justify-center col-start-1 col-end-3 mt-2">
                <button @click="guardarNuevaSalida()" class="bg-[#2684D0] px-10 py-1 rounded-full">
                    <p class="text-white">Guardar</p>
