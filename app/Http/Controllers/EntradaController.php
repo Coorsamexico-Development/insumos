@@ -33,7 +33,7 @@ class EntradaController extends Controller
     {
         request()->validate([
             'codigo' => 'required',
-            'categoria' => 'required',
+            //'categoria' => 'required',
             'fecha' => 'required',
             'hora' => 'required',
             'cantidad' => 'required'
@@ -45,10 +45,16 @@ class EntradaController extends Controller
         ->where('productos.codigo','=',$request['codigo'])
         ->first();
 
+        $categoria_producto = categorias_producto::select('categorias_productos.*')
+        ->where('categorias_productos.producto_id','=',$producto['id'])
+        ->first();
+
+        /*
         $categoria_producto =  categorias_producto::select('categorias_productos.*')
         ->where('categorias_productos.categoria_id','=',$request['categoria'])
         ->where('categorias_productos.producto_id','=',$producto['id'])
         ->first();
+        */
 
         //Creamos la nueva entrada de ese categoria producto
         entrada::create([

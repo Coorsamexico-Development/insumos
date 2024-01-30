@@ -88,9 +88,11 @@ const guardarNuevaEntrada = async () =>
         <div class="flex flex-row justify-between"> <!--header-->
             <h1 class="font-semibold uppercase">Entrada</h1>
             <div>
+                <!--
                 <button @click="cambiarCategoria(categoria)" :class="[ categoria_actual == categoria.id ? 'px-4 mx-2 border rounded-xl bg-[#344182]' : 'px-4 mx-2 border rounded-xl']" v-for="categoria in categorias" :key="categoria.id">
                     <p :class="[categoria_actual == categoria.id ? 'text-white' : 'text-[#C3C4CE] hover:text-[#344182]']">{{categoria.nombre}}</p>
                 </button>
+                -->
            </div>
         </div>
         <div>
