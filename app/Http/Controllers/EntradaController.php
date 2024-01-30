@@ -44,6 +44,7 @@ class EntradaController extends Controller
         $producto = producto::select('productos.*')
         ->where('productos.codigo','=',$request['codigo'])
         ->first();
+        //return $producto;
 
         $categoria_producto = categorias_producto::select('categorias_productos.*')
         ->where('categorias_productos.producto_id','=',$producto['id'])
