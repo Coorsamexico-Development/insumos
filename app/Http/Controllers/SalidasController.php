@@ -57,6 +57,11 @@ class SalidasController extends Controller
      */
     public function store(Request $request)
     {
+        $request->validate([
+            'dt' =>  ['required'],
+            'codigo' => ['required'],
+            "cantidad" => ['required']
+        ]);
         //
         //Primero buscamos el dt en dado caso de meterlo incompletop
         $dt = dt::select('dts.*')
