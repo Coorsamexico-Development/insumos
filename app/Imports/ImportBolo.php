@@ -19,7 +19,7 @@ class ImportBolo implements ToModel, WithHeadingRow, SkipsEmptyRows
     */
     public function model(array $row)
     {
-        // dd($row);
+        //return dd($row);
         //Validamos que las columnas no esten vaxias
         if($row[6] !== null &&  $row[7] !== null /*&& $row['stage'] !== null*/ )
         {
@@ -107,10 +107,12 @@ class ImportBolo implements ToModel, WithHeadingRow, SkipsEmptyRows
         }
     }
 
+    
     public function headingRow(): int
     {
-        return 5;
+        return 0;
     }
+    
 
     
     public function rules(): array
