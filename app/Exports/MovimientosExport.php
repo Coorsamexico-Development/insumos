@@ -41,15 +41,19 @@ class MovimientosExport implements FromCollection, WithHeadings
             ->orderBy('entradas.created_at', 'DESC')
             ->get();
      
-            $salidas = salidas::select('productos.nombre','salidas.cantidad','salidas.created_at')
+            $salidas = salidas::select('productos.nombre','salidas.cantidad','salidas.created_at','dts.referencia','stages.nombre as stage')
             ->join('categorias_productos','salidas.categorias_producto_id','categorias_productos.id')
             ->join('productos','categorias_productos.producto_id','productos.id')
+            ->leftJoin('dts','salidas.dt_id','dts.id')
+            ->leftJoin('stages','dts.stage_id','stages.id')
             ->where('salidas.categorias_producto_id','=',$categoria_producto['id'])
             ->orderBy('salidas.created_at','DESC')
             ->get();
 
             for ($x=0; $x < count($entradas) ; $x++) 
             { 
+                $entradas[$x]->dt = '-';
+                $entradas[$x]->stage = '-';
                 $entradas[$x]->tipo ='entrada';
                array_push($movimientos, $entradas[$x]);
             }
@@ -79,6 +83,8 @@ class MovimientosExport implements FromCollection, WithHeadings
           "Producto",
           "Cantidad",
           "Fecha",
+          "DT",
+          "Stage",
           "Tipo de movimiento",
         ];
     }
