@@ -25,7 +25,8 @@ class DtController extends Controller
         ->join('clientes', 'dts.cliente_id', 'clientes.id')
         ->leftJoin('stages', 'dts.stage_id', 'stages.id')
         ->leftJoin('categorias_stages', 'stages.categoria_stage_id', 'categorias_stages.id')
-        ->join('destinos', 'dts.destino_id', 'destinos.id');
+        ->join('destinos', 'dts.destino_id', 'destinos.id')
+        ->where('dts.activo','=',1);
 
         if($request->has('params'))
         {
