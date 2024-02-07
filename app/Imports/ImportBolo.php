@@ -62,7 +62,7 @@ class ImportBolo implements ToModel, WithHeadingRow, SkipsEmptyRows
 
               if($stage == null) //sino existe lo creamos el stage
               { 
-                 $stage = stage::updateOrCreate([
+                 $stage = stage::create([
                    'nombre' => $row['stage'],
                    'categoria_stage_id' => 1
                   ]);
@@ -70,14 +70,15 @@ class ImportBolo implements ToModel, WithHeadingRow, SkipsEmptyRows
                   dt::where('stage_id','=',$stage['id'])
                   ->update(['activo' => 0]);
 
-                  dt::updateOrCreate(
+                  dt::create(
                   [
                      'referencia' => $row['load'],
                   ],
                   [
                   'cliente_id' => $cliente['id'],
                   'stage_id' => $stage['id'],
-                  'destino_id' => $destino['id']
+                  'destino_id' => $destino['id'],
+                  'activo' => 1
                  ]);
               }
               else
@@ -85,14 +86,15 @@ class ImportBolo implements ToModel, WithHeadingRow, SkipsEmptyRows
                 dt::where('stage_id','=',$stage['id'])
                 ->update(['activo'=> 0]);
                // dd($cliente['id'].'-' .$stage['id']);
-                dt::updateOrCreate(
+                dt::UpdateOrCreate(
                  [
                   'referencia' => $row['load']
                  ],
                 [
                    'cliente_id' => $cliente['id'],
                    'stage_id' => $stage['id'],
-                   'destino_id' => $destino['id']
+                   'destino_id' => $destino['id'],
+                   'activo' => 1
                 ]);
               }
             }
@@ -104,7 +106,8 @@ class ImportBolo implements ToModel, WithHeadingRow, SkipsEmptyRows
                ],
                [
                 'cliente_id' => $cliente['id'],
-                'destino_id' => $destino['id']
+                'destino_id' => $destino['id'],
+                'activo' => 1
                ]);
 
             }
