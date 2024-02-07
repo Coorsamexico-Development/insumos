@@ -190,7 +190,7 @@ const consultarStages = () =>
               <label class="py-2" htmlFor="stage">Stage</label>
               <input required @focus="consultarStages()" id="stage" list="listStages"  v-model="formNewSalida.stage" type="text" placeholder="Stage" class="w-full px-3 py-2 leading-tight text-gray-700 rounded shadow appearance-none border-none bg-[#F6F6F9]">
               <datalist id="listStages">
-                <option v-for="stage in listStages" :key="stage.id" :value="stage.nombre" >
+                <option v-for="stage in listStages.data" :key="stage.id" :value="stage.nombre" >
                     {{ stage.nombre }}
                 </option>
               </datalist>

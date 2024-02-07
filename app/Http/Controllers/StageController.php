@@ -54,6 +54,7 @@ class StageController extends Controller
        ->join('destinos', 'dts.destino_id', 'destinos.id')
        ->where('dts.stage_id','=',$stage['id'])
        ->where('dts.activo','=',1)
+       ->orderBy('dts.created_at','DESC')
        ->first();
     }
 
