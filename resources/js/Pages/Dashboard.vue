@@ -92,7 +92,7 @@ const consultarStages = () =>
      axios.get(route('getStages'))
     .then(response => 
     {
-       //console.log(response.data)
+       console.log(response.data)
        stages.value = response.data;
        stageModal.value = true;
     })

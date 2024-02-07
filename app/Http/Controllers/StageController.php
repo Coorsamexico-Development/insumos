@@ -30,7 +30,7 @@ class StageController extends Controller
     public function getStages (Request $request)
     {
       return stage::select('stages.*')
-      ->get();
+      ->paginate(10);
     }
 
     public function consultarInfoByStage (Request $request)
