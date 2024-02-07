@@ -21,8 +21,8 @@ class ProductoController extends Controller
       //Tomar entrasdas o salidas del procuto
       //buscamos las entradas del producto
       $categoria_producto = categorias_producto::select()
-      ->where('categoria_id','=',$request['producto']['categoria_id'])
-      ->where('producto_id','=',$request['producto']['producto_id'])
+      ->where('categoria_id','=',$request['categoria_id'])
+      ->where('producto_id','=',$request['producto_id'])
       ->first();
 
       $entradas = entrada::select('entradas.*')

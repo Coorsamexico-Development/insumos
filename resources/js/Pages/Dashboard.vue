@@ -199,7 +199,7 @@ const openModalMovimientosByProducto = async (producto) =>
 {
   //console.log(producto)
   productoForMovimientos.value = producto;
-  await axios.get(route('getEntradasByProducto',{producto:producto, tipo:'entradas'}))
+  await axios.get(route('getEntradasByProducto',{producto_id:producto.producto_id, categoria_id:producto.categoria_id}))
   .then(response => 
   {
      console.log(response.data)
