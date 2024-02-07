@@ -28,6 +28,34 @@ const formNewSalida = useForm({
 const message = ref('');  
 watch(formNewSalida, (newForm) => 
 {
+   //console.log(newForm)
+   if(newForm.stage !== '')
+   {
+     axios.get(route('consultarInfoByStage',{stage:newForm.stage}))
+    .then(resonse => 
+    {
+      console.log(resonse.data)
+      
+      formNewSalida.dt = resonse.data.referencia;
+      formNewSalida.cliente = resonse.data.cliente;
+      formNewSalida.clase = resonse.data.categoria_stage;
+      formNewSalida.destino = resonse.data.destino;
+      
+    })
+    .catch(err => 
+    {
+      console.log(err.response)
+      console.log('hay error')
+    }) 
+   }
+   else
+   {
+      formNewSalida.dt = '';
+      formNewSalida.cliente = '';
+      formNewSalida.clase = '';
+      formNewSalida.destino = '';
+   }
+   /*
   if(newForm.dt !== '') //si el dt cambia buscaremos y setearemos los datos
   {
     console.log(newForm.dt )
@@ -53,6 +81,7 @@ watch(formNewSalida, (newForm) =>
       formNewSalida.clase = '';
       formNewSalida.destino = '';
   }
+  */
 });
 
 const cambiarCategoria = (categoria) => 
@@ -109,6 +138,19 @@ const consultarDts = () =>
    });
 }
 
+const listStages = ref([]);
+const consultarStages = () => 
+{
+   axios.get(route('getStages')).then(response => 
+   {
+      listStages.value = response.data
+   })
+   .catch(err => 
+   {
+
+   });
+}
+
 </script>
 <template>
     <div class="p-4 bg-white border rounded-lg shadow-lg">
@@ -134,16 +176,27 @@ const consultarDts = () =>
            </div>
            <div class="flex flex-col mr-4" v-if="categoria_actual == 1">
               <label class="py-2" htmlFor="dt" >DT</label>
+              <input disabled  required id="dt" v-model="formNewSalida.dt" type="number" placeholder="DT" class="w-full px-3 py-2 leading-tight text-gray-700 rounded shadow appearance-none border-none bg-[#F6F6F9]" />
+              <!--
               <input required @focus="consultarDts()" id="dt" list="lisDts"  v-model="formNewSalida.dt" type="text" placeholder="DT" class="w-full px-3 py-2 leading-tight text-gray-700 rounded shadow appearance-none border-none bg-[#F6F6F9]">
               <datalist id="lisDts">
                 <option v-for="dt in listDts" :key="dt.id" :value="dt.referencia" >
                     {{ dt.referencia }}
                 </option>
               </datalist>
+              -->
            </div>
            <div class="flex flex-col" v-if="categoria_actual == 1">
               <label class="py-2" htmlFor="stage">Stage</label>
+              <input required @focus="consultarStages()" id="stage" list="listStages"  v-model="formNewSalida.stage" type="text" placeholder="Stage" class="w-full px-3 py-2 leading-tight text-gray-700 rounded shadow appearance-none border-none bg-[#F6F6F9]">
+              <datalist id="listStages">
+                <option v-for="stage in listStages" :key="stage.id" :value="stage.nombre" >
+                    {{ stage.nombre }}
+                </option>
+              </datalist>
+              <!--
               <input v-model="formNewSalida.stage" disabled id="stage" placeholder="Stage" class="w-full px-3 py-2 leading-tight text-gray-700 rounded shadow appearance-none border-none bg-[#F6F6F9]" />
+              -->
            </div>
            <div class="flex flex-col mr-4" v-if="categoria_actual == 1">
               <label class="py-2" htmlFor="cliente">Cliente</label>

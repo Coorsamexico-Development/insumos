@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\dt;
 use App\Models\stage;
 use Illuminate\Http\Request;
 
@@ -24,6 +25,36 @@ class StageController extends Controller
        ->update([
          'categoria_stage_id' => $request['stage']['categoria_stage_id']
        ]);
+    }
+
+    public function getStages (Request $request)
+    {
+      return stage::select('stages.*')
+      ->get();
+    }
+
+    public function consultarInfoByStage (Request $request)
+    {
+      $stage = stage::select('stages.*')
+       ->where('stages.nombre','=',$request['stage'])
+       ->first();
+
+      //return $stage['id'];
+
+      return dt::select(
+        'dts.*',
+        'clientes.nombre as cliente',
+        'stages.nombre as stage',
+        'categorias_stages.nombre as categoria_stage',
+        'destinos.nombre as destino'
+       )
+       ->join('clientes', 'dts.cliente_id', 'clientes.id')
+       ->leftjoin('stages', 'dts.stage_id', 'stages.id')
+       ->leftjoin('categorias_stages', 'stages.categoria_stage_id', 'categorias_stages.id')
+       ->join('destinos', 'dts.destino_id', 'destinos.id')
+       ->where('dts.stage_id','=',$stage['id'])
+       ->where('dts.activo','=',1)
+       ->first();
     }
 
     /**

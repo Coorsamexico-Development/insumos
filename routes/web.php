@@ -279,4 +279,8 @@ Route::middleware([
     Route::get('/dts',[DtController::class,'verDts'])->name('verDts');
     //Ruta para descargar reporte de movimientos
     Route::get('/movimientosExport',[CategoriaController::class, 'movimientosExport'])->name('movimientosExport');
+    //Ruta para obtener stages
+    Route::get('/getStages',[StageController::class, 'getStages'])->name('getStages');
+    //Consultar  informacion por stage
+    Route::get('/consultarInfoByStage',[StageController::class, 'consultarInfoByStage'])->name('consultarInfoByStage');
 });

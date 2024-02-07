@@ -67,6 +67,9 @@ class ImportBolo implements ToModel, WithHeadingRow, SkipsEmptyRows
                    'categoria_stage_id' => 1
                   ]);
 
+                  dt::where('stage_id','=',$stage['id'])
+                  ->update(['activo','=',0]);
+
                   dt::updateOrCreate(
                   [
                      'referencia' => $row[4],
@@ -79,6 +82,8 @@ class ImportBolo implements ToModel, WithHeadingRow, SkipsEmptyRows
               }
               else
               {
+                dt::where('stage_id','=',$stage['id'])
+                ->update(['activo','=',0]);
                // dd($cliente['id'].'-' .$stage['id']);
                 dt::updateOrCreate(
                  [

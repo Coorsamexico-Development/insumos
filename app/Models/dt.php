@@ -13,6 +13,7 @@ class dt extends Model
         'referencia',
         'cliente_id',
         'stage_id',
-        'destino_id'
+        'destino_id',
+        'activo'
     ];
 }

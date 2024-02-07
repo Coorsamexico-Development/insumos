@@ -68,18 +68,19 @@ class SalidasController extends Controller
         ->where('dts.referencia','LIKE','%'.$request['dt'].'%')
         ->first();
 
+        //return $request;
         try 
         {
             if($dt !== null) //si encontramos el dt pasamos a crear
             {
                 //Buscamos el producto
-                $producto =  producto::select('productos.*')
+                 $producto =  producto::select('productos.*')
                 ->where('productos.codigo','=',$request['codigo'])
                 ->first();
                 //
                 if($producto !== null)
                 {
-                    $categoria_producto = categorias_producto::select('categorias_productos.*')
+                    return $categoria_producto = categorias_producto::select('categorias_productos.*')
                     //->where('categorias_productos.categoria_id','=',$request['categoria'])
                     ->where('categorias_productos.producto_id','=',$producto['id'])
                     ->first();
