@@ -84,11 +84,13 @@ class DtController extends Controller
         try 
         {
             Excel::import(new ImportBolo, $request['bolo']);
-            return redirect()->back();
+       
         } catch (\Throwable $th) 
         {
             //throw $th;
         }
+
+        return redirect()->back();
     }
 
     /**

@@ -19,100 +19,98 @@ class ImportBolo implements ToModel, WithHeadingRow, SkipsEmptyRows
     */
     public function model(array $row)
     {
-        //return dd($row);
         //Validamos que las columnas no esten vaxias
-        if($row['cliente'] !== null &&  $row['destino'] !== null /*&& $row['stage'] !== null*/ )
+
+        $destino = null;
+        $destino = destino::select('destinos.*')
+        ->where('destinos.nombre','LIKE','%'.$row['destino'].'%')
+        ->first();
+
+        if($destino == null)
         {
-            
-            //Primero creamos los clientes si ya existen lo tomamos
-            $cliente = cliente::select('clientes.*')
-            ->where('nombre', $row['cliente'])
-            ->first();
+          $destino = destino::updateOrCreate([
+            'nombre' => $row['destino']
+          ]);
+        }
 
-            if($cliente == null) //sino existe lo creamos el cliente
-            {
-               $cliente = cliente::updateOrCreate([
-                'nombre' => $row['cliente']
-               ]);
+        $cliente = null;
+        $cliente = cliente::select('clientes.*')
+        ->where('clientes.nombre','LIKE','%'.$row['cliente'].'%')
+        ->first();
 
-               //dd($cliente);
-            }
+        if($cliente == null)
+        {
+           $cliente = cliente::updateOrCreate([
+            'nombre' => $row['cliente']
+           ]);
+        }
 
-           //Buscamos el destino si existe sino lo creamos
-           $destino = destino::select('destinos.*')
-           ->where('nombre','=',$row['destino'])
+
+        if($row['stage'] !== null)
+        {
+           //buscamos el stage
+           $stage = null;
+
+           $stage = stage::select('stages.*')
+           ->where('stages.nombre','LIKE','%'.$row['stage'].'%')
            ->first();
-    
-            if($destino == null) //sino existe lo creamos el destino
-            {
-               $destino = destino::updateOrCreate([
-                'nombre' => $row['destino']
-               ]);
-            }
 
+           if($stage !== null)
+           {
+            dt::where('stage_id','=',$stage['id'])
+            ->update(['activo'=> 0]);
+            
+            dt::updateOrCreate(
+              [
+                 'referencia' => $row['load'],
+              ],
+              [
+               
+               'cliente_id' => $cliente['id'],
+               'stage_id' => $stage['id'],
+               'destino_id' => $destino['id'],
+               'activo' => 1
+              ]);
+           }
+           else
+           {
+            //return dd('llego aqui');
+             //se crea el stage
+             $stage = stage::create([
+               'nombre' => $row['stage'],
+               'categoria_stage_id' => 1
+             ]);
 
-            if($row['stage'] !== null)
-            {
-              //Buscamos el stage si esxite lo tomamos sino los creamos
-              $stage = stage::select('stages.*')
-              ->where('nombre', '=' ,$row['stage'])
-              ->first();
-
-             // dd($stage);
-
-              if($stage == null) //sino existe lo creamos el stage
-              { 
-                 $stage = stage::create([
-                   'nombre' => $row['stage'],
-                   'categoria_stage_id' => 1
-                  ]);
-
-                  dt::where('stage_id','=',$stage['id'])
-                  ->update(['activo' => 0]);
-
-                  dt::create(
-                  [
-                     'referencia' => $row['load'],
-                  ],
-                  [
-                  'cliente_id' => $cliente['id'],
-                  'stage_id' => $stage['id'],
-                  'destino_id' => $destino['id'],
-                  'activo' => 1
-                 ]);
-              }
-              else
-              {
-                dt::where('stage_id','=',$stage['id'])
-                ->update(['activo'=> 0]);
-               // dd($cliente['id'].'-' .$stage['id']);
-                dt::UpdateOrCreate(
-                 [
-                  'referencia' => $row['load']
-                 ],
-                [
-                   'cliente_id' => $cliente['id'],
-                   'stage_id' => $stage['id'],
-                   'destino_id' => $destino['id'],
-                   'activo' => 1
-                ]);
-              }
-            }
-            else
-            {    
-               dt::updateOrCreate(
+             dt::where('stage_id','=',$stage['id'])
+             ->update(['activo'=> 0]);
+             
+             dt::updateOrCreate(
                [
                   'referencia' => $row['load'],
                ],
                [
+                
                 'cliente_id' => $cliente['id'],
+                'stage_id' => $stage['id'],
                 'destino_id' => $destino['id'],
                 'activo' => 1
                ]);
-
-            }
-    
+              
+           }
         }
+        else //sino existe el stage crea solamente el dt
+        {     
+           dt::updateOrCreate(
+            [
+               'referencia' => $row['load'],
+            ],
+            [
+             'cliente_id' => $cliente['id'],
+             'destino_id' => $destino['id'],
+             'activo' => 1
+            ]); 
+        }
+
     }
 
     /*
@@ -143,10 +141,11 @@ class ImportBolo implements ToModel, WithHeadingRow, SkipsEmptyRows
         ];
     }
     
+    /*
     public function isEmptyWhen(array $row): bool
     {
         return $row['load'] == 'LOAD';
     }
-    
+    */
     
 }

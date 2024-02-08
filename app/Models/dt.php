@@ -9,7 +9,8 @@ class dt extends Model
 {
     use HasFactory;
 
-    protected $fillable = [
+    protected $fillable = 
+    [
         'referencia',
         'cliente_id',
         'stage_id',
