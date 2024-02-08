@@ -172,7 +172,7 @@ const consultarStages = () =>
            </div>
            <div class="flex flex-col" >
               <label class="py-2" htmlFor="cantidad">Cantidad</label>
-              <input required id="cantidad" v-model="formNewSalida.cantidad" type="number" placeholder="Cantidad" class="w-full px-3 py-2 leading-tight text-gray-700 rounded shadow appearance-none border-none bg-[#F6F6F9]" />
+              <input required id="cantidad"  max="15"  v-model="formNewSalida.cantidad" type="number" placeholder="Cantidad" class="w-full px-3 py-2 leading-tight text-gray-700 rounded shadow appearance-none border-none bg-[#F6F6F9]" />
            </div>
            <div class="flex flex-col mr-4" v-if="categoria_actual == 1">
               <label class="py-2" htmlFor="dt" >DT</label>
