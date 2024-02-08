@@ -80,7 +80,7 @@ class SalidasController extends Controller
                 //
                 if($producto !== null)
                 {
-                    return $categoria_producto = categorias_producto::select('categorias_productos.*')
+                     $categoria_producto = categorias_producto::select('categorias_productos.*')
                     //->where('categorias_productos.categoria_id','=',$request['categoria'])
                     ->where('categorias_productos.producto_id','=',$producto['id'])
                     ->first();
