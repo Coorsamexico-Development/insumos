@@ -98,12 +98,14 @@
              } 
              movimientosTotales.push(newSalidaType)
           }
+
+          console.log(movimientosTotales)
           
           movimientosTotalesModal.value = movimientosTotales.sort(function (a, b)
           {
-             let fecha1 = new Date(a.fecha);
-             let fecha2 = new Date(b.fecha);
-             return fecha2 - fecha1;
+             let fecha1 = a.fecha;
+             let fecha2 = b.fecha;
+             return fecha1 - fecha2;
           })
        })
        .catch(err => 
