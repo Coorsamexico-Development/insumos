@@ -20,7 +20,7 @@ class ImportBolo implements ToModel, WithHeadingRow, SkipsEmptyRows
     public function model(array $row)
     {
         //Validamos que las columnas no esten vaxias
-
+        //return dd($row);
         $destino = null;
         $destino = destino::select('destinos.*')
         ->where('destinos.nombre','LIKE','%'.$row['destino'].'%')
@@ -46,6 +46,54 @@ class ImportBolo implements ToModel, WithHeadingRow, SkipsEmptyRows
         }
 
 
+
+        if($row['stage'] !== null) //si existe el stage en el documento
+        {
+              //buscamos el stage
+              $stage = null;
+              $stage = stage::select('stages.*')
+              ->where('stages.nombre','=',$row['stage'])
+              ->first();
+
+              if($stage !== null) //si existe el stage en la base
+              {
+                
+              }
+              else //sino existe el stage en la bd
+              {
+                 $stage = stage::create([
+                  'nombre' => $row['stage'],
+                  'categoria_stage_id' => 1
+                 ]);
+                 
+              }
+              
+              $dtSelect = null;
+            
+              $dtSelect = dt::select('dts.*')
+              ->where('dts.referencia','=',$row['load'])
+              ->first();
+
+              if($dtSelect !== null) //si existe el dt en la base
+              {
+                 //no se hace nada
+              }
+              else
+              {
+                dt::where('stage_id','=',$stage['id'])
+                ->update(['activo'=> 0]);
+                //se crea el dt
+                dt::updateOrCreate(['referencia' => $row['load'],],[
+                  'stage_id' => $stage['id'],
+                  'cliente_id' => $cliente['id'],
+                  'destino_id' => $destino['id'],
+                  'activo' => 1
+                ]);
+              }
+        }
+
+
+/*
         if($row['stage'] !== null)
         {
            //buscamos el stage
@@ -59,18 +107,45 @@ class ImportBolo implements ToModel, WithHeadingRow, SkipsEmptyRows
            {
             dt::where('stage_id','=',$stage['id'])
             ->update(['activo'=> 0]);
+
+            $dtSelect = null;
             
-            dt::updateOrCreate(
-              [
-                 'referencia' => $row['load'],
-              ],
-              [
-               
-               'cliente_id' => $cliente['id'],
-               'stage_id' => $stage['id'],
-               'destino_id' => $destino['id'],
-               'activo' => 1
+            $dtSelect = dt::select('dts.*')
+            ->where('dts.referencia','=',$row['load'])
+            ->first();
+
+            //return dd($dtSelect);
+
+            if($dtSelect !== null)
+            {
+
+              if($dtSelect['stage_id'] == null)
+              {
+                dt::where('dts.id','=', $dtSelect['id'])
+               -> update([
+                'cliente_id' => $cliente['id'],
+                'stage_id' => $stage['id'],
+                'destino_id' => $destino['id'],
+                'activo' => 1
+                ]);
+              }
+              else
+              {
+                ///
+                //return dd($dtSelect);
+              }
+
+            }
+            else
+            {
+              dt::create([
+                'referencia' => $row['load'],
+                'cliente_id' => $cliente['id'],
+                'stage_id' => $stage['id'],
+                'destino_id' => $destino['id'],
+                'activo' => 1
               ]);
+            }
            }
            else
            {
@@ -81,8 +156,10 @@ class ImportBolo implements ToModel, WithHeadingRow, SkipsEmptyRows
                'categoria_stage_id' => 1
              ]);
 
+             
              dt::where('stage_id','=',$stage['id'])
              ->update(['activo'=> 0]);
+             
              
              dt::updateOrCreate(
                [
@@ -98,6 +175,7 @@ class ImportBolo implements ToModel, WithHeadingRow, SkipsEmptyRows
               
            }
         }
+      
         else //sino existe el stage crea solamente el dt
         {     
            dt::updateOrCreate(
@@ -110,6 +188,7 @@ class ImportBolo implements ToModel, WithHeadingRow, SkipsEmptyRows
              'activo' => 1
             ]); 
         }
+        */
 
     }
 
@@ -122,7 +201,7 @@ class ImportBolo implements ToModel, WithHeadingRow, SkipsEmptyRows
     */
     
 
-    
+    /*
     public function rules(): array
     {
         return [
@@ -140,12 +219,13 @@ class ImportBolo implements ToModel, WithHeadingRow, SkipsEmptyRows
            ],
         ];
     }
+    */
     
-    /*
+/*
     public function isEmptyWhen(array $row): bool
     {
-        return $row['load'] == 'LOAD';
+        return $row['STAGE'] == null;
     }
-    */
+*/
     
 }
