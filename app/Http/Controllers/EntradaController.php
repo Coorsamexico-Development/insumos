@@ -42,6 +42,9 @@ class EntradaController extends Controller
             'cantidad' => 'required'
         ]);
 
+        date_default_timezone_set('America/Mexico_City');
+        $fecha_actual = getdate();
+
         /*
         $categoria_producto =  categorias_producto::select('categorias_productos.*')
         ->where('categorias_productos.categoria_id','=',$request['categoria'])

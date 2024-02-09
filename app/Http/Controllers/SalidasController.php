@@ -63,6 +63,8 @@ class SalidasController extends Controller
             "cantidad" => ['required']
         ]);
         //
+        date_default_timezone_set('America/Mexico_City');
+        $fecha_actual = getdate();
         //Primero buscamos el dt en dado caso de meterlo incompletop
         $dt = dt::select('dts.*')
         ->where('dts.referencia','LIKE','%'.$request['dt'].'%')
