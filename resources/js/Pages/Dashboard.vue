@@ -250,7 +250,7 @@ const openModalMovimientosByProducto = async (producto) =>
      {
         let fecha1 = a.fecha;
         let fecha2 = b.fecha;
-        console.log(fecha1);
+        //console.log(fecha1);
         return fecha2 - fecha1;
      })
      modalMovimientosByProducto.value = true;
@@ -317,16 +317,17 @@ const closeWatchInfoProd = () =>
 
 const modalGraph = ref(false);
 const salidasForModal = ref([]);
-const openModalGraph = (producto) => 
+const openModalGraph =  async (producto) => 
 {
   //console.log(producto)
   //consulta 
   try 
   {
-    axios.get(route('getSalidas',{producto})).then(response => 
+    await axios.get(route('getSalidas',{producto})).then(response => 
     {
-       //console.log(response.data)
+       console.log(response.data)
       ///salidasForModal.value = response.data;
+      /*
       let arraySalidas = [];
       for (let index = 0; index < response.data.length; index++) 
       {
@@ -359,11 +360,13 @@ const openModalGraph = (producto) =>
 
       //console.log(arraySalidas);
       salidasForModal.value = arraySalidas;
+      */
+     salidasForModal.value = response.data
       modalGraph.value = true;
     })
     .catch(err=> 
     {
-      console.log('error')
+      console.log(error)
     })
   } 
   catch (error) 

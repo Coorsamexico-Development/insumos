@@ -7,6 +7,7 @@ use App\Models\dt;
 use App\Models\producto;
 use App\Models\salidas;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 use function Laravel\Prompts\error;
 
@@ -37,10 +38,46 @@ class SalidasController extends Controller
 
         $newFechaActual = $fecha_actual['year'].'-'.$month;
 
-        return $salidas = salidas::select('salidas.*')
+        $salidas = salidas::select('salidas.*')
         ->whereDate('salidas.created_at','LIKE','%'.$newFechaActual.'%')
         ->where('salidas.categorias_producto_id','=',$categoria_producto['id'])
+        ->orderBy('salidas.created_at')
         ->get();
+
+        $arraySalidas = [];
+        for ($i=0; $i < count($salidas) ; $i++) 
+        { 
+            $salida = $salidas[$i];
+            $newObject = (object) [];
+            $newObject->cantidad = $salida['cantidad'];
+            $newObject->fecha = substr($salida['created_at'],0,10);
+
+            if(count($arraySalidas) == 0 )
+            {
+               array_push($arraySalidas, $newObject);
+            }
+            else
+            {
+                for ($x=0; $x < count($arraySalidas) ; $x++) 
+                { 
+                    $objectoSalida = $arraySalidas[$x];
+                    (substr($salida['created_at'],0,10) == $objectoSalida->fecha );
+                    if(substr($salida['created_at'],0,10) == $objectoSalida->fecha )
+                    {
+                       $nueva_cantidad = $objectoSalida->cantidad + $salida['cantidad'];
+                       //dd($nueva_cantidad);
+                       $objectoSalida->cantidad = $nueva_cantidad;
+                    }
+                    else
+                    {
+                        array_push($arraySalidas, $newObject);
+                    }
+                }
+                
+            }
+        }
+
+        return $arraySalidas;
         
     }
 
