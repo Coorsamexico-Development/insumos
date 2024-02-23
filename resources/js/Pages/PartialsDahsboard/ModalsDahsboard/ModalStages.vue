@@ -99,7 +99,7 @@ const reconsultar = async (page='') =>
 
 </script>
 <template >
-  <DialogModal :maxWidth="'xl'"  :show="show" @close="close()" >
+  <DialogModal :maxWidth="'2xl'"  :show="show" @close="close()" >
        <template #content>
         <button class="bg-[#C3C4CE] float-right rounded-full py-2 px-2" @click="close()">
             <svg id="Grupo_394" data-name="Grupo 394" xmlns="http://www.w3.org/2000/svg" width="11.344" height="11.344" viewBox="0 0 11.344 11.344">

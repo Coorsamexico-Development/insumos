@@ -18,8 +18,42 @@ class ProductoController extends Controller
      */
     public function index(Request $request)
     {
-      //Tomar entrasdas o salidas del procuto
+        $categoria_producto = categorias_producto::select()
+        ->where('categoria_id','=',$request['categoria_id'])
+        ->where('producto_id','=',$request['producto_id'])
+        ->first();
+
+        if($request['movimiento'] == 'entradas')
+        {
+            $entradas = entrada::select('entradas.*')
+            ->where('categorias_producto_id','=', $categoria_producto['id'])
+            ->orderBy('fecha','desc')
+            ->paginate(10);
+
+            $ultimo_corte = corte_diario_historico::select('corte_diario_historicos.*')
+            ->where('corte_diario_historicos.categorias_producto_id','=',$categoria_producto['id'])
+            ->first();
+
+            return ['movimientos' => $entradas , 'ultimo_corte' => $ultimo_corte];
+        }
+        else
+        {
+            $salidas = salidas::select('salidas.*', 'dts.referencia as dt' , 'stages.nombre as stage')
+            ->where('categorias_producto_id','=', $categoria_producto['id'])
+            ->leftjoin('dts','salidas.dt_id','dts.id')
+            ->leftjoin('stages', 'dts.stage_id','stages.id')
+            ->orderBy('created_at','desc')
+            ->paginate(10);
+
+            $ultimo_corte = corte_diario_historico::select('corte_diario_historicos.*')
+            ->where('corte_diario_historicos.categorias_producto_id','=',$categoria_producto['id'])
+            ->first();
+
+            return ['movimientos' => $salidas , 'ultimo_corte' => $ultimo_corte];
+        }
+
       //buscamos las entradas del producto
+      /*
       $categoria_producto = categorias_producto::select()
       ->where('categoria_id','=',$request['categoria_id'])
       ->where('producto_id','=',$request['producto_id'])
@@ -42,7 +76,7 @@ class ProductoController extends Controller
       ->first();
 
       return ['entradas' => $entradas, 'salidas' => $salidas, 'ultimo_corte' => $ultimo_corte];
-
+     */
      /*
        if($request['tipo'] == 'entradas')
        {

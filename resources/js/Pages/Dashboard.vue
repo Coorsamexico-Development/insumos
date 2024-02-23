@@ -199,11 +199,11 @@ const openModalMovimientosByProducto = async (producto) =>
 {
   //console.log(producto)
   productoForMovimientos.value = producto;
+   /*
   await axios.get(route('getEntradasByProducto',{producto_id:producto.producto_id, categoria_id:producto.categoria_id}))
   .then(response => 
   {
-     //console.log(response.data)
-     //movimientosByProducto.value = response.data;
+     console.log(response.data)
      ultimo_corte.value = response.data.ultimo_corte;
      let salidas = response.data.salidas;
      let entradas = response.data.entradas;
@@ -244,7 +244,7 @@ const openModalMovimientosByProducto = async (producto) =>
         movimientosTotales.push(newSalidaType)
      }
 
-     //console.log(movimientosTotales)
+     console.log(movimientosTotales)
      
      movimientosByProducto.value = movimientosTotales.sort(function (a, b)
      {
@@ -253,13 +253,15 @@ const openModalMovimientosByProducto = async (producto) =>
         //console.log(fecha1);
         return fecha2 - fecha1;
      })
-     modalMovimientosByProducto.value = true;
-     //console.log(movimientosByProducto.value);
+    
+     console.log(movimientosByProducto.value);
   })
   .catch(err => 
   {
     console.log(err)
   })
+  */
+  modalMovimientosByProducto.value = true;
 }
 
 const closeModalMvimientosByProducto = () => 

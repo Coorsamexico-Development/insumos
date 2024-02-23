@@ -252,7 +252,7 @@ Route::middleware([
     //Ruta para guardar nueva salida
     Route::post('/saveSalida', [SalidasController::class, 'store'])->name('saveSalida');
     //Ruta para obtener los movimientos por producto (entradas)
-    Route::get('/getEntradasByProducto', [ProductoController::class, 'index'])->name('getEntradasByProducto');
+    Route::get('/getMovimientosProducto', [ProductoController::class, 'index'])->name('getMovimientosProducto');
     //Descargar pdf de productos
     Route::get('/pdfCodes',[ProductoController::class,'pdfCodes'])->name('pdfCodes');
     //Ruta para pagina principal de usuarios
