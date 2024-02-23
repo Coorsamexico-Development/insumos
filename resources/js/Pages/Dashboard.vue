@@ -325,7 +325,7 @@ const openModalGraph =  async (producto) =>
   {
     await axios.get(route('getSalidas',{producto})).then(response => 
     {
-       console.log(response.data)
+       //console.log(response.data)
       ///salidasForModal.value = response.data;
       /*
       let arraySalidas = [];
@@ -361,7 +361,7 @@ const openModalGraph =  async (producto) =>
       //console.log(arraySalidas);
       salidasForModal.value = arraySalidas;
       */
-     salidasForModal.value = response.data
+      salidasForModal.value = response.data
       modalGraph.value = true;
     })
     .catch(err=> 

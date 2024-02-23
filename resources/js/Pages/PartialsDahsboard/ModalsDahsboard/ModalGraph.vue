@@ -72,7 +72,7 @@
         
         // Create axes
         var categoryAxis = chart.xAxes.push(new am4charts.CategoryAxis());
-        categoryAxis.dataFields.category = "created_at";
+        categoryAxis.dataFields.category = "new_date";
         categoryAxis.renderer.grid.template.location = 0;
         categoryAxis.renderer.minGridDistance = 30;
         categoryAxis.renderer.labels.template.horizontalCenter = "right";
@@ -87,8 +87,8 @@
         // Create series
         var series = chart.series.push(new am4charts.ColumnSeries());
         series.sequencedInterpolation = true;
-        series.dataFields.valueY = "cantidad";
-        series.dataFields.categoryX = "created_at";
+        series.dataFields.valueY = "total";
+        series.dataFields.categoryX = "new_date";
         series.tooltipText = "[{categoryX}: bold]{valueY}[/]";
         series.columns.template.strokeWidth = 0;
         

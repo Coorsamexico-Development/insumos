@@ -38,46 +38,19 @@ class SalidasController extends Controller
 
         $newFechaActual = $fecha_actual['year'].'-'.$month;
 
-        $salidas = salidas::select('salidas.*')
+      return  $salidas = salidas::
+         selectRaw("
+                    SUM(salidas.cantidad) as total,
+                    DATE_FORMAT(created_at, '%Y-%m-%d') AS new_date, 
+                    YEAR(created_at) AS year, 
+                    MONTH(created_at) AS month
+                    "
+                   )
         ->whereDate('salidas.created_at','LIKE','%'.$newFechaActual.'%')
         ->where('salidas.categorias_producto_id','=',$categoria_producto['id'])
         ->orderBy('salidas.created_at')
+        ->groupBy('new_date')
         ->get();
-
-        $arraySalidas = [];
-        for ($i=0; $i < count($salidas) ; $i++) 
-        { 
-            $salida = $salidas[$i];
-            $newObject = (object) [];
-            $newObject->cantidad = $salida['cantidad'];
-            $newObject->fecha = substr($salida['created_at'],0,10);
-
-            if(count($arraySalidas) == 0 )
-            {
-               array_push($arraySalidas, $newObject);
-            }
-            else
-            {
-                for ($x=0; $x < count($arraySalidas) ; $x++) 
-                { 
-                    $objectoSalida = $arraySalidas[$x];
-                    (substr($salida['created_at'],0,10) == $objectoSalida->fecha );
-                    if(substr($salida['created_at'],0,10) == $objectoSalida->fecha )
-                    {
-                       $nueva_cantidad = $objectoSalida->cantidad + $salida['cantidad'];
-                       //dd($nueva_cantidad);
-                       $objectoSalida->cantidad = $nueva_cantidad;
-                    }
-                    else
-                    {
-                        array_push($arraySalidas, $newObject);
-                    }
-                }
-                
-            }
-        }
-
-        return $arraySalidas;
         
     }
 
