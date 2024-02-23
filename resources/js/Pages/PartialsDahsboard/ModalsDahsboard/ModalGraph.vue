@@ -120,6 +120,9 @@
 </script>
 <template>
       <DialogModal :maxWidth="'5xl'"  :show="show" @close="close()">
+       <template #title> 
+         Salidas
+       </template> 
        <template #content>
         <div id="chartdiv"></div>
        </template>
