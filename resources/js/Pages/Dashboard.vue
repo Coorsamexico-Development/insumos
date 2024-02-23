@@ -323,7 +323,7 @@ const openModalGraph =  async (producto) =>
   //consulta 
   try 
   {
-    await axios.get(route('getSalidas',{producto})).then(response => 
+    await axios.get(route('getSalidas',{categoria_id:producto.categoria_id,producto_id:producto.producto_id})).then(response => 
     {
        //console.log(response.data)
       ///salidasForModal.value = response.data;
