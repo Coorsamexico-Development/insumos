@@ -20,8 +20,8 @@ class SalidasController extends Controller
     {
         //
         $categoria_producto = categorias_producto::select('categorias_productos.*')
-        ->where('categorias_productos.categoria_id','=',$request['producto']['categoria_id'])
-        ->where('categorias_productos.producto_id','=',$request['producto']['producto_id'])
+        ->where('categorias_productos.categoria_id','=',$request['categoria_id'])
+        ->where('categorias_productos.producto_id','=',$request['producto_id'])
         ->first();
 
         date_default_timezone_set('America/Mexico_City');
