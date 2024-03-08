@@ -525,7 +525,7 @@ const closeModalGraph = () =>
                                             </div>
                                           </td>
                                           <td class="py-2 text-center">
-                                            {{ new Date().getFullYear()+'-'+ new Date().getMonth()+'-'+(new Date().getDay()+2) }}
+                                            {{ new Date().getFullYear()+'-'+ new Date().getMonth()+'-'+(new Date().getDay()+producto.tiempo_de_reestock) }}
                                           </td>
                                           <td class="py-2 text-center">
                                             <p class="text-[#121A3C]" v-if="producto.corte_diario">
