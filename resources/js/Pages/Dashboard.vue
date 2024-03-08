@@ -492,6 +492,7 @@ const closeModalGraph = () =>
                                               <p class="font-semibold text-white">+</p>
                                           </button> 
                                       </td>
+                                       <td class="py-4 font-semibold"></td>
                                        <td class="py-4 font-semibold">Inicio</td>
                                        <td class="py-4 font-semibold">Entrada</td>
                                        <td class="py-4 font-semibold">Salida</td>
@@ -519,6 +520,9 @@ const closeModalGraph = () =>
                                                   <img class="w-6 h-6" src="../../assets/img/….svg" />
                                                </button>
                                             </div>
+                                          </td>
+                                          <td class="py-2 text-center">
+                                            {{ new Date().getFullYear()+'-'+ new Date().getMonth()+'-'+(new Date().getDay()+2) }}
                                           </td>
                                           <td class="py-2 text-center">
                                             <p class="text-[#121A3C]" v-if="producto.corte_diario">
@@ -597,6 +601,7 @@ const closeModalGraph = () =>
                                             </button> 
                                         </td>
                                          <td class="py-4 font-semibold">Inicio</td>
+                                         <td></td>
                                          <td class="py-4 font-semibold">Entrada</td>
                                          <td class="py-4 font-semibold">Salida</td>
                                          <td class="py-4 font-semibold">Actual</td>
@@ -621,6 +626,9 @@ const closeModalGraph = () =>
                                                   <img class="w-6 h-6" src="../../assets/img/….svg" />
                                                </button>
                                             </div>
+                                          </td>
+                                          <td class="py-2 text-center">
+                                            {{ new Date().getFullYear()+'-'+ new Date().getMonth()+'-'+(new Date().getDay()+2) }}
                                           </td>
                                           <td class="py-2 text-center">
                                             <p class="text-[#121A3C]" v-if="producto.corte_diario">
