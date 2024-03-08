@@ -395,7 +395,7 @@ const closeModalGraph = () =>
                 <div class="">
                   <h3 class="mt-2 text-2xl font-semibold tracking-wide uppercase">Inventario</h3>
                </div>
-               <div class="flex flex-row justify-between col-start-3 col-end-5"> <!--Botones de importacion-->
+               <div class="flex flex-row col-start-3 col-end-5"> <!--Botones de importacion-->
                  <button @click="openModalStages()" class="flex flex-row items-center justify-between px-4 mx-1 border rounded-full shadow-lg">
                     <svg class="mr-2" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="21.783" height="18.63" viewBox="0 0 21.783 18.63">
                       <defs>
@@ -425,8 +425,11 @@ const closeModalGraph = () =>
                     </svg>
                     <p class="text-[#2684D0] hover:text-[#344182] text-sm">DT'S</p>
                  </button>
-                 <a :href="route('movimientosExport', {categoria:categoria_actual})" class="flex flex-row items-center justify-between px-4 mx-1 border rounded-full shadow-lg text-[#2684D0] hover:text-[#344182] text-sm">
-                   Descargar reporte
+                 <a :href="route('movimientosExport', {categoria:categoria_actual})" class=" px-4 mx-1 border rounded-full shadow-lg text-[#2684D0] hover:text-[#344182] text-sm">
+                   Descargar movimientos
+                 </a>
+                 <a :href="route('downloadCortes', {categoria:categoria_actual})" class=" px-4 mx-1 border rounded-full shadow-lg text-[#2684D0] hover:text-[#344182] text-sm">
+                   Descargar cortes
                  </a>
                  <div class="flex flex-row items-center mx-4">
                     <div>

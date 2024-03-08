@@ -2,11 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Exports\CortesExport;
 use App\Models\categorias_producto;
 use App\Models\corte_diario_historico;
 use App\Models\entrada;
 use App\Models\salidas;
 use Illuminate\Http\Request;
+use Maatwebsite\Excel\Facades\Excel;
 
 class CorteDiarioHistoricoController extends Controller
 {
@@ -162,6 +164,11 @@ class CorteDiarioHistoricoController extends Controller
         }
 
         return 'corte hecho';
+    }
+
+    public function downloadCortes (Request $request) 
+    {
+        return Excel::download(new CortesExport($request['categoria']), 'reporte_cortes.xlsx');
     }
 
     /**

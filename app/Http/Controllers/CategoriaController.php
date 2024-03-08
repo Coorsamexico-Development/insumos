@@ -70,6 +70,6 @@ class CategoriaController extends Controller
 
     public function movimientosExport (Request $request)
     {
-        return Excel::download(new MovimientosExport($request['categoria']), 'reporte.xlsx');
+        return Excel::download(new MovimientosExport($request['categoria']), 'reporte_movimientos.xlsx');
     }
 }

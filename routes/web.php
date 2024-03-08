@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\CategoriaController;
 use App\Http\Controllers\CategoriasProductoController;
+use App\Http\Controllers\CorteDiarioHistoricoController;
 use App\Http\Controllers\DtController;
 use App\Http\Controllers\EntradaController;
 use App\Http\Controllers\PermissionController;
@@ -283,4 +284,6 @@ Route::middleware([
     Route::get('/getStages',[StageController::class, 'getStages'])->name('getStages');
     //Consultar  informacion por stage
     Route::get('/consultarInfoByStage',[StageController::class, 'consultarInfoByStage'])->name('consultarInfoByStage');
+    //Ruta para descargar reportes de cortes
+    Route::get('/downloadCortes',[CorteDiarioHistoricoController::class,'downloadCortes'])->name('downloadCortes');
 });
