@@ -286,4 +286,6 @@ Route::middleware([
     Route::get('/consultarInfoByStage',[StageController::class, 'consultarInfoByStage'])->name('consultarInfoByStage');
     //Ruta para descargar reportes de cortes
     Route::get('/downloadCortes',[CorteDiarioHistoricoController::class,'downloadCortes'])->name('downloadCortes');
+    //Ruta para obtener salidas por dt, con base a fecha y cliente
+    Route::get('/salidasByClienteDate',[SalidasController::class, 'salidasByClienteDate'])->name('salidasByClienteDate');
 });

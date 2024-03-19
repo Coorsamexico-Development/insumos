@@ -319,6 +319,8 @@ const closeWatchInfoProd = () =>
 
 const modalGraph = ref(false);
 const salidasForModal = ref([]);
+const clientes = ref ([]);
+const elementsCateProducto = ref({categoria_id:-1,producto_id:-1})
 const openModalGraph =  async (producto) => 
 {
   //console.log(producto)
@@ -327,43 +329,62 @@ const openModalGraph =  async (producto) =>
   {
     await axios.get(route('getSalidas',{categoria_id:producto.categoria_id,producto_id:producto.producto_id})).then(response => 
     {
-       //console.log(response.data)
-      ///salidasForModal.value = response.data;
-      /*
-      let arraySalidas = [];
-      for (let index = 0; index < response.data.length; index++) 
+      //salidasForModal.value = response.data
+      //console.log(response.data.length)
+      elementsCateProducto.value.categoria_id = producto.categoria_id;
+      elementsCateProducto.value.producto_id = producto.producto_id;
+      clientes.value = response.data.clientes;
+      let arraySalidasTemporal = [];
+      let clienteTemporal = null;
+      let fechaTemporal = null;
+      for (let index = 0; index < response.data.salidas.length; index++) 
       {
-        const salida = response.data[index];
-        let newObjSalida = {
-           cantidad: salida.cantidad,
-           fecha: salida.created_at.substring(0,10)
-        };
+        let salida = response.data.salidas[index];
 
-        if(arraySalidas.length == 0)
+        if(arraySalidasTemporal.length == 0)
         {
-           arraySalidas.push(newObjSalida);
+           let newObjeto = {fecha:salida.new_date};
+           newObjeto[`${salida.cliente}`] = parseInt(salida.cantidad);
+           clienteTemporal = salida.cliente;
+           fechaTemporal = salida.new_date;
+
+           arraySalidasTemporal.push(newObjeto);
         }
         else
         {
-          for (let index2 = 0; index2 < arraySalidas.length; index2++)  //recorremos los objetos del arreglo
-          {
-            const objetoSalida = arraySalidas[index2];
-            if(objetoSalida.fecha == salida.created_at.substring(0,10)) //si son de la misma fecha se suma
-            {
-                objetoSalida.cantidad += salida.cantidad;
-            }
-            else
-            {
-              arraySalidas.push(newObjSalida);
-            }
-          }
+           if(salida.new_date !== fechaTemporal)//si las fechas son diferentes entonces genera un nuevo objeto para el arreglo
+           {
+            let newObjeto = {fecha:salida.new_date};
+            newObjeto[`${salida.cliente}`] = parseInt(salida.cantidad);
+            clienteTemporal = salida.cliente;
+            fechaTemporal = salida.new_date;
+
+            arraySalidasTemporal.push(newObjeto);
+           }
+           else
+           {
+              const ultimoElemento = arraySalidasTemporal[arraySalidasTemporal.length - 1]
+              //console.log(ultimoElemento)
+              if(clienteTemporal == salida.cliente) //si el cliente y la fecha es igual se suma
+              {
+                 //console.log( ultimoElemento[salida.cliente])
+                 ultimoElemento[salida.cliente] += parseInt(salida.cantidad)
+                 clienteTemporal = salida.cliente;
+                 fechaTemporal = salida.new_date;
+              }
+              else
+              {
+                ultimoElemento[salida.cliente] = parseInt(salida.cantidad)
+                clienteTemporal = salida.cliente;
+                 fechaTemporal = salida.new_date;
+              }
+           }
         }
       }
+      
+      //console.log(arraySalidasTemporal);
+      salidasForModal.value = arraySalidasTemporal;
 
-      //console.log(arraySalidas);
-      salidasForModal.value = arraySalidas;
-      */
-      salidasForModal.value = response.data
       modalGraph.value = true;
     })
     .catch(err=> 
@@ -381,6 +402,7 @@ const openModalGraph =  async (producto) =>
 const closeModalGraph = () => 
 {
    modalGraph.value = false;
+   salidasForModal.value = []
 }
 
 </script>
@@ -686,7 +708,7 @@ const closeModalGraph = () =>
         <ModalDts :show="modalDts" @close="closeModalDts()" :dts="dts" />
         <ModalMovimientosByProducto :show="modalMovimientosByProducto" :movimientosByProducto="movimientosByProducto" :productoForMovimientos="productoForMovimientos" :ultimo_corte="ultimo_corte" @close="closeModalMvimientosByProducto()" />
         <ModalWatchProducInfo :show="watchInfoProd" :producto="producto_select" @close="closeWatchInfoProd()" />
-        <ModalGraph :show="modalGraph" @close="closeModalGraph()" :salidasForModal="salidasForModal"  />
+        <ModalGraph :show="modalGraph" @close="closeModalGraph()" :salidasForModal="salidasForModal" :clientes="clientes" :elementsCateProducto="elementsCateProducto" />
         <!--Fin Modales-->
     </div> <!--Fin contenedor-->
 </template>

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\categorias_producto;
+use App\Models\cliente;
 use App\Models\dt;
 use App\Models\producto;
 use App\Models\salidas;
@@ -37,21 +38,48 @@ class SalidasController extends Controller
         }
 
         $newFechaActual = $fecha_actual['year'].'-'.$month;
+        
 
+        /*
       return  $salidas = salidas::
          selectRaw("
                     SUM(salidas.cantidad) as total,
-                    DATE_FORMAT(created_at, '%Y-%m-%d') AS new_date, 
-                    YEAR(created_at) AS year, 
-                    MONTH(created_at) AS month
+                    DATE_FORMAT(salidas.created_at, '%Y-%m-%d') AS new_date, 
+                    YEAR(salidas.created_at) AS year, 
+                    MONTH(salidas.created_at) AS month,
+                    clientes.nombre as cliente
                     "
                    )
+        ->join('dts','salidas.dt_id','dts.id')
+        ->join('clientes','dts.cliente_id','clientes.id')
         ->whereDate('salidas.created_at','LIKE','%'.$newFechaActual.'%')
         ->where('salidas.categorias_producto_id','=',$categoria_producto['id'])
         ->orderBy('salidas.created_at')
         ->groupBy('new_date')
         ->get();
+        */
+       $salidas = salidas::
+        selectRaw("
+                   salidas.cantidad,
+                   DATE_FORMAT(salidas.created_at, '%Y-%m-%d') AS new_date, 
+                   YEAR(salidas.created_at) AS year, 
+                   MONTH(salidas.created_at) AS month,
+                   clientes.nombre as cliente
+                   "
+                  )
+       ->join('dts','salidas.dt_id','dts.id')
+       ->join('clientes','dts.cliente_id','clientes.id')
+       ->whereDate('salidas.created_at','LIKE','%'.$newFechaActual.'%')
+       ->where('salidas.categorias_producto_id','=',$categoria_producto['id'])
+       ->orderBy('new_date')
+       ->orderBy('cliente')
+       ->get();
+
+        $clientes = cliente::select('clientes.*')
+        ->orderBy('clientes.nombre')
+        ->get();
         
+        return ['salidas' => $salidas, 'clientes' => $clientes];
     }
 
     /**
@@ -129,6 +157,27 @@ class SalidasController extends Controller
             //throw $th;
           error('holas');
         }
+    }
+
+    public function salidasByClienteDate (Request $request) 
+    {
+       $categoria_producto = categorias_producto::select('categorias_productos.*')
+       ->where('categorias_productos.categoria_id','=',$request['categoria_id'])
+       ->where('categorias_productos.producto_id','=',$request['producto_id'])
+       ->first();
+
+       return salidas::selectRaw(
+        "salidas.cantidad,
+         DATE_FORMAT(salidas.created_at, '%Y-%m-%d') AS new_date,
+         dts.referencia as dt,
+         clientes.nombre as cliente
+         ")
+         ->join('dts','salidas.dt_id','dts.id')
+         ->join('clientes','dts.cliente_id','clientes.id')
+         ->where('clientes.nombre','LIKE','%'.$request['cliente'].'%')
+         ->whereDate('salidas.created_at','LIKE','%'.$request['fecha'].'%')
+         ->where('salidas.categorias_producto_id','=',$categoria_producto['id'])
+         ->get();
     }
 
     /**
