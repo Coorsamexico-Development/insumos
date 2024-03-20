@@ -2,7 +2,7 @@
  import DialogModal from '@/Components/DialogModal.vue';
  import * as am4core from "@amcharts/amcharts4/core";
  import * as am4charts from "@amcharts/amcharts4/charts";
- import am4themes_animated from "@amcharts/amcharts4/themes/animated";
+ //import am4themes_animated from "@amcharts/amcharts4/themes/animated";
  import { ref, onBeforeUpdate, onUpdated } from 'vue';
  //Modales
  import ModalSalidasByDt from './ModalSalidasByDt.vue';
@@ -37,13 +37,13 @@
     modalSalidasByDT.value = false;
   }
 
-  am4core.useTheme(am4themes_animated);
+  //am4core.useTheme(am4themes_animated);
   onUpdated(() => 
   {
     try 
     {
       // Themes begin
-       am4core.useTheme(am4themes_animated);
+       //am4core.useTheme(am4themes_animated);
        // Themes end
        
        // Create chart instance
@@ -56,6 +56,8 @@
        chart.cursor = new am4charts.XYCursor();
        //Exportaciones
        chart.exporting.menu = new am4core.ExportMenu();
+       chart.exporting.menu.align = "left";
+       chart.exporting.menu.verticalAlign = "top";
        /*
        [{
          "year": "2016",
@@ -155,7 +157,7 @@
        chart.legend = new am4charts.Legend();
        chart.legend.maxHeight = 500;
        chart.legend.scrollable = true;
-       chart.legend.position= "right";
+       chart.legend.position= "left";
        chart.legend.titleElement="Clientes"
     } catch (error) {
       
