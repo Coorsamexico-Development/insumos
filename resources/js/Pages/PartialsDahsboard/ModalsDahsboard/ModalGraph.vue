@@ -96,6 +96,7 @@
        valueAxis.renderer.labels.template.disabled = true;
        valueAxis.min = 0;
        
+       let allseries = [];
        // Create series
        function createSeries(field, name) 
        {
@@ -145,22 +146,43 @@
          
          return series;
        }
-       createSeries("Desactivar", "Desactivar");
+
+
+
+       createSeries("DESACTIVAR TODOS", "DESACTIVAR TODOS");
        for (let index = 0; index < props.clientes.length; index++) 
        {
          let cliente = props.clientes[index];
          //console.log(cliente)
-         createSeries(cliente.nombre, cliente.nombre);
+         if(cliente.nombre !== '¿')
+         {
+          allseries.push( createSeries(cliente.nombre, cliente.nombre));
+         }
        }
 
 
      
        // Legend
        chart.legend = new am4charts.Legend();
+
+       chart.legend.itemContainers.template.events.on("hit", function(ev) 
+       {
+         console.log(ev.target._dataItem.dataContext.dataFields.valueY) //tenemos el legend picado
+         //hay qu apagar los legends
+         if(ev.target._dataItem.dataContext.dataFields.valueY == 'DESACTIVAR TODOS')
+         {
+            for (let index = 0; index < allseries.length; index++) 
+            {
+             const element = allseries[index];
+             element.hide();
+            }
+         }
+       });
        chart.legend.maxHeight = 500;
        chart.legend.scrollable = true;
        chart.legend.position= "left";
-       chart.legend.titleElement="Clientes"
+
+
     } catch (error) {
       
     }
