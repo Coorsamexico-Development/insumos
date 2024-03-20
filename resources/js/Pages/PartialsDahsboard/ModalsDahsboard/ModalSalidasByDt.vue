@@ -33,15 +33,29 @@
           </div>
        </template>
        <template #content>
-          <table>
+          <table class="w-full">
             <thead>
                 <tr>
-
+                  <th >DT</th>
+                  <th>Cantidad</th>
+                  <th>Fecha</th>
+                  <th>Cliente</th>
                 </tr>
             </thead>
             <tbody>
-                <tr>
-                    
+                <tr v-for="salida in salidas" :key="salida.id">
+                  <td class="text-center">
+                    {{ salida.dt }}
+                  </td>
+                  <td class="text-center">
+                    {{salida.cantidad}}
+                  </td>
+                  <td class="text-center">
+                    {{ salida.new_date }}
+                  </td>
+                  <td class="text-center">
+                    {{salida.cliente}}
+                  </td>
                 </tr>
             </tbody>
           </table>
