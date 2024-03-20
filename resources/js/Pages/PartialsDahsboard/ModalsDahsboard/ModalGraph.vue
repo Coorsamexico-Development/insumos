@@ -53,6 +53,9 @@
        // Add data
        //console.log(props.salidasForModal)
        chart.data = props.salidasForModal
+       chart.cursor = new am4charts.XYCursor();
+       //Exportaciones
+       chart.exporting.menu = new am4core.ExportMenu();
        /*
        [{
          "year": "2016",
@@ -180,5 +183,14 @@
 #chartdiv {
   width: 100%;
   height: 800px;
+}
+
+.amcharts-amexport-item {
+  border: 2px solid #777;
+}
+
+.amcharts-amexport-top .amcharts-amexport-item > .amcharts-amexport-menu {
+  top: -3px!important;
+  left: 2px
 }
 </style>
