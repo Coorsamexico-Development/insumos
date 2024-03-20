@@ -53,7 +53,7 @@
        // Add data
        //console.log(props.salidasForModal)
        chart.data = props.salidasForModal
-       chart.cursor = new am4charts.XYCursor();
+       //chart.cursor = new am4charts.XYCursor();
        //Exportaciones
        chart.exporting.menu = new am4core.ExportMenu();
        chart.exporting.menu.align = "left";
@@ -145,13 +145,15 @@
          
          return series;
        }
-       
+       createSeries("Desactivar", "Desactivar");
        for (let index = 0; index < props.clientes.length; index++) 
        {
          let cliente = props.clientes[index];
          //console.log(cliente)
          createSeries(cliente.nombre, cliente.nombre);
        }
+
+
      
        // Legend
        chart.legend = new am4charts.Legend();
