@@ -33,10 +33,10 @@
           </div>
        </template>
        <template #content>
-          <table class="w-full">
+          <table class="w-full" style="font-family: 'Montserrat';">
             <thead>
-                <tr>
-                  <th >DT</th>
+                <tr class="border-b">
+                  <th>DT</th>
                   <th>Cantidad</th>
                   <th>Fecha</th>
                   <th>Cliente</th>
@@ -44,7 +44,7 @@
             </thead>
             <tbody>
                 <tr v-for="salida in salidas" :key="salida.id">
-                  <td class="text-center">
+                  <td class="py-1 text-center">
                     {{ salida.dt }}
                   </td>
                   <td class="text-center">
