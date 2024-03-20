@@ -174,7 +174,7 @@ class SalidasController extends Controller
          ")
          ->join('dts','salidas.dt_id','dts.id')
          ->join('clientes','dts.cliente_id','clientes.id')
-         ->where('clientes.nombre','LIKE','%'.$request['cliente'].'%')
+         ->where('clientes.nombre','=',$request['cliente'])
          ->whereDate('salidas.created_at','LIKE','%'.$request['fecha'].'%')
          ->where('salidas.categorias_producto_id','=',$categoria_producto['id'])
          ->get();
