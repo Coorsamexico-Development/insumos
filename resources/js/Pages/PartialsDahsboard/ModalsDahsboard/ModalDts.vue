@@ -6,6 +6,7 @@
  import PaginationAxios from '@/Components/PaginationAxios.vue';
  //Modales
  import ModalWatchConsumo from './ModalWatchConsumo.vue'
+import axios from 'axios';
 
  const emit = defineEmits(["close"])
  const props = defineProps({
@@ -13,7 +14,8 @@
           type: Boolean,
           default: false,
       },
-      dts:Object
+      dts:Object,
+      categoria_actual:Number
   });
 
   const close = () =>
@@ -68,10 +70,24 @@
 
   const modalConsumo = ref(false);
   const dtActual = ref({});
+  const consumo = ref([]);
   const verConsumo = (dt) => 
   {
     modalConsumo.value = true;
     dtActual.value = dt;
+    axios.get(route('consumo',{
+      categoria:props.categoria_actual,
+      dt_id:dt.id,
+
+    })).then(response => 
+    {
+       console.log(response.data)
+       consumo.value = response.data
+    })
+    .catch(err => 
+    {
+
+    })
   }
 
   const closeConsumo = () => 
@@ -146,7 +162,7 @@
             <PaginationAxios :pagination="dtsCambiantes" @loadPage="reconsultar($event)" />
           </div>
           <div v-if="dtActual !== {}">
-            <ModalWatchConsumo :show="modalConsumo" @close="closeConsumo()" :dtActual="dtActual" />
+            <ModalWatchConsumo :show="modalConsumo" @close="closeConsumo()" :dtActual="dtActual" :categoria_actual="categoria_actual" :consumo="consumo" />
           </div>
        </template>
   </DialogModal>

@@ -10,7 +10,9 @@
           type: Boolean,
           default: false,
       },
-      dtActual:Object
+      dtActual:Object,
+      categoria_actual:Number,
+      consumo:Object
   });
 
   const close = () =>
@@ -20,7 +22,7 @@
 
 </script>
 <template>
-  <DialogModal :maxWidth="'5xl'"  :show="show" @close="close()">
+  <DialogModal :maxWidth="'2xl'"  :show="show" @close="close()">
        <template #content>
           <button class="bg-[#C3C4CE] float-right rounded-full py-2 px-2" @click="close()">
             <svg id="Grupo_394" data-name="Grupo 394" xmlns="http://www.w3.org/2000/svg" width="11.344" height="11.344" viewBox="0 0 11.344 11.344">
@@ -30,8 +32,23 @@
           </button>
           <div class="" style="font-family: 'Montserrat';">
              <h1 class="text-xl">Consumo de productos por DT - {{ dtActual.referencia }}</h1>
-             <table>
-                
+             <table class="w-full">
+                <thead class="border-b">
+                    <tr>
+                        <th style="font-family: 'Montserrat';">Producto</th>
+                        <th style="font-family: 'Montserrat';">Cantidad</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr v-for="(consumoIndividual, key) in consumo" :key="key" >
+                      <td class="py-1 text-center uppercase" style="font-family: 'Montserrat';">
+                        {{ consumoIndividual.producto }}
+                      </td>
+                      <td class="text-center"  style="font-family: 'Montserrat';">
+                        {{consumoIndividual.cantidad}}
+                      </td>
+                    </tr>
+                </tbody>
              </table>
           </div>
        </template>

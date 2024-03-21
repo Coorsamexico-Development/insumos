@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Imports\ImportBolo;
 use App\Models\dt;
+use App\Models\salidas;
 use Illuminate\Http\Request;
 use Maatwebsite\Excel\Facades\Excel;
 
@@ -54,6 +55,23 @@ class DtController extends Controller
         ->join('destinos', 'dts.destino_id', 'destinos.id')
         ->where('dts.referencia','=',$request['dt'])
         ->first();
+    }
+
+    public function consumo(Request $request)
+    {
+       return salidas::selectRaw
+       (
+           "SUM(salidas.cantidad) AS cantidad,
+           productos.nombre as producto
+           "
+       )
+       ->join('dts','salidas.dt_id','dts.id')
+       ->join('categorias_productos','salidas.categorias_producto_id','categorias_productos.id')
+       ->join('productos','categorias_productos.producto_id','productos.id')
+       ->where('dts.id','=',$request['dt_id'])
+       ->where('categorias_productos.categoria_id','=',$request['categoria'])
+       ->groupBy('productos.nombre')
+       ->get();
     }
 
 

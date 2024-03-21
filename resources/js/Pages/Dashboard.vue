@@ -705,7 +705,7 @@ const closeModalGraph = () =>
         <!--Modales-->
         <ModalNewProduct :show="modalNewProduct" @close="closeModalNewProduct()" :categoria="categoria_actual" />
         <ModalStages :show="stageModal" :stages="stages" @close="closeModalStages()" />
-        <ModalDts :show="modalDts" @close="closeModalDts()" :dts="dts" />
+        <ModalDts :show="modalDts" @close="closeModalDts()" :dts="dts" :categoria_actual="categoria_actual" />
         <ModalMovimientosByProducto :show="modalMovimientosByProducto" :movimientosByProducto="movimientosByProducto" :productoForMovimientos="productoForMovimientos" :ultimo_corte="ultimo_corte" @close="closeModalMvimientosByProducto()" />
         <ModalWatchProducInfo :show="watchInfoProd" :producto="producto_select" @close="closeWatchInfoProd()" />
         <ModalGraph :show="modalGraph" @close="closeModalGraph()" :salidasForModal="salidasForModal" :clientes="clientes" :elementsCateProducto="elementsCateProducto" />

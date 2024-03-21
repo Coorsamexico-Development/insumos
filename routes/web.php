@@ -288,4 +288,6 @@ Route::middleware([
     Route::get('/downloadCortes',[CorteDiarioHistoricoController::class,'downloadCortes'])->name('downloadCortes');
     //Ruta para obtener salidas por dt, con base a fecha y cliente
     Route::get('/salidasByClienteDate',[SalidasController::class, 'salidasByClienteDate'])->name('salidasByClienteDate');
+    //Ruta para ver consumo de productos po dt
+    Route::get('/consumo',[DtController::class,'consumo'])->name('consumo');
 });
