@@ -167,7 +167,7 @@ class SalidasController extends Controller
        ->first();
 
        return salidas::selectRaw(
-        "salidas.cantidad,
+        "SUM(salidas.cantidad) AS cantidad,
          DATE_FORMAT(salidas.created_at, '%Y-%m-%d') AS new_date,
          dts.referencia as dt,
          clientes.nombre as cliente
@@ -177,6 +177,7 @@ class SalidasController extends Controller
          ->where('clientes.nombre','=',$request['cliente'])
          ->whereDate('salidas.created_at','LIKE','%'.$request['fecha'].'%')
          ->where('salidas.categorias_producto_id','=',$categoria_producto['id'])
+         ->groupBy('dts.referencia')
          ->get();
     }
 
