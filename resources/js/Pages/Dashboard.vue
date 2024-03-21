@@ -381,6 +381,22 @@ const openModalGraph =  async (producto) =>
            }
         }
       }
+
+
+
+      for (let index = 0; index < arraySalidasTemporal.length; index++) 
+      {
+        const element = arraySalidasTemporal[index];
+        for (let index2 = 0; index2 < response.data.salidasTotales.length; index2++) 
+        {
+          const total = response.data.salidasTotales[index2];
+          if(total.new_date == element.fecha)
+          { 
+            element.total = total.total
+          }
+        }
+        
+      }
       
       //console.log(arraySalidasTemporal);
       salidasForModal.value = arraySalidasTemporal;

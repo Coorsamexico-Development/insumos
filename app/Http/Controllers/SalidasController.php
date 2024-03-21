@@ -40,25 +40,7 @@ class SalidasController extends Controller
         $newFechaActual = $fecha_actual['year'].'-'.$month;
         
 
-        /*
-      return  $salidas = salidas::
-         selectRaw("
-                    SUM(salidas.cantidad) as total,
-                    DATE_FORMAT(salidas.created_at, '%Y-%m-%d') AS new_date, 
-                    YEAR(salidas.created_at) AS year, 
-                    MONTH(salidas.created_at) AS month,
-                    clientes.nombre as cliente
-                    "
-                   )
-        ->join('dts','salidas.dt_id','dts.id')
-        ->join('clientes','dts.cliente_id','clientes.id')
-        ->whereDate('salidas.created_at','LIKE','%'.$newFechaActual.'%')
-        ->where('salidas.categorias_producto_id','=',$categoria_producto['id'])
-        ->orderBy('salidas.created_at')
-        ->groupBy('new_date')
-        ->get();
-        */
-
+        $salidasTotal = [];     
         $salidas = [];
         if(request()->has('fecha'))
         {
@@ -77,6 +59,23 @@ class SalidasController extends Controller
            ->where('salidas.categorias_producto_id','=',$categoria_producto['id'])
            ->orderBy('new_date')
            ->orderBy('cliente')
+           ->get();
+
+          $salidasTotal = salidas::
+            selectRaw("
+                       SUM(salidas.cantidad) as total,
+                       DATE_FORMAT(salidas.created_at, '%Y-%m-%d') AS new_date, 
+                       YEAR(salidas.created_at) AS year, 
+                       MONTH(salidas.created_at) AS month,
+                       clientes.nombre as cliente
+                       "
+                      )
+           ->join('dts','salidas.dt_id','dts.id')
+           ->join('clientes','dts.cliente_id','clientes.id')
+           ->whereDate('salidas.created_at','LIKE','%'.$request['fecha'].'%')
+           ->where('salidas.categorias_producto_id','=',$categoria_producto['id'])
+           ->orderBy('salidas.created_at')
+           ->groupBy('new_date')
            ->get();
         }
         else
@@ -97,13 +96,30 @@ class SalidasController extends Controller
            ->orderBy('new_date')
            ->orderBy('cliente')
            ->get();
+
+           $salidasTotal = salidas::
+           selectRaw("
+                      SUM(salidas.cantidad) as total,
+                      DATE_FORMAT(salidas.created_at, '%Y-%m-%d') AS new_date, 
+                      YEAR(salidas.created_at) AS year, 
+                      MONTH(salidas.created_at) AS month,
+                      clientes.nombre as cliente
+                      "
+                     )
+          ->join('dts','salidas.dt_id','dts.id')
+          ->join('clientes','dts.cliente_id','clientes.id')
+          ->whereDate('salidas.created_at','LIKE','%'.$newFechaActual.'%')
+          ->where('salidas.categorias_producto_id','=',$categoria_producto['id'])
+          ->orderBy('salidas.created_at')
+          ->groupBy('new_date')
+          ->get();
         }
 
         $clientes = cliente::select('clientes.*')
         ->orderBy('clientes.nombre')
         ->get();
         
-        return ['salidas' => $salidas, 'clientes' => $clientes];
+        return ['salidas' => $salidas, 'clientes' => $clientes,'salidasTotales' => $salidasTotal];
     }
 
     /**

@@ -38,14 +38,14 @@ import axios from 'axios';
   watch(params, () => 
   {
     const clearParams = pickBy({ ...params });
-    console.log(clearParams)
+    //console.log(clearParams)
     try 
     {
       //comsultamos para setear los dts
      axios.get(route('getDts', {params:clearParams}))
       .then(response => 
       {
-         console.log(response.data)
+         //console.log(response.data)
          dtsCambiantes.value = response.data
       }).catch(err => 
       {

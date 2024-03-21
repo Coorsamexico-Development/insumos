@@ -98,6 +98,18 @@ import { pickBy, throttle } from "lodash";
        valueAxis.renderer.inside = true;
        valueAxis.renderer.labels.template.disabled = true;
        valueAxis.min = 0;
+
+       //LineSeries
+       //console.log(props.salidasForModal)
+       var totalSeries = chart.series.push(new am4charts.LineSeries());
+       totalSeries.dataFields.valueY = "total";
+       totalSeries.dataFields.categoryX = "fecha";
+
+       totalSeries.tooltipText = "total: {valueY}";
+       totalSeries.bullets.push(new am4charts.CircleBullet());
+       totalSeries.strokeWidth = 2;
+       totalSeries.stroke = new am4core.InterfaceColorSet().getFor("alternativeBackground");
+       totalSeries.strokeOpacity = 0.5;
        
        // Create series
        function createSeries(field, name) 
@@ -162,8 +174,6 @@ import { pickBy, throttle } from "lodash";
          }
        }
 
-
-     
        // Legend
        chart.legend = new am4charts.Legend();
 
@@ -356,6 +366,21 @@ watch(params, throttle(function ()
            }
         }
       }
+
+      for (let index = 0; index < arraySalidasTemporal.length; index++) 
+      {
+        const element = arraySalidasTemporal[index];
+        for (let index2 = 0; index2 < response.data.salidasTotales.length; index2++) 
+        {
+          const total = response.data.salidasTotales[index2];
+          if(total.new_date == element.fecha)
+          { 
+            element.total = total.total
+          }
+        }
+        
+      }
+
       chart.data = arraySalidasTemporal;
     })
  }), 100);
