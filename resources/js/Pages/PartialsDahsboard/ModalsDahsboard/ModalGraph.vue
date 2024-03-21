@@ -37,6 +37,8 @@
     modalSalidasByDT.value = false;
   }
 
+  const activarLegends = ref(false);
+
   //am4core.useTheme(am4themes_animated);
   onUpdated(() => 
   {
@@ -171,10 +173,18 @@
          //hay qu apagar los legends
          if(ev.target._dataItem.dataContext.dataFields.valueY == 'DESACTIVAR TODOS')
          {
+            activarLegends.value = !activarLegends.value
             for (let index = 0; index < allseries.length; index++) 
             {
-             const element = allseries[index];
-             element.hide();
+              const element = allseries[index];
+              if(!activarLegends.value)
+              {
+                element.appear();
+              }
+              else
+              {
+                element.hide();
+              }
             }
          }
        });
@@ -182,8 +192,9 @@
        chart.legend.scrollable = true;
        chart.legend.position= "left";
 
-
-    } catch (error) {
+    } 
+    catch (error) 
+    {
       
     }
   })
@@ -200,6 +211,7 @@
          </button>
        </template> 
        <template #content>
+        <input placeholder="Buscar" />
         <div id="chartdiv"></div>
         <ModalSalidasByDt :show="modalSalidasByDT" @close="closeModalSalidasByDt()" :salidas="newSalidas" /> 
        </template>
