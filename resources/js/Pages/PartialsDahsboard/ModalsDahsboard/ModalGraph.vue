@@ -199,9 +199,9 @@
 
   watch(busqueda, (newBusqueda) => 
   {
-     console.log(newBusqueda)
-     console.log(chart)
-     console.log(allseries)
+     //console.log(newBusqueda)
+     //console.log(chart)
+     //console.log(allseries)
      for (let index = 0; index < allseries.length; index++) 
      {
       const serie = allseries[index];
