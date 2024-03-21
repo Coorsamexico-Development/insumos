@@ -3,7 +3,7 @@
  import * as am4core from "@amcharts/amcharts4/core";
  import * as am4charts from "@amcharts/amcharts4/charts";
  //import am4themes_animated from "@amcharts/amcharts4/themes/animated";
- import { ref, onBeforeUpdate, onUpdated } from 'vue';
+ import { ref, onBeforeUpdate, onUpdated, watch } from 'vue';
  //Modales
  import ModalSalidasByDt from './ModalSalidasByDt.vue';
 
@@ -27,10 +27,7 @@
   //Funcion para modales
   const modalSalidasByDT = ref(false);
   const newSalidas = ref([]);
-  const openModalSalidasByDt = () => 
-  {
-    modalSalidasByDT.value = true;
-  }
+  let  busqueda = ref('');
 
   const closeModalSalidasByDt = () => 
   {
@@ -40,6 +37,8 @@
   const activarLegends = ref(false);
 
   //am4core.useTheme(am4themes_animated);
+  let chart = null;
+  let allseries = [];
   onUpdated(() => 
   {
     try 
@@ -49,7 +48,7 @@
        // Themes end
        
        // Create chart instance
-       var chart = am4core.create("chartdiv", am4charts.XYChart);
+       chart = am4core.create("chartdiv", am4charts.XYChart);
        
        
        // Add data
@@ -98,7 +97,6 @@
        valueAxis.renderer.labels.template.disabled = true;
        valueAxis.min = 0;
        
-       let allseries = [];
        // Create series
        function createSeries(field, name) 
        {
@@ -198,6 +196,25 @@
       
     }
   })
+
+  watch(busqueda, (newBusqueda) => 
+  {
+     console.log(newBusqueda)
+     console.log(chart)
+     console.log(allseries)
+     for (let index = 0; index < allseries.length; index++) 
+     {
+      const serie = allseries[index];
+      if(serie.dataFields.valueY == newBusqueda)
+      {
+        serie.appear();
+      }
+      else
+      {
+        serie.hide();
+      }
+     }
+  })
 </script>
 <template>
       <DialogModal :maxWidth="'6xl'"  :show="show" @close="close()">
@@ -211,7 +228,7 @@
          </button>
        </template> 
        <template #content>
-        <input placeholder="Buscar" />
+        <input v-model="busqueda" placeholder="Buscar" class=" px-3 py-2 leading-tight text-gray-700 border border-none rounded shadow appearance-none focus:outline-none focus:shadow-outline bg-[#F6F6F9]"  />
         <div id="chartdiv"></div>
         <ModalSalidasByDt :show="modalSalidasByDT" @close="closeModalSalidasByDt()" :salidas="newSalidas" /> 
        </template>
