@@ -205,7 +205,7 @@
      for (let index = 0; index < allseries.length; index++) 
      {
       const serie = allseries[index];
-      if(serie.dataFields.valueY == newBusqueda)
+      if(serie.dataFields.valueY.match(newBusqueda))
       {
         serie.appear();
       }
