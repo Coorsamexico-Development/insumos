@@ -4,6 +4,8 @@
  import { useForm, router } from '@inertiajs/vue3'
  import { pickBy } from "lodash";
  import PaginationAxios from '@/Components/PaginationAxios.vue';
+ //Modales
+ import ModalWatchConsumo from './ModalWatchConsumo.vue'
 
  const emit = defineEmits(["close"])
  const props = defineProps({
@@ -64,6 +66,19 @@
     });
   }
 
+  const modalConsumo = ref(false);
+  const dtActual = ref({});
+  const verConsumo = (dt) => 
+  {
+    modalConsumo.value = true;
+    dtActual.value = dt;
+  }
+
+  const closeConsumo = () => 
+  {
+    modalConsumo.value = false;
+  }
+
 </script>
 <template>
   <DialogModal :maxWidth="'3xl'"  :show="show" @close="close()">
@@ -90,6 +105,7 @@
                         <td class="py-2 font-semibold text-center">Cliente</td>
                         <td class="py-2 font-semibold text-center">Destino</td>
                         <td class="py-2 font-semibold text-center">Clase</td>
+                        <td class="py-2 font-semibold text-center"></td>
                     </tr>
                   </thead>
                   <tbody>
@@ -118,11 +134,19 @@
                                 </button>
                             </div>
                         </td>
+                        <td class="w-8">
+                          <button @click="verConsumo(dt)" class="bg-[#2684D0] rounded-full px-4 py-1 text-white flex flex-row justify-between items-center">
+                            Consumo
+                          </button>
+                        </td>
                     </tr>
                   </tbody>
                </table>
             </div>
             <PaginationAxios :pagination="dtsCambiantes" @loadPage="reconsultar($event)" />
+          </div>
+          <div v-if="dtActual !== {}">
+            <ModalWatchConsumo :show="modalConsumo" @close="closeConsumo()" :dtActual="dtActual" />
           </div>
        </template>
   </DialogModal>

@@ -7,6 +7,8 @@
  //Modales
  import ModalSalidasByDt from './ModalSalidasByDt.vue';
 
+import ButtonCalendar from '@/Components/ButtonCalendar.vue'
+
  const emit = defineEmits(["close"])
  const props = defineProps({
       show: {
@@ -214,7 +216,13 @@
         serie.hide();
       }
      }
-  })
+  });
+
+ //Fechas
+let date = ref({
+    month: new Date().getMonth(),
+    year: new Date().getFullYear(),
+});
 </script>
 <template>
       <DialogModal :maxWidth="'6xl'"  :show="show" @close="close()">
@@ -228,7 +236,10 @@
          </button>
        </template> 
        <template #content>
-        <input v-model="busqueda" placeholder="Buscar" class=" px-3 py-2 leading-tight text-gray-700 border border-none rounded shadow appearance-none focus:outline-none focus:shadow-outline bg-[#F6F6F9]"  />
+        <div class="flex flex-row">
+          <input v-model="busqueda" placeholder="Buscar" class=" px-3 py-2 leading-tight text-gray-700 border border-none rounded shadow appearance-none focus:outline-none focus:shadow-outline bg-[#F6F6F9]"  />
+          <ButtonCalendar :month="date.month" :year="date.year" />
+        </div>
         <div id="chartdiv"></div>
         <ModalSalidasByDt :show="modalSalidasByDT" @close="closeModalSalidasByDt()" :salidas="newSalidas" /> 
        </template>
