@@ -17,8 +17,8 @@ const active = computed(() => {
 
 <template>
     <div
-        class="text-xs px-2 py-1 rounded-lg hover:cursor-pointer text-center"
-        :class="{ 'bg-aqua-500 text-white': active }"
+        class="px-2 py-1 text-xs text-center rounded-lg hover:cursor-pointer"
+        :class="{ 'bg-aqua-500 text-gray-400': active }"
     >
         <slot />
     </div>

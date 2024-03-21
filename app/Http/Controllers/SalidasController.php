@@ -58,22 +58,46 @@ class SalidasController extends Controller
         ->groupBy('new_date')
         ->get();
         */
-       $salidas = salidas::
-        selectRaw("
-                   salidas.cantidad,
-                   DATE_FORMAT(salidas.created_at, '%Y-%m-%d') AS new_date, 
-                   YEAR(salidas.created_at) AS year, 
-                   MONTH(salidas.created_at) AS month,
-                   clientes.nombre as cliente
-                   "
-                  )
-       ->join('dts','salidas.dt_id','dts.id')
-       ->join('clientes','dts.cliente_id','clientes.id')
-       ->whereDate('salidas.created_at','LIKE','%'.$newFechaActual.'%')
-       ->where('salidas.categorias_producto_id','=',$categoria_producto['id'])
-       ->orderBy('new_date')
-       ->orderBy('cliente')
-       ->get();
+
+        $salidas = [];
+        if(request()->has('fecha'))
+        {
+            $salidas = salidas::
+            selectRaw("
+                       salidas.cantidad,
+                       DATE_FORMAT(salidas.created_at, '%Y-%m-%d') AS new_date, 
+                       YEAR(salidas.created_at) AS year, 
+                       MONTH(salidas.created_at) AS month,
+                       clientes.nombre as cliente
+                       "
+                      )
+           ->join('dts','salidas.dt_id','dts.id')
+           ->join('clientes','dts.cliente_id','clientes.id')
+           ->whereDate('salidas.created_at','LIKE','%'.$request['fecha'].'%')
+           ->where('salidas.categorias_producto_id','=',$categoria_producto['id'])
+           ->orderBy('new_date')
+           ->orderBy('cliente')
+           ->get();
+        }
+        else
+        {
+            $salidas = salidas::
+            selectRaw("
+                       salidas.cantidad,
+                       DATE_FORMAT(salidas.created_at, '%Y-%m-%d') AS new_date, 
+                       YEAR(salidas.created_at) AS year, 
+                       MONTH(salidas.created_at) AS month,
+                       clientes.nombre as cliente
+                       "
+                      )
+           ->join('dts','salidas.dt_id','dts.id')
+           ->join('clientes','dts.cliente_id','clientes.id')
+           ->whereDate('salidas.created_at','LIKE','%'.$newFechaActual.'%')
+           ->where('salidas.categorias_producto_id','=',$categoria_producto['id'])
+           ->orderBy('new_date')
+           ->orderBy('cliente')
+           ->get();
+        }
 
         $clientes = cliente::select('clientes.*')
         ->orderBy('clientes.nombre')

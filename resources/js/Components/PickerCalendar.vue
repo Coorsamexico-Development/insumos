@@ -89,7 +89,7 @@ const changeYear = (newYear) => {
                                 stroke="#44BFFC" stroke-width="2">
                                 <path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7" />
                             </svg>
-                            <span class="px-2 py-1 text-sm text-white rounded-lg bg-aqua-500 hover:cursor-pointer">
+                            <span class="px-2 py-1 text-sm text-gray-500 rounded-lg bg-aqua-500 hover:cursor-pointer">
                                 {{ props.year }}
                             </span>
                             <svg @click="changeYear(props.year + 1)" xmlns="http://www.w3.org/2000/svg"

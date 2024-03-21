@@ -3,11 +3,11 @@
  import * as am4core from "@amcharts/amcharts4/core";
  import * as am4charts from "@amcharts/amcharts4/charts";
  //import am4themes_animated from "@amcharts/amcharts4/themes/animated";
- import { ref, onBeforeUpdate, onUpdated, watch } from 'vue';
+ import { ref, onBeforeUpdate, onUpdated, watch, reactive } from 'vue';
  //Modales
  import ModalSalidasByDt from './ModalSalidasByDt.vue';
-
 import ButtonCalendar from '@/Components/ButtonCalendar.vue'
+import { pickBy, throttle } from "lodash";
 
  const emit = defineEmits(["close"])
  const props = defineProps({
@@ -219,10 +219,146 @@ import ButtonCalendar from '@/Components/ButtonCalendar.vue'
   });
 
  //Fechas
+ //Filtros
+let month =new Date().getMonth();
+let year = new Date().getFullYear();
+let day = new Date().getDay();
+
+if(month < 10)
+{
+  month = '0'+month
+}
+
+if(day < 10)
+{
+  day = '0'+day;
+}
+
 let date = ref({
     month: new Date().getMonth(),
     year: new Date().getFullYear(),
 });
+
+const params = reactive({
+    fecha:year+'-'+month+'-'+day,
+});
+
+const changeDate = (newDate) => {
+    date.value = newDate;
+    let fecha = null;
+    //console.log(newDate.month)
+    switch (newDate.month) 
+    {
+      case 0: //Enero
+            fecha = newDate.year + '-' + "01";
+            params.fecha = fecha;
+         break;
+      case 1: //Febrero
+            fecha = newDate.year + '-' + "02";
+            params.fecha = fecha;
+         break;
+      case 2: //Marzo
+            fecha = newDate.year + '-' + "03";
+            params.fecha = fecha;
+         break;
+      case 3: //Abril
+            fecha = newDate.year + '-' + "04";
+            params.fecha = fecha;
+         break;
+      case 4: //Mayo
+            fecha = newDate.year + '-' + "05";
+            params.fecha = fecha;
+         break;
+      case 5: //Junio
+         fecha = newDate.year + '-' + "06";
+         params.fecha = fecha;
+      break;
+      case 6: //Julio
+         fecha = newDate.year + '-' + "07";
+         params.fecha = fecha;
+      break;
+      case 7: //Agosto
+         fecha = newDate.year + '-' + "08";
+         params.fecha = fecha;
+      break;
+      case 8: //Spetiembre
+         fecha = newDate.year + '-' + "09";
+         params.fecha = fecha;
+      break;
+      case 9: //Octubre
+         fecha = newDate.year + '-' + "10";
+         params.fecha = fecha;
+      break;
+      case 10: //Noviembre
+         fecha = newDate.year + '-' + "11";
+         params.fecha = fecha;
+      break;
+      case 11: //Diciembre
+         fecha = newDate.year + '-' + "12";
+         params.fecha = fecha;
+      break;
+    }
+};
+
+watch(params, throttle(function () 
+  {
+    axios.get(route('getSalidas',{
+      categoria_id:props.elementsCateProducto.categoria_id,
+      producto_id:props.elementsCateProducto.producto_id,
+      fecha:params.fecha
+     }))
+    .then(response => 
+    {
+      let arraySalidasTemporal = [];
+      let clienteTemporal = null;
+      let fechaTemporal = null;
+      for (let index = 0; index < response.data.salidas.length; index++) 
+      {
+        let salida = response.data.salidas[index];
+
+        if(arraySalidasTemporal.length == 0)
+        {
+           let newObjeto = {fecha:salida.new_date};
+           newObjeto[`${salida.cliente}`] = parseInt(salida.cantidad);
+           clienteTemporal = salida.cliente;
+           fechaTemporal = salida.new_date;
+
+           arraySalidasTemporal.push(newObjeto);
+        }
+        else
+        {
+           if(salida.new_date !== fechaTemporal)//si las fechas son diferentes entonces genera un nuevo objeto para el arreglo
+           {
+            let newObjeto = {fecha:salida.new_date};
+            newObjeto[`${salida.cliente}`] = parseInt(salida.cantidad);
+            clienteTemporal = salida.cliente;
+            fechaTemporal = salida.new_date;
+
+            arraySalidasTemporal.push(newObjeto);
+           }
+           else
+           {
+              const ultimoElemento = arraySalidasTemporal[arraySalidasTemporal.length - 1]
+              //console.log(ultimoElemento)
+              if(clienteTemporal == salida.cliente) //si el cliente y la fecha es igual se suma
+              {
+                 //console.log( ultimoElemento[salida.cliente])
+                 ultimoElemento[salida.cliente] += parseInt(salida.cantidad)
+                 clienteTemporal = salida.cliente;
+                 fechaTemporal = salida.new_date;
+              }
+              else
+              {
+                ultimoElemento[salida.cliente] = parseInt(salida.cantidad)
+                clienteTemporal = salida.cliente;
+                 fechaTemporal = salida.new_date;
+              }
+           }
+        }
+      }
+      chart.data = arraySalidasTemporal;
+    })
+ }), 100);
 </script>
 <template>
       <DialogModal :maxWidth="'6xl'"  :show="show" @close="close()">
@@ -238,7 +374,7 @@ let date = ref({
        <template #content>
         <div class="flex flex-row">
           <input v-model="busqueda" placeholder="Buscar" class=" px-3 py-2 leading-tight text-gray-700 border border-none rounded shadow appearance-none focus:outline-none focus:shadow-outline bg-[#F6F6F9]"  />
-          <ButtonCalendar :month="date.month" :year="date.year" />
+          <ButtonCalendar :month="date.month" :year="date.year"  @change-date="changeDate($event)" />
         </div>
         <div id="chartdiv"></div>
         <ModalSalidasByDt :show="modalSalidasByDT" @close="closeModalSalidasByDt()" :salidas="newSalidas" /> 
