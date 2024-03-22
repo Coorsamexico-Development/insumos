@@ -101,16 +101,14 @@ import { pickBy, throttle } from "lodash";
 
        //LineSeries
        //console.log(props.salidasForModal)
-       var totalSeries = chart.series.push(new am4charts.LineSeries());
+       let totalSeries = chart.series.push(new am4charts.LineSeries());
+       totalSeries.name = "Total"
        totalSeries.dataFields.valueY = "total";
        totalSeries.dataFields.categoryX = "fecha";
-
-       totalSeries.tooltipText = "total: {valueY}";
-       totalSeries.bullets.push(new am4charts.CircleBullet());
-       totalSeries.strokeWidth = 2;
-       totalSeries.stroke = new am4core.InterfaceColorSet().getFor("alternativeBackground");
-       totalSeries.strokeOpacity = 0.5;
-       
+       totalSeries.yAxis = valueAxis;
+       totalSeries.tooltipText = "Total: {valueY}";
+       let newBullet = totalSeries.bullets.push(new am4charts.CircleBullet());
+       newBullet.tooltipText= "Total: {valueY}"
        // Create series
        function createSeries(field, name) 
        {
