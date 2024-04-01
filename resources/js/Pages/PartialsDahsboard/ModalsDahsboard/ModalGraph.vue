@@ -3,7 +3,7 @@
  import * as am4core from "@amcharts/amcharts4/core";
  import * as am4charts from "@amcharts/amcharts4/charts";
  //import am4themes_animated from "@amcharts/amcharts4/themes/animated";
- import { ref, onBeforeUpdate, onUpdated, watch, reactive } from 'vue';
+ import { ref, onBeforeUpdate, onUpdated, watch, reactive, computed } from 'vue';
  //Modales
  import ModalSalidasByDt from './ModalSalidasByDt.vue';
 import ButtonCalendar from '@/Components/ButtonCalendar.vue'
@@ -30,6 +30,7 @@ import { pickBy, throttle } from "lodash";
   const modalSalidasByDT = ref(false);
   const newSalidas = ref([]);
   let  busqueda = ref('');
+  let total = ref(0);
 
   const closeModalSalidasByDt = () => 
   {
@@ -56,6 +57,11 @@ import { pickBy, throttle } from "lodash";
        // Add data
        //console.log(props.salidasForModal)
        chart.data = props.salidasForModal
+       for (let index = 0; index < props.salidasForModal.length; index++) 
+       {
+         const salidaObj = props.salidasForModal[index];
+         total.value += parseInt(salidaObj.total);
+       }
        //chart.cursor = new am4charts.XYCursor();
        //Exportaciones
        chart.exporting.menu = new am4core.ExportMenu();
@@ -308,6 +314,8 @@ const changeDate = (newDate) => {
     }
 };
 
+//console.log(props.salidasForModal)
+
 watch(params, throttle(function () 
   {
     axios.get(route('getSalidas',{
@@ -379,9 +387,24 @@ watch(params, throttle(function ()
         
       }
 
+    
       chart.data = arraySalidasTemporal;
+
+      console.log(arraySalidasTemporal)
+
+    for (let index = 0; index < arraySalidasTemporal.length; index++) 
+    {
+      const salidaObj = arraySalidasTemporal[index];
+      total.value += parseInt(salidaObj.total);
+    }
     })
+    //console.log(arraySalidasTemporal)
+
  }), 100);
+
+
+ 
+
 </script>
 <template>
       <DialogModal :maxWidth="'6xl'"  :show="show" @close="close()">
@@ -395,9 +418,14 @@ watch(params, throttle(function ()
          </button>
        </template> 
        <template #content>
-        <div class="flex flex-row">
-          <input v-model="busqueda" placeholder="Buscar" class=" px-3 py-2 leading-tight text-gray-700 border border-none rounded shadow appearance-none focus:outline-none focus:shadow-outline bg-[#F6F6F9]"  />
-          <ButtonCalendar :month="date.month" :year="date.year"  @change-date="changeDate($event)" />
+        <div class="flex flex-row justify-between">
+          <div class="flex flex-row">
+            <input v-model="busqueda" placeholder="Buscar" class=" px-3 py-2 leading-tight text-gray-700 border border-none rounded shadow appearance-none focus:outline-none focus:shadow-outline bg-[#F6F6F9]"  />
+            <ButtonCalendar :month="date.month" :year="date.year"  @change-date="changeDate($event)" />
+          </div>
+          <div class="p-2 border-4 rounded-lg">
+             <h1 class="text-3xl font-semibold">TOTAL:{{ total }}</h1>
+          </div>
         </div>
         <div id="chartdiv"></div>
         <ModalSalidasByDt :show="modalSalidasByDT" @close="closeModalSalidasByDt()" :salidas="newSalidas" /> 
