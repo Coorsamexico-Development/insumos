@@ -57,6 +57,7 @@ import { pickBy, throttle } from "lodash";
        // Add data
        //console.log(props.salidasForModal)
        chart.data = props.salidasForModal
+       total.value = 0;
        for (let index = 0; index < props.salidasForModal.length; index++) 
        {
          const salidaObj = props.salidasForModal[index];
@@ -390,8 +391,8 @@ watch(params, throttle(function ()
     
       chart.data = arraySalidasTemporal;
 
-      console.log(arraySalidasTemporal)
-
+      //console.log(arraySalidasTemporal)
+    total.value = 0;
     for (let index = 0; index < arraySalidasTemporal.length; index++) 
     {
       const salidaObj = arraySalidasTemporal[index];
