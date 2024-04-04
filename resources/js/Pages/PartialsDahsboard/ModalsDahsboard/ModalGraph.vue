@@ -184,7 +184,7 @@ import { pickBy, throttle } from "lodash";
 
        chart.legend.itemContainers.template.events.on("hit", function(ev) 
        {
-         console.log(ev.target._dataItem.dataContext.dataFields.valueY) //tenemos el legend picado
+         //console.log(ev.target._dataItem.dataContext.dataFields.valueY) //tenemos el legend picado
          //hay qu apagar los legends
          if(ev.target._dataItem.dataContext.dataFields.valueY == 'DESACTIVAR TODOS')
          {
@@ -217,29 +217,47 @@ import { pickBy, throttle } from "lodash";
   watch(busqueda, (newBusqueda) => 
   {
      //console.log(newBusqueda)
-     //console.log(chart)
-     //console.log(allseries)
+     //console.log(chart)}
+     
+     total.value =0
      let sumaTemp =0;
-     for (let index = 0; index < allseries.length; index++) 
+     if(newBusqueda !== '')
      {
-      const serie = allseries[index];
-      if(serie.dataFields.valueY.match(newBusqueda))
-      {
-        //console.log(serie)
-        console.log(serie._dataItem.values.valueY.absoluteSum);
-
-        if(serie._dataItem.values.valueY.absoluteSum)
+        for (let index = 0; index < allseries.length; index++) 
         {
-          sumaTemp += serie._dataItem.values.valueY.absoluteSum;
-        }
+         const serie = allseries[index];
+         if(serie.dataFields.valueY.match(newBusqueda))
+         {
+           //console.log(serie)
+           //console.log(serie._dataItem.values.valueY.absoluteSum);
 
-        //console.log(sumaTemp)
-        serie.appear();
-      }
-      else
-      {
-        serie.hide();
-      }
+           if(serie._dataItem.values.valueY.absoluteSum)
+           {
+             sumaTemp += serie._dataItem.values.valueY.absoluteSum;
+           }
+
+           //console.log(sumaTemp)
+           serie.appear();
+         }
+         else
+         {
+           serie.hide();
+         }
+        }
+     }
+     else
+     {
+       sumaTemp = 0;
+       for (let index = 0; index < allseries.length; index++) 
+       {
+         const serie = allseries[index];
+         if(serie._dataItem.values.valueY.absoluteSum)
+         {
+           sumaTemp += serie._dataItem.values.valueY.absoluteSum;
+         }
+         serie.appear();
+       }
+       
      }
 
      total.value = sumaTemp;
@@ -402,7 +420,6 @@ watch(params, throttle(function ()
 
     
       chart.data = arraySalidasTemporal;
-
       //console.log(arraySalidasTemporal)
     total.value = 0;
     for (let index = 0; index < arraySalidasTemporal.length; index++) 
