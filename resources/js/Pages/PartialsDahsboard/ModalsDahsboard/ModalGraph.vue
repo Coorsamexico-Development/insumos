@@ -31,6 +31,7 @@ import { pickBy, throttle } from "lodash";
   const newSalidas = ref([]);
   let  busqueda = ref('');
   let total = ref(0);
+  let totalSetter = 0;
 
   const closeModalSalidasByDt = () => 
   {
@@ -58,9 +59,11 @@ import { pickBy, throttle } from "lodash";
        //console.log(props.salidasForModal)
        chart.data = props.salidasForModal
        total.value = 0;
+       totalSetter = 0
        for (let index = 0; index < props.salidasForModal.length; index++) 
        {
          const salidaObj = props.salidasForModal[index];
+         totalSetter += parseInt(salidaObj.total)
          total.value += parseInt(salidaObj.total);
        }
        //chart.cursor = new am4charts.XYCursor();
@@ -218,7 +221,7 @@ import { pickBy, throttle } from "lodash";
   {
      //console.log(newBusqueda)
      //console.log(chart)}
-     
+     console.log(totalSetter)
      total.value =0
      let sumaTemp =0;
      if(newBusqueda !== '')
@@ -244,23 +247,27 @@ import { pickBy, throttle } from "lodash";
            serie.hide();
          }
         }
+
+        total.value = sumaTemp;
      }
-     else
+     else //SI NO BUSCA NADA Y AL FINAL SE LIMPIA EL BUSCADOR A NADA
      {
-       sumaTemp = 0;
+       //sumaTemp = 0;
+       total.value = 0;
+       total.value = totalSetter;
        for (let index = 0; index < allseries.length; index++) 
        {
          const serie = allseries[index];
          if(serie._dataItem.values.valueY.absoluteSum)
          {
-           sumaTemp += serie._dataItem.values.valueY.absoluteSum;
+           //sumaTemp += serie._dataItem.values.valueY.absoluteSum;
          }
+
          serie.appear();
        }
-       
      }
 
-     total.value = sumaTemp;
+    
   });
 
  //Fechas
@@ -422,10 +429,12 @@ watch(params, throttle(function ()
       chart.data = arraySalidasTemporal;
       //console.log(arraySalidasTemporal)
     total.value = 0;
+    totalSetter = 0;
     for (let index = 0; index < arraySalidasTemporal.length; index++) 
     {
       const salidaObj = arraySalidasTemporal[index];
       total.value += parseInt(salidaObj.total);
+      totalSetter+= parseInt(salidaObj.total);
     }
     })
     //console.log(arraySalidasTemporal)
