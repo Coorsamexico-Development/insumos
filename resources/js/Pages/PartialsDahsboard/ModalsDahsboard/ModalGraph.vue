@@ -219,11 +219,21 @@ import { pickBy, throttle } from "lodash";
      //console.log(newBusqueda)
      //console.log(chart)
      //console.log(allseries)
+     let sumaTemp =0;
      for (let index = 0; index < allseries.length; index++) 
      {
       const serie = allseries[index];
       if(serie.dataFields.valueY.match(newBusqueda))
       {
+        //console.log(serie)
+        console.log(serie._dataItem.values.valueY.absoluteSum);
+
+        if(serie._dataItem.values.valueY.absoluteSum)
+        {
+          sumaTemp += serie._dataItem.values.valueY.absoluteSum;
+        }
+
+        //console.log(sumaTemp)
         serie.appear();
       }
       else
@@ -231,6 +241,8 @@ import { pickBy, throttle } from "lodash";
         serie.hide();
       }
      }
+
+     total.value = sumaTemp;
   });
 
  //Fechas
